@@ -159,7 +159,7 @@ function ReportsPriorityCommand() {
       <article className="priority-hero ai-recommendation">
         <span className="eyebrow">AI Strategy Report</span>
         <h2>{voterReportsData.aiStrategyReports[0].recommendation}</h2>
-        <p>{voterReportsData.aiStrategyReports[0].expectedVoteImpact.toLocaleString()} expected vote impact.</p>
+        <p>{voterReportsData.aiStrategyReports[0].expectedVoteImpact.toLocaleString("en-IN")} expected vote impact.</p>
       </article>
     </section>
   );
@@ -244,7 +244,7 @@ function DailyVoterBrief() {
 }
 
 function WeeklyStrategyReport() {
-  return <SimpleTable id="weekly-strategy-report" title="Weekly Strategy Report" columns={["Metric", "Current", "Movement", "Expected Vote Gain", "Priority Action", "Priority"]} rows={voterReportsData.weeklyStrategy.map((item) => [item.metric, item.current, item.movement, item.expectedVoteGain.toLocaleString(), item.priorityAction, item.priority])} priorityColumn={5} />;
+  return <SimpleTable id="weekly-strategy-report" title="Weekly Strategy Report" columns={["Metric", "Current", "Movement", "Expected Vote Gain", "Priority Action", "Priority"]} rows={voterReportsData.weeklyStrategy.map((item) => [item.metric, item.current, item.movement, item.expectedVoteGain.toLocaleString("en-IN"), item.priorityAction, item.priority])} priorityColumn={5} />;
 }
 
 function TemplateGrid({ id, title, eyebrow, items }: { id: string; title: string; eyebrow: string; items: ReportTemplate[] }) {
@@ -373,7 +373,7 @@ function AiStrategyReports({ queuedActions, onQueue }: { queuedActions: string[]
             </div>
             <span className="eyebrow">{item.strategyType}</span>
             <h3>{item.recommendation}</h3>
-            <p><b>Expected vote impact:</b> {item.expectedVoteImpact.toLocaleString()}</p>
+            <p><b>Expected vote impact:</b> {item.expectedVoteImpact.toLocaleString("en-IN")}</p>
           </article>
         ))}
       </div>
@@ -469,13 +469,13 @@ function Meter({ label, value, danger, max = 100 }: { label: string; value: numb
     <div className="support-row">
       <span>{label}</span>
       <div><i className={danger ? "score-weak" : width > 70 ? "score-strong" : width > 50 ? "score-watch" : "score-weak"} style={{ width: `${width}%` }} /></div>
-      <b>{max === 100 ? `${Math.round(width)}%` : value.toLocaleString()}</b>
+      <b>{max === 100 ? `${Math.round(width)}%` : value.toLocaleString("en-IN")}</b>
     </div>
   );
 }
 
 function formatMargin(value: number) {
-  return value > 0 ? `+${value.toLocaleString()}` : value.toLocaleString();
+  return value > 0 ? `+${value.toLocaleString("en-IN")}` : value.toLocaleString("en-IN");
 }
 
 function levelClass(priority: Priority) {

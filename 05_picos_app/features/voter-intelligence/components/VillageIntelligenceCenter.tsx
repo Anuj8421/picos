@@ -217,8 +217,8 @@ function VillageCommandTable({ villages, selectedVillageId, onSelect }: { villag
                 <tr className={selectedVillageId === village.id ? "is-selected-row" : ""} key={village.id} onClick={() => onSelect(village.id)}>
                   <td><button className="table-link-btn" type="button">{village.village}</button></td>
                   <td><span className={`village-class-chip village-${village.classification.toLowerCase()}`}>{village.classification}</span></td>
-                  <td>{village.population.toLocaleString()}</td>
-                  <td>{village.estimatedVoters.toLocaleString()}</td>
+                  <td>{village.population.toLocaleString("en-IN")}</td>
+                  <td>{village.estimatedVoters.toLocaleString("en-IN")}</td>
                   <td>{village.supportScore}</td>
                   <td>{village.sentimentScore}</td>
                   <td>{village.influenceScore}</td>
@@ -409,7 +409,7 @@ function AiVillageStrategy({ recommendations, queuedActions, onQueue }: { recomm
             </div>
             <h3>{item.recommendation}</h3>
             <p><b>Reason:</b> {item.reason}</p>
-            <p><b>Expected vote impact:</b> {item.expectedVoteImpact.toLocaleString()} votes</p>
+            <p><b>Expected vote impact:</b> {item.expectedVoteImpact.toLocaleString("en-IN")} votes</p>
           </article>
         ))}
       </div>

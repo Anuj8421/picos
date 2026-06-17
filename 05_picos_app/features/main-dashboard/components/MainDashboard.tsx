@@ -16,16 +16,16 @@ const coreModuleStatus = [
   { number: "03", name: "Booth Intelligence", href: "/constituency/booths", status: "Input live", layer: "Input", signal: "Booth manager connected" },
   { number: "04", name: "Voter Intelligence", href: "/voter-intelligence", status: "Live", layer: "Intelligence", signal: "Voter, household, turnout" },
   { number: "05", name: "Issue Mapping", href: "/issues", status: "Input live", layer: "Processing", signal: "Issue intake connected" },
-  { number: "06", name: "Volunteer Management", href: "/team-members", status: "Input live", layer: "Action", signal: "Owners and teams connected" },
+  { number: "06", name: "Volunteer Management", href: "/volunteer-management", status: "Live", layer: "Action", signal: "Volunteer directory, workload, and command structure" },
   { number: "07", name: "WhatsApp Operations", href: "/intelligence-inbox", status: "Placeholder", layer: "Input", signal: "Feeds into inbox" },
   { number: "08", name: "Media Monitoring", href: "/media", status: "Input live", layer: "Processing", signal: "Media manager connected" },
-  { number: "09", name: "Social Media Management", href: "#", status: "Not started", layer: "Action", signal: "Needs module build" },
+  { number: "09", name: "Social Media Management", href: "/social-media-management", status: "Not started", layer: "Action", signal: "Needs module build" },
   { number: "10", name: "Event Management", href: "/events", status: "Input live", layer: "Action", signal: "Event manager connected" },
   { number: "11", name: "War Room Dashboard", href: "/", status: "Partial", layer: "Command", signal: "Main dashboard active" },
-  { number: "12", name: "AI Assistant", href: "#", status: "Not started", layer: "Intelligence", signal: "Recommendations only" },
-  { number: "13", name: "Election Analytics", href: "#", status: "Blocked", layer: "Intelligence", signal: "Form 20 required" },
+  { number: "12", name: "AI Assistant", href: "/ai-assistant", status: "Not started", layer: "Intelligence", signal: "Recommendations only" },
+  { number: "13", name: "Election Analytics", href: "/election-analytics", status: "Blocked", layer: "Intelligence", signal: "Form 20 required" },
   { number: "14", name: "Grievance Management", href: "/issues", status: "Partial", layer: "Processing", signal: "Issue manager covers base" },
-  { number: "15", name: "Knowledge Base", href: "#", status: "Not started", layer: "Output", signal: "Needs document library" }
+  { number: "15", name: "Knowledge Base", href: "/knowledge-base", status: "Not started", layer: "Output", signal: "Needs document library" }
 ] as const;
 
 export function MainDashboard() {

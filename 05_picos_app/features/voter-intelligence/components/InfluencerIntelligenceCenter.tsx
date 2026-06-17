@@ -154,7 +154,7 @@ function InfluencerPriorityCommand({ data }: { data: typeof influencerIntelligen
         <span className="eyebrow">Highest Vote Impact</span>
         <h2>{topImpact.influencer}</h2>
         <strong>{topImpact.expectedVoteImpact}</strong>
-        <p>{topImpact.recommendedAction} / reach {topImpact.reach.toLocaleString()}</p>
+        <p>{topImpact.recommendedAction} / reach {topImpact.reach.toLocaleString("en-IN")}</p>
       </article>
       <article className="priority-hero community-sentiment">
         <span className="eyebrow">Growth Influence</span>
@@ -219,7 +219,7 @@ function InfluencerCommandTable({ influencers, selectedInfluencerId, onSelect }:
                   <td>{influencer.village}</td>
                   <td>{influencer.community}</td>
                   <td>{influencer.influenceScore}</td>
-                  <td>{influencer.estimatedVotersInfluenced.toLocaleString()}</td>
+                  <td>{influencer.estimatedVotersInfluenced.toLocaleString("en-IN")}</td>
                   <td>{influencer.politicalAlignment}</td>
                   <td>{influencer.relationshipStrength}</td>
                   <td><span className={`influencer-support-chip ${supportClass(influencer.supportLevel)}`}>{influencer.supportLevel}</span></td>
@@ -275,7 +275,7 @@ function InfluencerProfile({ influencer }: { influencer: InfluencerCommandRecord
             ["Organizations", influencer.organizations.join(", ")],
             ["Political Alignment", influencer.politicalAlignment],
             ["Relationship Strength", influencer.relationshipStrength],
-            ["Estimated Reach", influencer.estimatedVotersInfluenced.toLocaleString()],
+            ["Estimated Reach", influencer.estimatedVotersInfluenced.toLocaleString("en-IN")],
             ["Influence Score", influencer.influenceScore],
             ["Notes", influencer.notes]
           ].map(([label, value]) => <article key={String(label)}><span>{label}</span><strong>{value}</strong></article>)}
@@ -346,7 +346,7 @@ function AiInfluencerStrategy({ recommendations, queuedActions, onQueue }: { rec
             </div>
             <h3>{item.recommendation}</h3>
             <p><b>Reason:</b> {item.reason}</p>
-            <p><b>Expected votes:</b> {item.expectedVotes.toLocaleString()}</p>
+            <p><b>Expected votes:</b> {item.expectedVotes.toLocaleString("en-IN")}</p>
           </article>
         ))}
       </div>

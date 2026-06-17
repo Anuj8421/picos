@@ -151,7 +151,7 @@ function TurnoutPriorityCommand() {
       </article>
       <article className="priority-hero community-sentiment">
         <span className="eyebrow">Highest Turnout Gain</span>
-        <strong>{highestTarget.expectedVotes.toLocaleString()}</strong>
+        <strong>{highestTarget.expectedVotes.toLocaleString("en-IN")}</strong>
         <p>{highestTarget.target} / {highestTarget.owner}</p>
       </article>
       <article className="priority-hero opponent-movement">
@@ -284,7 +284,7 @@ function HighPriorityTurnoutTargets({ targets }: { targets: TurnoutTargetSignal[
                   <td>{target.village}</td>
                   <td>{target.currentTurnoutProbability}%</td>
                   <td>{target.potentialTurnout}%</td>
-                  <td>{target.expectedVotes.toLocaleString()}</td>
+                  <td>{target.expectedVotes.toLocaleString("en-IN")}</td>
                   <td><PriorityChip value={target.priority} /></td>
                   <td>{target.recommendedAction}</td>
                   <td>{target.owner}</td>
@@ -300,15 +300,15 @@ function HighPriorityTurnoutTargets({ targets }: { targets: TurnoutTargetSignal[
 }
 
 function CommunityTurnoutAnalysis() {
-  return <SimpleTable id="community-turnout-analysis" title="Community Turnout Analysis" columns={["Community", "Expected Turnout", "Historical Turnout", "Turnout Risk", "Mobilization Potential", "Priority"]} rows={turnoutIntelligenceData.communities.map((item) => [item.community, `${item.expectedTurnout}%`, `${item.historicalTurnout}%`, `${item.turnoutRisk}%`, item.mobilizationPotential.toLocaleString(), item.priority])} priorityColumn={5} />;
+  return <SimpleTable id="community-turnout-analysis" title="Community Turnout Analysis" columns={["Community", "Expected Turnout", "Historical Turnout", "Turnout Risk", "Mobilization Potential", "Priority"]} rows={turnoutIntelligenceData.communities.map((item) => [item.community, `${item.expectedTurnout}%`, `${item.historicalTurnout}%`, `${item.turnoutRisk}%`, item.mobilizationPotential.toLocaleString("en-IN"), item.priority])} priorityColumn={5} />;
 }
 
 function VillageTurnoutAnalysis() {
-  return <SimpleTable id="village-turnout-analysis" title="Village Turnout Analysis" columns={["Village", "Expected Turnout", "Historical Turnout", "Support Base", "Mobilization Need", "Expected Votes", "Priority"]} rows={turnoutIntelligenceData.villages.map((item) => [item.village, `${item.expectedTurnout}%`, `${item.historicalTurnout}%`, item.supportBase.toLocaleString(), `${item.mobilizationNeed}%`, item.expectedVotes.toLocaleString(), item.priority])} priorityColumn={6} />;
+  return <SimpleTable id="village-turnout-analysis" title="Village Turnout Analysis" columns={["Village", "Expected Turnout", "Historical Turnout", "Support Base", "Mobilization Need", "Expected Votes", "Priority"]} rows={turnoutIntelligenceData.villages.map((item) => [item.village, `${item.expectedTurnout}%`, `${item.historicalTurnout}%`, item.supportBase.toLocaleString("en-IN"), `${item.mobilizationNeed}%`, item.expectedVotes.toLocaleString("en-IN"), item.priority])} priorityColumn={6} />;
 }
 
 function BoothTurnoutAnalysis() {
-  return <SimpleTable id="booth-turnout-analysis" title="Booth Turnout Analysis" columns={["Booth", "Registered Voters", "Supporters", "Expected Turnout", "Target Turnout", "Risk", "Booth Readiness", "Coordinator", "Priority"]} rows={turnoutIntelligenceData.booths.map((item) => [item.booth, item.registeredVoters.toLocaleString(), item.supporters.toLocaleString(), `${item.expectedTurnout}%`, `${item.targetTurnout}%`, `${item.risk}%`, `${item.boothReadiness}%`, item.coordinator, item.priority])} priorityColumn={8} />;
+  return <SimpleTable id="booth-turnout-analysis" title="Booth Turnout Analysis" columns={["Booth", "Registered Voters", "Supporters", "Expected Turnout", "Target Turnout", "Risk", "Booth Readiness", "Coordinator", "Priority"]} rows={turnoutIntelligenceData.booths.map((item) => [item.booth, item.registeredVoters.toLocaleString("en-IN"), item.supporters.toLocaleString("en-IN"), `${item.expectedTurnout}%`, `${item.targetTurnout}%`, `${item.risk}%`, `${item.boothReadiness}%`, item.coordinator, item.priority])} priorityColumn={8} />;
 }
 
 function HouseholdTurnoutAnalysis() {
@@ -316,15 +316,15 @@ function HouseholdTurnoutAnalysis() {
 }
 
 function FirstTimeVoterIntelligence() {
-  return <SimpleTable id="first-time-voter-intelligence" title="First-Time Voter Intelligence" columns={["Segment", "Total", "Village Distribution", "Community Distribution", "Engagement", "Support", "Turnout", "Priority Actions", "Priority"]} rows={turnoutIntelligenceData.firstTimeVoters.map((item) => [item.segment, item.totalVoters.toLocaleString(), item.villageDistribution, item.communityDistribution, `${item.engagementLevel}%`, `${item.supportLevel}%`, `${item.turnoutProbability}%`, item.priorityActions, item.priority])} priorityColumn={8} />;
+  return <SimpleTable id="first-time-voter-intelligence" title="First-Time Voter Intelligence" columns={["Segment", "Total", "Village Distribution", "Community Distribution", "Engagement", "Support", "Turnout", "Priority Actions", "Priority"]} rows={turnoutIntelligenceData.firstTimeVoters.map((item) => [item.segment, item.totalVoters.toLocaleString("en-IN"), item.villageDistribution, item.communityDistribution, `${item.engagementLevel}%`, `${item.supportLevel}%`, `${item.turnoutProbability}%`, item.priorityActions, item.priority])} priorityColumn={8} />;
 }
 
 function SeniorCitizenMobilization() {
-  return <SimpleTable id="senior-citizen-mobilization" title="Senior Citizen Mobilization" columns={["Segment", "Total Seniors", "Support", "Risk", "Transport Needs", "Special Assistance", "Election Day Plan", "Priority"]} rows={turnoutIntelligenceData.seniorCitizens.map((item) => [item.segment, item.totalSeniorCitizens.toLocaleString(), `${item.supportLevel}%`, `${item.turnoutRisk}%`, item.transportationNeeds, item.specialAssistanceNeeded, item.electionDayPlan, item.priority])} priorityColumn={7} />;
+  return <SimpleTable id="senior-citizen-mobilization" title="Senior Citizen Mobilization" columns={["Segment", "Total Seniors", "Support", "Risk", "Transport Needs", "Special Assistance", "Election Day Plan", "Priority"]} rows={turnoutIntelligenceData.seniorCitizens.map((item) => [item.segment, item.totalSeniorCitizens.toLocaleString("en-IN"), `${item.supportLevel}%`, `${item.turnoutRisk}%`, item.transportationNeeds, item.specialAssistanceNeeded, item.electionDayPlan, item.priority])} priorityColumn={7} />;
 }
 
 function WomenTurnoutIntelligence() {
-  return <SimpleTable id="women-turnout-intelligence" title="Women Turnout Intelligence" columns={["Segment", "Support", "Turnout Probability", "Community Breakdown", "Village Breakdown", "Mobilization Opportunity", "Priority"]} rows={turnoutIntelligenceData.womenTurnout.map((item) => [item.segment, `${item.supportLevel}%`, `${item.turnoutProbability}%`, item.communityBreakdown, item.villageBreakdown, item.mobilizationOpportunity.toLocaleString(), item.priority])} priorityColumn={6} />;
+  return <SimpleTable id="women-turnout-intelligence" title="Women Turnout Intelligence" columns={["Segment", "Support", "Turnout Probability", "Community Breakdown", "Village Breakdown", "Mobilization Opportunity", "Priority"]} rows={turnoutIntelligenceData.womenTurnout.map((item) => [item.segment, `${item.supportLevel}%`, `${item.turnoutProbability}%`, item.communityBreakdown, item.villageBreakdown, item.mobilizationOpportunity.toLocaleString("en-IN"), item.priority])} priorityColumn={6} />;
 }
 
 function MobilizationCampaigns() {
@@ -341,7 +341,7 @@ function MobilizationCampaigns() {
             <Meter label="Coverage" value={campaign.coverage} />
             <Meter label="Impact" value={campaign.impact} />
             <p>{campaign.status} / {campaign.owner}</p>
-            <b>{campaign.expectedVotes.toLocaleString()} expected votes</b>
+            <b>{campaign.expectedVotes.toLocaleString("en-IN")} expected votes</b>
           </article>
         ))}
       </div>
@@ -379,8 +379,8 @@ function TurnoutPipeline() {
         {turnoutIntelligenceData.pipeline.map((stage) => (
           <article className="pipeline-stage" key={stage.stage}>
             <span>{stage.stage}</span>
-            <strong>{stage.voters.toLocaleString()}</strong>
-            <p>{stage.expectedVotes.toLocaleString()} expected votes</p>
+            <strong>{stage.voters.toLocaleString("en-IN")}</strong>
+            <p>{stage.expectedVotes.toLocaleString("en-IN")} expected votes</p>
             <Meter label="Pipeline share" value={stage.voters} max={total} />
           </article>
         ))}
@@ -390,7 +390,7 @@ function TurnoutPipeline() {
 }
 
 function VoteProtectionCenter() {
-  return <SimpleTable id="vote-protection-center" title="Vote Protection Center" columns={["Area", "High Value Supporters", "Critical Booths", "Critical Villages", "Critical Communities", "Potential Risks", "Escalation Plan", "Priority"]} rows={turnoutIntelligenceData.voteProtection.map((item) => [item.area, item.highValueSupporters.toLocaleString(), item.criticalBooths, item.criticalVillages, item.criticalCommunities, item.potentialRisks, item.escalationPlan, item.priority])} priorityColumn={7} />;
+  return <SimpleTable id="vote-protection-center" title="Vote Protection Center" columns={["Area", "High Value Supporters", "Critical Booths", "Critical Villages", "Critical Communities", "Potential Risks", "Escalation Plan", "Priority"]} rows={turnoutIntelligenceData.voteProtection.map((item) => [item.area, item.highValueSupporters.toLocaleString("en-IN"), item.criticalBooths, item.criticalVillages, item.criticalCommunities, item.potentialRisks, item.escalationPlan, item.priority])} priorityColumn={7} />;
 }
 
 function TurnoutForecasting() {
@@ -404,9 +404,9 @@ function TurnoutForecasting() {
               <span>Turnout forecast</span>
               <h3>{forecast.segment}</h3>
             </div>
-            <strong>{forecast.expectedVotes.toLocaleString()}</strong>
-            <p>Best {forecast.bestCase.toLocaleString()} / Likely {forecast.likelyCase.toLocaleString()} / Worst {forecast.worstCase.toLocaleString()}</p>
-            <small>Additional {forecast.additionalVotesPossible.toLocaleString()} / gap {forecast.turnoutGap.toLocaleString()}</small>
+            <strong>{forecast.expectedVotes.toLocaleString("en-IN")}</strong>
+            <p>Best {forecast.bestCase.toLocaleString("en-IN")} / Likely {forecast.likelyCase.toLocaleString("en-IN")} / Worst {forecast.worstCase.toLocaleString("en-IN")}</p>
+            <small>Additional {forecast.additionalVotesPossible.toLocaleString("en-IN")} / gap {forecast.turnoutGap.toLocaleString("en-IN")}</small>
           </article>
         ))}
       </div>
@@ -427,7 +427,7 @@ function AiTurnoutStrategy({ queuedActions, onQueue }: { queuedActions: string[]
             </div>
             <h3>{item.recommendation}</h3>
             <p><b>Reason:</b> {item.reason}</p>
-            <p><b>Expected votes:</b> {item.expectedVotes.toLocaleString()}</p>
+            <p><b>Expected votes:</b> {item.expectedVotes.toLocaleString("en-IN")}</p>
           </article>
         ))}
       </div>
@@ -491,8 +491,8 @@ function TurnoutRightPanel({ queuedActions }: { queuedActions: string[] }) {
     <aside className="voter-intel-panel turnout-intel-panel">
       <SectionHeader title="Turnout Intel Panel" eyebrow="Always-on mobilization watch" />
       <PanelList title="Turnout Risks" items={risks.map((item) => `${item.village} ${item.booth}: risk ${item.turnoutRisk}%`)} />
-      <PanelList title="Mobilization Opportunities" items={opportunities.map((item) => `${item.target}: ${item.expectedVotes.toLocaleString()} votes`)} />
-      <PanelList title="Critical Villages" items={villages.map((item) => `${item.village}: need ${item.mobilizationNeed}% / ${item.expectedVotes.toLocaleString()} votes`)} />
+      <PanelList title="Mobilization Opportunities" items={opportunities.map((item) => `${item.target}: ${item.expectedVotes.toLocaleString("en-IN")} votes`)} />
+      <PanelList title="Critical Villages" items={villages.map((item) => `${item.village}: need ${item.mobilizationNeed}% / ${item.expectedVotes.toLocaleString("en-IN")} votes`)} />
       <PanelList title="Critical Booths" items={booths.map((item) => `${item.booth}: readiness ${item.boothReadiness}% / risk ${item.risk}%`)} />
       <PanelList title="Pending Actions" items={pendingActions} />
       <PanelList title="Election Day Alerts" items={turnoutIntelligenceData.alerts.map((item) => `${item.type}: ${item.alert}`)} />

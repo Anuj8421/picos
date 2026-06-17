@@ -139,7 +139,7 @@ function PersuasionPriorityCommand({ data }: { data: typeof persuasionIntelligen
       <article className="priority-hero political-risk">
         <span className="eyebrow">Highest Vote Gain</span>
         <h2>{topGain.opportunity}</h2>
-        <strong>{topGain.expectedVoteGain.toLocaleString()}</strong>
+        <strong>{topGain.expectedVoteGain.toLocaleString("en-IN")}</strong>
         <p>{topGain.recommendedAction}</p>
       </article>
       <article className="priority-hero community-sentiment">
@@ -222,7 +222,7 @@ function TopVoteConversionOpportunities({ opportunities }: { opportunities: Pers
                   <td>{item.type}</td>
                   <td>{item.currentSupport}%</td>
                   <td>{item.potentialSupport}%</td>
-                  <td>{item.expectedVoteGain.toLocaleString()}</td>
+                  <td>{item.expectedVoteGain.toLocaleString("en-IN")}</td>
                   <td>{item.conversionProbability}%</td>
                   <td><PriorityChip value={item.priority} /></td>
                   <td>{item.recommendedAction}</td>
@@ -239,11 +239,11 @@ function TopVoteConversionOpportunities({ opportunities }: { opportunities: Pers
 }
 
 function PersuadableCommunities() {
-  return <SimpleTable id="persuadable-communities" title="Persuadable Communities" columns={["Community", "Current", "Potential", "Expected Gain", "Main Issues", "Influencers", "Score", "Priority"]} rows={persuasionIntelligenceData.communities.map((item) => [item.community, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedGain.toLocaleString(), item.mainIssues, item.influencers, item.opportunityScore, item.priority])} priorityColumn={7} />;
+  return <SimpleTable id="persuadable-communities" title="Persuadable Communities" columns={["Community", "Current", "Potential", "Expected Gain", "Main Issues", "Influencers", "Score", "Priority"]} rows={persuasionIntelligenceData.communities.map((item) => [item.community, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedGain.toLocaleString("en-IN"), item.mainIssues, item.influencers, item.opportunityScore, item.priority])} priorityColumn={7} />;
 }
 
 function PersuadableVillages() {
-  return <SimpleTable id="persuadable-villages" title="Persuadable Villages" columns={["Village", "Current", "Potential", "Expected Gain", "Top Issues", "Influencers", "Priority", "Recommended Action"]} rows={persuasionIntelligenceData.villages.map((item) => [item.village, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedGain.toLocaleString(), item.topIssues, item.influencers, item.priority, item.recommendedAction])} priorityColumn={6} />;
+  return <SimpleTable id="persuadable-villages" title="Persuadable Villages" columns={["Village", "Current", "Potential", "Expected Gain", "Top Issues", "Influencers", "Priority", "Recommended Action"]} rows={persuasionIntelligenceData.villages.map((item) => [item.village, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedGain.toLocaleString("en-IN"), item.topIssues, item.influencers, item.priority, item.recommendedAction])} priorityColumn={6} />;
 }
 
 function PersuadableHouseholds() {
@@ -251,15 +251,15 @@ function PersuadableHouseholds() {
 }
 
 function PersuadableInfluencers() {
-  return <SimpleTable id="persuadable-influencers" title="Persuadable Influencers" columns={["Influencer", "Current Alignment", "Potential Alignment", "Reach", "Expected Gain", "Priority", "Strategy"]} rows={persuasionIntelligenceData.influencers.map((item) => [item.influencer, item.currentAlignment, item.potentialAlignment, item.influenceReach.toLocaleString(), item.expectedVoteGain.toLocaleString(), item.priority, item.recommendedStrategy])} priorityColumn={5} />;
+  return <SimpleTable id="persuadable-influencers" title="Persuadable Influencers" columns={["Influencer", "Current Alignment", "Potential Alignment", "Reach", "Expected Gain", "Priority", "Strategy"]} rows={persuasionIntelligenceData.influencers.map((item) => [item.influencer, item.currentAlignment, item.potentialAlignment, item.influenceReach.toLocaleString("en-IN"), item.expectedVoteGain.toLocaleString("en-IN"), item.priority, item.recommendedStrategy])} priorityColumn={5} />;
 }
 
 function IssueBasedPersuasion() {
-  return <SimpleTable id="issue-based-persuasion" title="Issue-Based Persuasion" columns={["Issue", "Affected Voters", "Affected Villages", "Affected Communities", "Conversion Potential", "Priority"]} rows={persuasionIntelligenceData.issues.map((item) => [item.issue, item.affectedVoters.toLocaleString(), item.affectedVillages, item.affectedCommunities, item.conversionPotential.toLocaleString(), item.priority])} priorityColumn={5} />;
+  return <SimpleTable id="issue-based-persuasion" title="Issue-Based Persuasion" columns={["Issue", "Affected Voters", "Affected Villages", "Affected Communities", "Conversion Potential", "Priority"]} rows={persuasionIntelligenceData.issues.map((item) => [item.issue, item.affectedVoters.toLocaleString("en-IN"), item.affectedVillages, item.affectedCommunities, item.conversionPotential.toLocaleString("en-IN"), item.priority])} priorityColumn={5} />;
 }
 
 function MessageEffectivenessAnalysis() {
-  return <SimpleTable id="message-effectiveness" title="Message Effectiveness Analysis" columns={["Message Theme", "Target Audience", "Expected Impact", "Conversion Probability"]} rows={persuasionIntelligenceData.messages.map((item) => [item.messageTheme, item.targetAudience, item.expectedImpact.toLocaleString(), `${item.conversionProbability}%`])} />;
+  return <SimpleTable id="message-effectiveness" title="Message Effectiveness Analysis" columns={["Message Theme", "Target Audience", "Expected Impact", "Conversion Probability"]} rows={persuasionIntelligenceData.messages.map((item) => [item.messageTheme, item.targetAudience, item.expectedImpact.toLocaleString("en-IN"), `${item.conversionProbability}%`])} />;
 }
 
 function CommunityConversionMatrix({ rows }: { rows: CommunityConversionMatrixRow[] }) {
@@ -294,7 +294,7 @@ function VillageConversionMatrix({ rows }: { rows: VillageConversionMatrixRow[] 
             <button type="button">{row.village}</button>
             <span>{row.currentSupport}%</span>
             <span className="matrix-cell-support">{row.potentialSupport}%</span>
-            <span className="matrix-cell-watch">{row.expectedGain.toLocaleString()}</span>
+            <span className="matrix-cell-watch">{row.expectedGain.toLocaleString("en-IN")}</span>
             <span className="matrix-cell-strong">{row.conversionScore}</span>
             <span><PriorityChip value={row.priority} /></span>
           </div>
@@ -318,7 +318,7 @@ function CampaignActionRecommendations({ queuedActions, onQueue }: { queuedActio
               <tr key={`${item.action}-${item.target}`}>
                 <td><strong>{item.action}</strong></td>
                 <td>{item.target}</td>
-                <td>{item.expectedVoteGain.toLocaleString()}</td>
+                <td>{item.expectedVoteGain.toLocaleString("en-IN")}</td>
                 <td>{item.effortRequired}</td>
                 <td><PriorityChip value={item.priority} /></td>
                 <td>{item.owner}</td>
@@ -343,7 +343,7 @@ function PersuasionPipeline() {
           <article className="pipeline-stage" key={stage.stage}>
             <span>{stage.stage}</span>
             <strong>{stage.count}</strong>
-            <p>{stage.expectedVotes.toLocaleString()} expected votes</p>
+            <p>{stage.expectedVotes.toLocaleString("en-IN")} expected votes</p>
             <Meter label="Pipeline share" value={stage.expectedVotes} max={totalExpected} />
           </article>
         ))}
@@ -363,8 +363,8 @@ function VoteGainForecasting() {
               <span>{forecast.type}</span>
               <h3>{forecast.segment}</h3>
             </div>
-            <strong>{forecast.expectedVoteGain.toLocaleString()}</strong>
-            <p>Best {forecast.bestCase.toLocaleString()} / Likely {forecast.likelyCase.toLocaleString()} / Worst {forecast.worstCase.toLocaleString()}</p>
+            <strong>{forecast.expectedVoteGain.toLocaleString("en-IN")}</strong>
+            <p>Best {forecast.bestCase.toLocaleString("en-IN")} / Likely {forecast.likelyCase.toLocaleString("en-IN")} / Worst {forecast.worstCase.toLocaleString("en-IN")}</p>
           </article>
         ))}
       </div>
@@ -373,7 +373,7 @@ function VoteGainForecasting() {
 }
 
 function ConversionSuccessTracker() {
-  return <SimpleTable id="conversion-success-tracker" title="Conversion Success Tracker" columns={["Activity", "Expected", "Actual", "Success Rate", "Lessons Learned"]} rows={persuasionIntelligenceData.success.map((item) => [item.activity, item.expectedImpact.toLocaleString(), item.actualImpact.toLocaleString(), `${item.successRate}%`, item.lessonsLearned])} />;
+  return <SimpleTable id="conversion-success-tracker" title="Conversion Success Tracker" columns={["Activity", "Expected", "Actual", "Success Rate", "Lessons Learned"]} rows={persuasionIntelligenceData.success.map((item) => [item.activity, item.expectedImpact.toLocaleString("en-IN"), item.actualImpact.toLocaleString("en-IN"), `${item.successRate}%`, item.lessonsLearned])} />;
 }
 
 function ScenarioSimulator({ queuedActions, onQueue }: { queuedActions: string[]; onQueue: (action: string) => void }) {
@@ -384,7 +384,7 @@ function ScenarioSimulator({ queuedActions, onQueue }: { queuedActions: string[]
         {persuasionIntelligenceData.scenarios.map((scenario) => (
           <article className="scenario-card" key={scenario.scenario}>
             <span>{scenario.scenario}</span>
-            <strong>{scenario.expectedVoteGain.toLocaleString()}</strong>
+            <strong>{scenario.expectedVoteGain.toLocaleString("en-IN")}</strong>
             <p>{scenario.seatImpact}</p>
             <b>Win probability {signed(scenario.winProbabilityChange)}%</b>
             <a className="action-btn" href={`/tasks/new?title=${encodeURIComponent(scenario.scenario)}`} onClick={() => onQueue(scenario.scenario)}>{queuedActions.includes(scenario.scenario) ? "Queued" : "Create Scenario Task"}</a>
@@ -408,7 +408,7 @@ function AiPersuasionEngine({ queuedActions, onQueue }: { queuedActions: string[
             </div>
             <h3>{item.recommendation}</h3>
             <p><b>Reason:</b> {item.reason}</p>
-            <p><b>Expected impact:</b> {item.expectedImpact.toLocaleString()} votes</p>
+            <p><b>Expected impact:</b> {item.expectedImpact.toLocaleString("en-IN")} votes</p>
           </article>
         ))}
       </div>
@@ -452,10 +452,10 @@ function PersuasionRightPanel({ opportunities, queuedActions }: { opportunities:
   return (
     <aside className="voter-intel-panel persuasion-intel-panel">
       <SectionHeader title="Persuasion Intel Panel" eyebrow="Always-on conversion watch" />
-      <PanelList title="Top Conversion Opportunities" items={topOpportunities.map((item) => `${item.opportunity}: ${item.expectedVoteGain.toLocaleString()} votes / ${item.conversionProbability}%`)} />
-      <PanelList title="High Priority Villages" items={highVillages.map((item) => `${item.village}: ${item.expectedGain.toLocaleString()} gain / ${item.priority}`)} />
-      <PanelList title="High Priority Communities" items={highCommunities.map((item) => `${item.community}: score ${item.opportunityScore} / ${item.expectedGain.toLocaleString()} gain`)} />
-      <PanelList title="High Priority Influencers" items={highInfluencers.map((item) => `${item.influencer}: reach ${item.influenceReach.toLocaleString()}`)} />
+      <PanelList title="Top Conversion Opportunities" items={topOpportunities.map((item) => `${item.opportunity}: ${item.expectedVoteGain.toLocaleString("en-IN")} votes / ${item.conversionProbability}%`)} />
+      <PanelList title="High Priority Villages" items={highVillages.map((item) => `${item.village}: ${item.expectedGain.toLocaleString("en-IN")} gain / ${item.priority}`)} />
+      <PanelList title="High Priority Communities" items={highCommunities.map((item) => `${item.community}: score ${item.opportunityScore} / ${item.expectedGain.toLocaleString("en-IN")} gain`)} />
+      <PanelList title="High Priority Influencers" items={highInfluencers.map((item) => `${item.influencer}: reach ${item.influenceReach.toLocaleString("en-IN")}`)} />
       <PanelList title="Pending Actions" items={pendingActions} />
       <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : ["No persuasion actions queued from this session"]} />
       <PanelList title="Alerts" items={["Cooperative network needs neutral bridge before direct engagement", "Youth employment circuit is the highest-probability conversion path", "Field proof required before public irrigation claims"]} />

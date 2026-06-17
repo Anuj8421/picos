@@ -150,7 +150,7 @@ function SupportPriorityCommand() {
       </article>
       <article className="priority-hero community-sentiment">
         <span className="eyebrow">Top Support Gain</span>
-        <strong>{topGain.expectedVotes.toLocaleString()}</strong>
+        <strong>{topGain.expectedVotes.toLocaleString("en-IN")}</strong>
         <p>{topGain.community} / {topGain.village}</p>
       </article>
       <article className="priority-hero opponent-movement">
@@ -239,7 +239,7 @@ function SupportDistribution() {
               <span style={{ background: `var(--donut-${index + 1})` }} />
               <strong>{item.status}</strong>
               <b>{item.share}%</b>
-              <small>{item.voters.toLocaleString()} voters / {signed(item.movement)}% movement</small>
+              <small>{item.voters.toLocaleString("en-IN")} voters / {signed(item.movement)}% movement</small>
             </article>
           ))}
         </div>
@@ -253,7 +253,7 @@ function CommunitySupportAnalysis() {
 }
 
 function VillageSupportAnalysis({ villages }: { villages: typeof supportAnalysisData.villages }) {
-  return <SimpleTable id="village-support-analysis" title="Village Support Analysis" columns={["Village", "Current", "Potential", "Expected Gain", "Risk", "Priority", "Trend"]} rows={villages.map((item) => [item.village, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedGain.toLocaleString(), `${item.risk}%`, item.priority, item.trend])} priorityColumn={5} />;
+  return <SimpleTable id="village-support-analysis" title="Village Support Analysis" columns={["Village", "Current", "Potential", "Expected Gain", "Risk", "Priority", "Trend"]} rows={villages.map((item) => [item.village, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedGain.toLocaleString("en-IN"), `${item.risk}%`, item.priority, item.trend])} priorityColumn={5} />;
 }
 
 function HouseholdSupportAnalysis() {
@@ -283,7 +283,7 @@ function InfluencerSupportAnalysis() {
 }
 
 function SegmentSupportAnalysis() {
-  return <SimpleTable id="segment-support-analysis-center" title="Segment Support Analysis" columns={["Segment", "Support", "Persuasion Potential", "Turnout", "Expected Votes", "Priority"]} rows={supportAnalysisData.segments.map((item) => [item.segment, `${item.support}%`, item.persuasionPotential, `${item.turnout}%`, item.expectedVotes.toLocaleString(), item.priority])} priorityColumn={5} />;
+  return <SimpleTable id="segment-support-analysis-center" title="Segment Support Analysis" columns={["Segment", "Support", "Persuasion Potential", "Turnout", "Expected Votes", "Priority"]} rows={supportAnalysisData.segments.map((item) => [item.segment, `${item.support}%`, item.persuasionPotential, `${item.turnout}%`, item.expectedVotes.toLocaleString("en-IN"), item.priority])} priorityColumn={5} />;
 }
 
 function SupportHeatMap({ points, selectedPoint, heatMode, onModeChange, onSelect }: { points: SupportHeatMapPoint[]; selectedPoint: SupportHeatMapPoint; heatMode: SupportHeatMode; onModeChange: (mode: SupportHeatMode) => void; onSelect: (id: string) => void }) {
@@ -325,15 +325,15 @@ function SupportHeatMap({ points, selectedPoint, heatMode, onModeChange, onSelec
 }
 
 function SupportMovementTracker() {
-  return <SimpleTable id="support-movement-tracker" title="Support Movement Tracker" columns={["What Changed", "Gained", "Lost", "Communities Moving", "Villages Moving", "Influencers Moving", "Week", "Priority"]} rows={supportAnalysisData.movement.map((item) => [item.change, item.supportGained.toLocaleString(), item.supportLost.toLocaleString(), item.communitiesMoving, item.villagesMoving, item.influencersMoving, item.week, item.priority])} priorityColumn={7} />;
+  return <SimpleTable id="support-movement-tracker" title="Support Movement Tracker" columns={["What Changed", "Gained", "Lost", "Communities Moving", "Villages Moving", "Influencers Moving", "Week", "Priority"]} rows={supportAnalysisData.movement.map((item) => [item.change, item.supportGained.toLocaleString("en-IN"), item.supportLost.toLocaleString("en-IN"), item.communitiesMoving, item.villagesMoving, item.influencersMoving, item.week, item.priority])} priorityColumn={7} />;
 }
 
 function TopSupportGains() {
-  return <SimpleTable id="top-support-gains" title="Top Support Gains" columns={["Community", "Village", "Segment", "Influencer", "Expected Votes", "Reason", "Priority", "Status"]} rows={supportAnalysisData.gains.map((item) => [item.community, item.village, item.segment, item.influencer, item.expectedVotes.toLocaleString(), item.reason, item.priority, item.status])} priorityColumn={6} />;
+  return <SimpleTable id="top-support-gains" title="Top Support Gains" columns={["Community", "Village", "Segment", "Influencer", "Expected Votes", "Reason", "Priority", "Status"]} rows={supportAnalysisData.gains.map((item) => [item.community, item.village, item.segment, item.influencer, item.expectedVotes.toLocaleString("en-IN"), item.reason, item.priority, item.status])} priorityColumn={6} />;
 }
 
 function TopSupportLosses() {
-  return <SimpleTable id="top-support-losses" title="Top Support Losses" columns={["Community", "Village", "Segment", "Influencer", "Potential Loss", "Reason", "Severity", "Status"]} rows={supportAnalysisData.losses.map((item) => [item.community, item.village, item.segment, item.influencer, item.potentialVoteLoss.toLocaleString(), item.reason, item.severity, item.status])} priorityColumn={6} />;
+  return <SimpleTable id="top-support-losses" title="Top Support Losses" columns={["Community", "Village", "Segment", "Influencer", "Potential Loss", "Reason", "Severity", "Status"]} rows={supportAnalysisData.losses.map((item) => [item.community, item.village, item.segment, item.influencer, item.potentialVoteLoss.toLocaleString("en-IN"), item.reason, item.severity, item.status])} priorityColumn={6} />;
 }
 
 function TurnoutImpactAnalysis() {
@@ -369,7 +369,7 @@ function WinProbabilityModel() {
           <article className="forecast-card" key={item.scenario}>
             <div>
               <span>{item.scenario}</span>
-              <h3>{item.expectedMargin > 0 ? `+${item.expectedMargin.toLocaleString()}` : item.expectedMargin.toLocaleString()} margin</h3>
+              <h3>{item.expectedMargin > 0 ? `+${item.expectedMargin.toLocaleString("en-IN")}` : item.expectedMargin.toLocaleString("en-IN")} margin</h3>
             </div>
             <strong>{item.winProbability}%</strong>
             <p>Vote share {item.expectedVoteShare}% / confidence {item.confidence}%</p>
@@ -388,8 +388,8 @@ function ScenarioSimulator({ queuedActions, onQueue }: { queuedActions: string[]
         {supportAnalysisData.scenarios.map((scenario) => (
           <article className="scenario-card" key={scenario.scenario}>
             <span>{scenario.scenario}</span>
-            <strong>{scenario.expectedVotes.toLocaleString()}</strong>
-            <p>Margin impact {scenario.marginImpact.toLocaleString()} / win probability {scenario.winProbability}%</p>
+            <strong>{scenario.expectedVotes.toLocaleString("en-IN")}</strong>
+            <p>Margin impact {scenario.marginImpact.toLocaleString("en-IN")} / win probability {scenario.winProbability}%</p>
             <PriorityChip value={scenario.priority} />
             <a className="action-btn" href={`/tasks/new?title=${encodeURIComponent(scenario.scenario)}`} onClick={() => onQueue(scenario.scenario)}>{queuedActions.includes(scenario.scenario) ? "Queued" : "Create Scenario Task"}</a>
           </article>
@@ -412,7 +412,7 @@ function AiSupportStrategy({ queuedActions, onQueue }: { queuedActions: string[]
             </div>
             <h3>{item.recommendation}</h3>
             <p><b>Reason:</b> {item.reason}</p>
-            <p><b>Expected votes:</b> {item.expectedVotes.toLocaleString()}</p>
+            <p><b>Expected votes:</b> {item.expectedVotes.toLocaleString("en-IN")}</p>
           </article>
         ))}
       </div>
@@ -450,8 +450,8 @@ function SupportRightPanel({ queuedActions }: { queuedActions: string[] }) {
     <aside className="voter-intel-panel support-intel-panel">
       <SectionHeader title="Support Intel Panel" eyebrow="Always-on support watch" />
       <PanelList title="Support Alerts" items={supportAnalysisData.recommendations.slice(0, 3).map((item) => item.recommendation)} />
-      <PanelList title="Support Gains" items={supportAnalysisData.gains.map((item) => `${item.community} ${item.village}: ${item.expectedVotes.toLocaleString()} votes`)} />
-      <PanelList title="Support Losses" items={supportAnalysisData.losses.map((item) => `${item.village}: ${item.potentialVoteLoss.toLocaleString()} vote loss`)} />
+      <PanelList title="Support Gains" items={supportAnalysisData.gains.map((item) => `${item.community} ${item.village}: ${item.expectedVotes.toLocaleString("en-IN")} votes`)} />
+      <PanelList title="Support Losses" items={supportAnalysisData.losses.map((item) => `${item.village}: ${item.potentialVoteLoss.toLocaleString("en-IN")} vote loss`)} />
       <PanelList title="Top Risks" items={supportAnalysisData.losses.slice(0, 3).map((item) => `${item.segment}: ${item.reason}`)} />
       <PanelList title="Top Opportunities" items={supportAnalysisData.gains.slice(0, 3).map((item) => `${item.segment}: ${item.reason}`)} />
       <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : supportAnalysisData.movement.map((item) => item.change)} />
@@ -463,7 +463,7 @@ function MetricBlock({ label, value }: { label: string; value: string | number }
   return (
     <article className="support-score-card">
       <span>{label}</span>
-      <strong>{typeof value === "number" ? value.toLocaleString() : value}</strong>
+      <strong>{typeof value === "number" ? value.toLocaleString("en-IN") : value}</strong>
     </article>
   );
 }

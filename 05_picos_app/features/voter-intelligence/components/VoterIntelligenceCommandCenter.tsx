@@ -141,12 +141,12 @@ function VoterSituationRoom({ data }: { data: typeof voterIntelligenceData }) {
     : "Expand the top gain opportunities and assign village-level owners for every persuadable cluster.";
   const situationMetrics = [
     { label: "Vote Position", value: `${votePosition}%`, score: votePosition, state: "Composite voter posture", tone: "win" },
-    { label: "Current Support", value: `${supporters?.value ?? 0}%`, score: supporters?.value ?? 0, state: `${supporters?.voters.toLocaleString() ?? 0} voters`, tone: "support" },
+    { label: "Current Support", value: `${supporters?.value ?? 0}%`, score: supporters?.value ?? 0, state: `${supporters?.voters.toLocaleString("en-IN") ?? 0} voters`, tone: "support" },
     { label: "Persuadable Voters", value: "31.7K", score: persuadable?.value ?? 0, state: "Conversion pool", tone: "coverage" },
     { label: "Turnout Readiness", value: `${turnoutReadiness}%`, score: turnoutReadiness, state: "Village turnout average", tone: "turnout" },
     { label: "Opportunity", value: `${opportunity}%`, score: opportunity, state: "Village gain climate", tone: "execution" },
-    { label: "Expected Gain", value: `+${expectedGain.toLocaleString()}`, score: Math.min(100, expectedGain / 120), state: "Open vote upside", tone: "volunteer" },
-    { label: "Expected Loss", value: `-${expectedLoss.toLocaleString()}`, score: Math.min(100, expectedLoss / 80), state: "Risk exposure", tone: "booth" }
+    { label: "Expected Gain", value: `+${expectedGain.toLocaleString("en-IN")}`, score: Math.min(100, expectedGain / 120), state: "Open vote upside", tone: "volunteer" },
+    { label: "Expected Loss", value: `-${expectedLoss.toLocaleString("en-IN")}`, score: Math.min(100, expectedLoss / 80), state: "Risk exposure", tone: "booth" }
   ] as const;
 
   return (
@@ -283,7 +283,7 @@ function SupportDistribution({ distribution }: { distribution: typeof voterIntel
               <span style={{ background: `var(--donut-${index + 1})` }} />
               <strong>{item.status}</strong>
               <b>{item.value}%</b>
-              <small>{item.voters.toLocaleString()} voters</small>
+              <small>{item.voters.toLocaleString("en-IN")} voters</small>
             </article>
           ))}
         </div>
@@ -379,7 +379,7 @@ function TurnoutIntelligence({ turnout }: { turnout: typeof voterIntelligenceDat
       <div className="turnout-grid">
         {turnout.map((item) => (
           <article className="turnout-card" key={item.label}>
-            <strong>{item.value.toLocaleString()}</strong>
+            <strong>{item.value.toLocaleString("en-IN")}</strong>
             <span>{item.label}</span>
             <PriorityChip value={item.mobilizationPriority} />
             <Meter label="Risk" value={item.turnoutRiskScore} danger />

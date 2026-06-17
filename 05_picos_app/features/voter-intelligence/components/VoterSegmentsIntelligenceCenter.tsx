@@ -142,13 +142,13 @@ function SegmentPriorityCommand() {
       <article className="priority-hero political-risk">
         <span className="eyebrow">Top Segment To Target</span>
         <h2>{topGain.segment}</h2>
-        <strong>{topGain.expectedVoteGain.toLocaleString()}</strong>
+        <strong>{topGain.expectedVoteGain.toLocaleString("en-IN")}</strong>
         <p>{topGain.recommendedAction}</p>
       </article>
       <article className="priority-hero community-sentiment">
         <span className="eyebrow">Growth Segment</span>
         <strong>{topGrowth.persuasionPotential}</strong>
-        <p>{topGrowth.segmentName}: persuasion potential / vote value {topGrowth.voteValue.toLocaleString()}</p>
+        <p>{topGrowth.segmentName}: persuasion potential / vote value {topGrowth.voteValue.toLocaleString("en-IN")}</p>
       </article>
       <article className="priority-hero opponent-movement">
         <span className="eyebrow">Segment Risk</span>
@@ -202,12 +202,12 @@ function SegmentCommandCenter({ segments, selectedSegmentId, onSelect }: { segme
               {segments.map((segment) => (
                 <tr className={selectedSegmentId === segment.id ? "is-selected-row" : ""} key={segment.id} onClick={() => onSelect(segment.id)}>
                   <td><button className="table-link-btn" type="button">{segment.segmentName}</button></td>
-                  <td>{segment.estimatedVoters.toLocaleString()}</td>
+                  <td>{segment.estimatedVoters.toLocaleString("en-IN")}</td>
                   <td>{segment.supportScore}</td>
                   <td><span className={`sentiment-pill sentiment-${segment.sentiment.toLowerCase()}`}>{segment.sentiment}</span></td>
                   <td>{segment.turnout}%</td>
                   <td>{segment.persuasionPotential}</td>
-                  <td>{segment.voteValue.toLocaleString()}</td>
+                  <td>{segment.voteValue.toLocaleString("en-IN")}</td>
                   <td><PriorityChip value={segment.priority} /></td>
                   <td>{segment.status}</td>
                 </tr>
@@ -254,7 +254,7 @@ function SegmentClassificationMatrix() {
             <span className="matrix-cell-watch">{row.persuadable}%</span>
             <span>{row.turnout}%</span>
             <span>{row.influence}</span>
-            <span className="matrix-cell-strong">{row.voteValue.toLocaleString()}</span>
+            <span className="matrix-cell-strong">{row.voteValue.toLocaleString("en-IN")}</span>
           </div>
         ))}
       </div>
@@ -263,7 +263,7 @@ function SegmentClassificationMatrix() {
 }
 
 function HighValueSegments() {
-  return <SimpleTable id="high-value-segments" title="High Value Segments" columns={["Segment", "Current Support", "Potential Support", "Expected Vote Gain", "Priority", "Recommended Action", "Owner", "Status"]} rows={segmentIntelligenceData.highValue.map((item) => [item.segment, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedVoteGain.toLocaleString(), item.priority, item.recommendedAction, item.owner, item.status])} priorityColumn={4} />;
+  return <SimpleTable id="high-value-segments" title="High Value Segments" columns={["Segment", "Current Support", "Potential Support", "Expected Vote Gain", "Priority", "Recommended Action", "Owner", "Status"]} rows={segmentIntelligenceData.highValue.map((item) => [item.segment, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedVoteGain.toLocaleString("en-IN"), item.priority, item.recommendedAction, item.owner, item.status])} priorityColumn={4} />;
 }
 
 function SegmentDemographics() {
@@ -283,7 +283,7 @@ function SegmentIssueIntelligence() {
 }
 
 function SegmentInfluencerAnalysis() {
-  return <SimpleTable id="segment-influencer-analysis" title="Segment Influencer Analysis" columns={["Segment", "Top Influencers", "Influence Score", "Alignment", "Relationship", "Expected Vote Impact"]} rows={segmentIntelligenceData.influencers.map((item) => [item.segment, item.topInfluencers, item.influenceScore, item.alignment, item.relationshipStrength, item.expectedVoteImpact.toLocaleString()])} />;
+  return <SimpleTable id="segment-influencer-analysis" title="Segment Influencer Analysis" columns={["Segment", "Top Influencers", "Influence Score", "Alignment", "Relationship", "Expected Vote Impact"]} rows={segmentIntelligenceData.influencers.map((item) => [item.segment, item.topInfluencers, item.influenceScore, item.alignment, item.relationshipStrength, item.expectedVoteImpact.toLocaleString("en-IN")])} />;
 }
 
 function SegmentGeographicAnalysis() {
@@ -316,15 +316,15 @@ function SegmentGeographicAnalysis() {
 }
 
 function SegmentPersuasionAnalysis() {
-  return <SimpleTable id="segment-persuasion-analysis" title="Segment Persuasion Analysis" columns={["Segment", "Current", "Potential", "Expected Gain", "Conversion", "Priority", "Message", "Action"]} rows={segmentIntelligenceData.persuasion.map((item) => [item.segment, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedGain.toLocaleString(), `${item.conversionProbability}%`, item.priority, item.recommendedMessage, item.recommendedAction])} priorityColumn={5} />;
+  return <SimpleTable id="segment-persuasion-analysis" title="Segment Persuasion Analysis" columns={["Segment", "Current", "Potential", "Expected Gain", "Conversion", "Priority", "Message", "Action"]} rows={segmentIntelligenceData.persuasion.map((item) => [item.segment, `${item.currentSupport}%`, `${item.potentialSupport}%`, item.expectedGain.toLocaleString("en-IN"), `${item.conversionProbability}%`, item.priority, item.recommendedMessage, item.recommendedAction])} priorityColumn={5} />;
 }
 
 function SegmentTurnoutAnalysis() {
-  return <SimpleTable id="segment-turnout-analysis" title="Segment Turnout Analysis" columns={["Segment", "Expected Turnout", "Target Turnout", "Gap", "Mobilization Potential", "Expected Vote Gain", "Priority"]} rows={segmentIntelligenceData.turnout.map((item) => [item.segment, `${item.expectedTurnout}%`, `${item.targetTurnout}%`, `${item.turnoutGap}%`, item.mobilizationPotential.toLocaleString(), item.expectedVoteGain.toLocaleString(), item.priority])} priorityColumn={6} />;
+  return <SimpleTable id="segment-turnout-analysis" title="Segment Turnout Analysis" columns={["Segment", "Expected Turnout", "Target Turnout", "Gap", "Mobilization Potential", "Expected Vote Gain", "Priority"]} rows={segmentIntelligenceData.turnout.map((item) => [item.segment, `${item.expectedTurnout}%`, `${item.targetTurnout}%`, `${item.turnoutGap}%`, item.mobilizationPotential.toLocaleString("en-IN"), item.expectedVoteGain.toLocaleString("en-IN"), item.priority])} priorityColumn={6} />;
 }
 
 function MessageIntelligence() {
-  return <SimpleTable id="message-intelligence" title="Message Intelligence" columns={["Message Theme", "Target Segment", "Expected Impact", "Effectiveness", "Status"]} rows={segmentIntelligenceData.messages.map((item) => [item.messageTheme, item.targetSegment, item.expectedImpact.toLocaleString(), `${item.effectiveness}%`, item.status])} />;
+  return <SimpleTable id="message-intelligence" title="Message Intelligence" columns={["Message Theme", "Target Segment", "Expected Impact", "Effectiveness", "Status"]} rows={segmentIntelligenceData.messages.map((item) => [item.messageTheme, item.targetSegment, item.expectedImpact.toLocaleString("en-IN"), `${item.effectiveness}%`, item.status])} />;
 }
 
 function OutreachCampaigns() {
@@ -341,8 +341,8 @@ function OutreachCampaigns() {
             <small>{campaign.targetSegment} / {campaign.status}</small>
             <Meter label="Engagement" value={campaign.engagement} />
             <Meter label="Impact" value={campaign.impact} />
-            <p>Reach {campaign.reach.toLocaleString()}</p>
-            <b>{campaign.expectedVotes.toLocaleString()} expected votes</b>
+            <p>Reach {campaign.reach.toLocaleString("en-IN")}</p>
+            <b>{campaign.expectedVotes.toLocaleString("en-IN")} expected votes</b>
           </article>
         ))}
       </div>
@@ -351,11 +351,11 @@ function OutreachCampaigns() {
 }
 
 function SegmentOpportunityAnalysis() {
-  return <SimpleTable id="segment-opportunity-analysis" title="Segment Opportunity Analysis" columns={["Opportunity", "Segment", "Expected Votes", "Priority", "Owner", "Status", "Action Plan"]} rows={segmentIntelligenceData.opportunities.map((item) => [item.opportunity, item.segment, item.expectedVotes.toLocaleString(), item.priority, item.owner, item.status, item.actionPlan])} priorityColumn={3} />;
+  return <SimpleTable id="segment-opportunity-analysis" title="Segment Opportunity Analysis" columns={["Opportunity", "Segment", "Expected Votes", "Priority", "Owner", "Status", "Action Plan"]} rows={segmentIntelligenceData.opportunities.map((item) => [item.opportunity, item.segment, item.expectedVotes.toLocaleString("en-IN"), item.priority, item.owner, item.status, item.actionPlan])} priorityColumn={3} />;
 }
 
 function SegmentRiskAnalysis() {
-  return <SimpleTable id="segment-risk-analysis" title="Segment Risk Analysis" columns={["Risk", "Segment", "Potential Vote Loss", "Severity", "Owner", "Mitigation", "Status"]} rows={segmentIntelligenceData.risks.map((item) => [item.risk, item.segment, item.potentialVoteLoss.toLocaleString(), item.severity, item.owner, item.mitigation, item.status])} priorityColumn={3} />;
+  return <SimpleTable id="segment-risk-analysis" title="Segment Risk Analysis" columns={["Risk", "Segment", "Potential Vote Loss", "Severity", "Owner", "Mitigation", "Status"]} rows={segmentIntelligenceData.risks.map((item) => [item.risk, item.segment, item.potentialVoteLoss.toLocaleString("en-IN"), item.severity, item.owner, item.mitigation, item.status])} priorityColumn={3} />;
 }
 
 function SegmentComparisonMode({ profiles, compareA, compareB, setCompareA, setCompareB }: { profiles: SegmentComparisonProfile[]; compareA: SegmentComparisonProfile; compareB: SegmentComparisonProfile; setCompareA: (segment: string) => void; setCompareB: (segment: string) => void }) {
@@ -380,7 +380,7 @@ function SegmentComparisonMode({ profiles, compareA, compareB, setCompareA, setC
             <Meter label="Influence" value={profile.influence} />
             <small>Sentiment: {profile.sentiment}</small>
             <small>Issues: {profile.issues}</small>
-            <small>Expected votes: {profile.expectedVotes.toLocaleString()}</small>
+            <small>Expected votes: {profile.expectedVotes.toLocaleString("en-IN")}</small>
           </article>
         ))}
       </div>
@@ -401,7 +401,7 @@ function AiSegmentStrategy({ queuedActions, onQueue }: { queuedActions: string[]
             </div>
             <h3>{item.recommendation}</h3>
             <p><b>Reason:</b> {item.reason}</p>
-            <p><b>Expected votes:</b> {item.expectedVotes.toLocaleString()}</p>
+            <p><b>Expected votes:</b> {item.expectedVotes.toLocaleString("en-IN")}</p>
           </article>
         ))}
       </div>
@@ -443,9 +443,9 @@ function SegmentRightPanel({ queuedActions }: { queuedActions: string[] }) {
   return (
     <aside className="voter-intel-panel segment-intel-panel">
       <SectionHeader title="Segment Intel Panel" eyebrow="Always-on targeting watch" />
-      <PanelList title="Top Segments" items={topSegments.map((item) => `${item.segment}: ${item.expectedVoteGain.toLocaleString()} votes`)} />
-      <PanelList title="Growth Segments" items={growthSegments.map((item) => `${item.segmentName}: persuasion ${item.persuasionPotential} / value ${item.voteValue.toLocaleString()}`)} />
-      <PanelList title="Risk Segments" items={riskSegments.map((item) => `${item.segment}: ${item.potentialVoteLoss.toLocaleString()} vote loss risk`)} />
+      <PanelList title="Top Segments" items={topSegments.map((item) => `${item.segment}: ${item.expectedVoteGain.toLocaleString("en-IN")} votes`)} />
+      <PanelList title="Growth Segments" items={growthSegments.map((item) => `${item.segmentName}: persuasion ${item.persuasionPotential} / value ${item.voteValue.toLocaleString("en-IN")}`)} />
+      <PanelList title="Risk Segments" items={riskSegments.map((item) => `${item.segment}: ${item.potentialVoteLoss.toLocaleString("en-IN")} vote loss risk`)} />
       <PanelList title="Pending Actions" items={pendingActions} />
       <PanelList title="Campaign Alerts" items={alerts} />
       <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : ["No segment actions queued from this session"]} />
@@ -490,7 +490,7 @@ function Meter({ label, value, danger, max = 100 }: { label: string; value: numb
     <div className="support-row">
       <span>{label}</span>
       <div><i className={danger ? "score-weak" : width > 65 ? "score-strong" : width > 40 ? "score-watch" : "score-weak"} style={{ width: `${width}%` }} /></div>
-      <b>{max === 100 ? `${Math.round(width)}%` : value.toLocaleString()}</b>
+      <b>{max === 100 ? `${Math.round(width)}%` : value.toLocaleString("en-IN")}</b>
     </div>
   );
 }

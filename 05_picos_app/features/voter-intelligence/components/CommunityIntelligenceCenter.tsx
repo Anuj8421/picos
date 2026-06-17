@@ -182,7 +182,7 @@ function CommunityPriorityCommand({ data }: { data: typeof communityIntelligence
       <article className="priority-hero election-readiness">
         <span className="eyebrow">Influencer Alert</span>
         <h2>{topInfluencer.name}</h2>
-        <p>{topInfluencer.community} / {topInfluencer.alignment} / reach {topInfluencer.reach.toLocaleString()}</p>
+        <p>{topInfluencer.community} / {topInfluencer.alignment} / reach {topInfluencer.reach.toLocaleString("en-IN")}</p>
       </article>
       <article className="priority-hero ai-recommendation">
         <span className="eyebrow">AI Community Strategy</span>
@@ -230,8 +230,8 @@ function CommunityCommandTable({ communities, selectedCommunityId, onSelect }: {
               {communities.map((community) => (
                 <tr className={selectedCommunityId === community.id ? "is-selected-row" : ""} key={community.id} onClick={() => onSelect(community.id)}>
                   <td><button className="table-link-btn" type="button">{community.community}</button></td>
-                  <td>{community.populationEstimate.toLocaleString()}</td>
-                  <td>{community.estimatedVoters.toLocaleString()}</td>
+                  <td>{community.populationEstimate.toLocaleString("en-IN")}</td>
+                  <td>{community.estimatedVoters.toLocaleString("en-IN")}</td>
                   <td>{community.currentSupport}%</td>
                   <td><span className={`sentiment-pill sentiment-${community.sentiment.toLowerCase()}`}>{community.sentiment}</span></td>
                   <td><span className={`trend-chip ${trendClass(community.trend)}`}>{community.trend}</span></td>
@@ -491,7 +491,7 @@ function AiCommunityStrategy({ recommendations, queuedActions, onQueue }: { reco
             </div>
             <h3>{item.recommendation}</h3>
             <p><b>Reason:</b> {item.reason}</p>
-            <p><b>Expected gain:</b> {item.expectedGain.toLocaleString()} votes</p>
+            <p><b>Expected gain:</b> {item.expectedGain.toLocaleString("en-IN")} votes</p>
           </article>
         ))}
       </div>

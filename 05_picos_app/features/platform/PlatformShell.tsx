@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState, type ReactNode } from "react";
 
-type CoreModuleId =
+export type CoreModuleId =
   | "political-intelligence"
   | "campaign-structure"
   | "constituency-intelligence"
@@ -57,7 +57,7 @@ type CoreModule = { id: CoreModuleId; number: string; label: string; href: strin
 const productSections: ProductSection[] = [
   { id: "main-dashboard", label: "Main Dashboard", href: "/", layer: "Command", short: "C", icon: LayoutDashboard },
   { id: "reports", label: "Reports", href: "/reports/daily-brief", layer: "Output", short: "R", icon: FileText },
-  { id: "settings", label: "Settings", href: "#", layer: "System", short: "S", icon: Settings }
+  { id: "settings", label: "Settings", href: "/settings", layer: "System", short: "S", icon: Settings }
 ];
 
 const primaryProductSections = productSections.filter((section) => section.id === "main-dashboard");
@@ -67,19 +67,19 @@ const coreModules: CoreModule[] = [
   { id: "political-intelligence", number: "01", label: "Political Intelligence", href: "/political-intelligence", status: "active", icon: ShieldAlert },
   { id: "campaign-structure", number: "CS", label: "Campaign Structure", href: "/campaign-structure", status: "active", icon: Network },
   { id: "constituency-intelligence", number: "02", label: "Constituency Intelligence", href: "/constituency", status: "active", icon: MapPinned },
-  { id: "booth-intelligence", number: "03", label: "Booth Intelligence", href: "#", status: "placeholder", icon: Vote },
+  { id: "booth-intelligence", number: "03", label: "Booth Intelligence", href: "/booth-intelligence", status: "placeholder", icon: Vote },
   { id: "voter-intelligence", number: "04", label: "Voter Intelligence", href: "/voter-intelligence", status: "active", icon: Users },
-  { id: "issue-mapping", number: "05", label: "Issue Mapping", href: "#", status: "placeholder", icon: Target },
-  { id: "volunteer-management", number: "06", label: "Volunteer Management", href: "#", status: "placeholder", icon: Handshake },
-  { id: "whatsapp-operations", number: "07", label: "WhatsApp Operations", href: "#", status: "placeholder", icon: MessageCircle },
-  { id: "media-monitoring", number: "08", label: "Media Monitoring", href: "#", status: "placeholder", icon: BellRing },
-  { id: "social-media-management", number: "09", label: "Social Media Management", href: "#", status: "placeholder", icon: Megaphone },
-  { id: "event-management", number: "10", label: "Event Management", href: "#", status: "placeholder", icon: CalendarDays },
-  { id: "war-room-dashboard", number: "11", label: "War Room Dashboard", href: "#", status: "placeholder", icon: Gauge },
-  { id: "ai-assistant", number: "12", label: "AI Assistant", href: "#", status: "placeholder", icon: Bot },
-  { id: "election-analytics", number: "13", label: "Election Analytics", href: "#", status: "placeholder", icon: BarChart3 },
-  { id: "grievance-management", number: "14", label: "Grievance Management", href: "#", status: "placeholder", icon: Wrench },
-  { id: "knowledge-base", number: "15", label: "Knowledge Base", href: "#", status: "placeholder", icon: BookOpen }
+  { id: "issue-mapping", number: "05", label: "Issue Mapping", href: "/issue-mapping", status: "placeholder", icon: Target },
+  { id: "volunteer-management", number: "06", label: "Volunteer Management", href: "/volunteer-management", status: "active", icon: Handshake },
+  { id: "whatsapp-operations", number: "07", label: "WhatsApp Operations", href: "/whatsapp-operations", status: "placeholder", icon: MessageCircle },
+  { id: "media-monitoring", number: "08", label: "Media Monitoring", href: "/media-monitoring", status: "placeholder", icon: BellRing },
+  { id: "social-media-management", number: "09", label: "Social Media Management", href: "/social-media-management", status: "placeholder", icon: Megaphone },
+  { id: "event-management", number: "10", label: "Event Management", href: "/event-management", status: "placeholder", icon: CalendarDays },
+  { id: "war-room-dashboard", number: "11", label: "War Room Dashboard", href: "/war-room-dashboard", status: "placeholder", icon: Gauge },
+  { id: "ai-assistant", number: "12", label: "AI Assistant", href: "/ai-assistant", status: "placeholder", icon: Bot },
+  { id: "election-analytics", number: "13", label: "Election Analytics", href: "/election-analytics", status: "placeholder", icon: BarChart3 },
+  { id: "grievance-management", number: "14", label: "Grievance Management", href: "/grievance-management", status: "placeholder", icon: Wrench },
+  { id: "knowledge-base", number: "15", label: "Knowledge Base", href: "/knowledge-base", status: "placeholder", icon: BookOpen }
 ];
 
 const globalSearchTargets = [
@@ -179,6 +179,18 @@ const campaignStructureSections = [
   ["escalation-matrix", "Escalation Matrix", "/campaign-structure/escalation-matrix"],
   ["reporting-lines", "Reporting Lines", "/campaign-structure/reporting-lines"],
   ["rosters", "Shift / Rosters", "/campaign-structure/rosters"]
+] as const;
+
+const volunteerManagementSections = [
+  ["overview", "Overview", "/volunteer-management"],
+  ["directory", "Directory", "/volunteer-management/directory"],
+  ["workload", "Workload", "/volunteer-management/workload"],
+  ["command-structure", "Command Structure", "/volunteer-management/command-structure"],
+  ["tasks", "Tasks", "/volunteer-management/tasks"],
+  ["reports", "Reports", "/volunteer-management/reports"],
+  ["attendance", "Attendance", "/volunteer-management/attendance"],
+  ["performance", "Performance", "/volunteer-management/performance"],
+  ["settings", "Settings", "/volunteer-management/settings"]
 ] as const;
 
 const mainDashboardSections = [
@@ -424,7 +436,7 @@ function GlobalHeader({
             <ChevronDown size={14} aria-hidden="true" />
           </summary>
           <div className="global-dropdown-menu align-right">
-            <a href="#"><UserRound size={15} aria-hidden="true" /> Profile</a>
+            <a href="/profile"><UserRound size={15} aria-hidden="true" /> Profile</a>
             <a href="/verification"><ShieldCheck size={15} aria-hidden="true" /> Verification queue</a>
             <a href="/reports/daily-brief"><FileText size={15} aria-hidden="true" /> Daily brief</a>
           </div>
@@ -509,6 +521,19 @@ function CoreModuleExpansion({
         <span>Active module</span>
         <div className="core-module-tree">
           {campaignStructureSections.map(([id, label, href]) => (
+            <a className={activeModuleSection === id ? "is-active" : ""} href={href} key={id}>{label}</a>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (activeCoreModule === "volunteer-management") {
+    return (
+      <div className="core-module-expansion">
+        <span>Active module</span>
+        <div className="core-module-tree">
+          {volunteerManagementSections.map(([id, label, href]) => (
             <a className={activeModuleSection === id ? "is-active" : ""} href={href} key={id}>{label}</a>
           ))}
         </div>
@@ -605,6 +630,14 @@ function ActiveModuleNav({
       ) : activeCoreModule === "campaign-structure" ? (
         <nav className="module-nav-group">
           {campaignStructureSections.map(([id, label, href]) => (
+            <a className={`module-nav-primary ${activeModuleSection === id ? "is-active" : ""}`} href={href} key={id}>
+              {label}
+            </a>
+          ))}
+        </nav>
+      ) : activeCoreModule === "volunteer-management" ? (
+        <nav className="module-nav-group">
+          {volunteerManagementSections.map(([id, label, href]) => (
             <a className={`module-nav-primary ${activeModuleSection === id ? "is-active" : ""}`} href={href} key={id}>
               {label}
             </a>
