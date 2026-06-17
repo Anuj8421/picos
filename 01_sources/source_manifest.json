@@ -1,0 +1,233 @@
+[
+  {
+    "file_name": "Anuj Avhad.pdf",
+    "relative_path": "01_sources/original_pdfs/Anuj Avhad.pdf",
+    "bytes": 38363,
+    "modified": "2026-06-10T01:59:44",
+    "sha256": "C197757DFCCEF52AB62E8A587DEA585B53E91FE1D250C69D5689F87245903A25",
+    "pages": 1,
+    "text_characters": 3653,
+    "text_sha256": "DAD7518D28FD26160127337C8E3DE7F42B552E927A3A681C8CA0DC601D72F64C",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Title": "Anuj Avhad Resume",
+      "/Creator": "Typst 0.14.2",
+      "/ModDate": "D:20260608131413Z",
+      "/CreationDate": "D:20260608131413Z"
+    },
+    "text_relative_path": "01_sources/extracted_text/anuj-avhad.txt",
+    "json_relative_path": "01_sources/extracted_text/anuj-avhad.json",
+    "nearest_text_matches": [
+      {
+        "file_name": "Uday Sangle Master Profile.pdf",
+        "jaccard_token_similarity": 0.25
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy (1).pdf",
+        "jaccard_token_similarity": 0.2386
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy.pdf",
+        "jaccard_token_similarity": 0.2386
+      }
+    ]
+  },
+  {
+    "file_name": "Political Intelligence & Campaign Operating System (PICOS).pdf",
+    "relative_path": "01_sources/original_pdfs/Political Intelligence & Campaign Operating System (PICOS).pdf",
+    "bytes": 51446,
+    "modified": "2026-06-10T02:01:35",
+    "sha256": "B6937555DEF7D08AB718DF438968A19917D6F854ABD7C7BF7FEFAD78D4BF77FB",
+    "pages": 3,
+    "text_characters": 5963,
+    "text_sha256": "3C8F530A5020E4D2E3AF0616874B67D0D1C238834531CD3F40371CBAA0EAABB4",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Title": "Political Intelligence & Campaign Operating System (PICOS) Resume",
+      "/Creator": "Typst 0.14.2",
+      "/ModDate": "D:20260609203127Z",
+      "/CreationDate": "D:20260609203127Z"
+    },
+    "text_relative_path": "01_sources/extracted_text/political-intelligence-campaign-operating-system-picos.txt",
+    "json_relative_path": "01_sources/extracted_text/political-intelligence-campaign-operating-system-picos.json",
+    "nearest_text_matches": [
+      {
+        "file_name": "Anuj Avhad.pdf",
+        "jaccard_token_similarity": 0.1618
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy (1).pdf",
+        "jaccard_token_similarity": 0.1614
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy.pdf",
+        "jaccard_token_similarity": 0.1614
+      }
+    ]
+  },
+  {
+    "file_name": "Uday Sangle Campaign Strategy (1).pdf",
+    "relative_path": "01_sources/original_pdfs/Uday Sangle Campaign Strategy (1).pdf",
+    "bytes": 36659,
+    "modified": "2026-06-10T01:59:44",
+    "sha256": "CD3A6C4E39ED16FA5D2B9B1B9C55AB6F642DECC84D46214FBF4D8B828F47D124",
+    "pages": 7,
+    "text_characters": 6174,
+    "text_sha256": "CE9274E80FDEBC428AB422939C4E1A10ACF3BB7AF7027F1F068F355C694C70DE",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Producer": "WeasyPrint 68.0",
+      "/Title": "Uday Sangle Campaign Strategy",
+      "/Author": "ChatGPT Canvas",
+      "/Creator": "ChatGPT"
+    },
+    "text_relative_path": "01_sources/extracted_text/uday-sangle-campaign-strategy-1.txt",
+    "json_relative_path": "01_sources/extracted_text/uday-sangle-campaign-strategy-1.json",
+    "nearest_text_matches": [
+      {
+        "file_name": "Uday Sangle Campaign Strategy.pdf",
+        "jaccard_token_similarity": 1.0
+      },
+      {
+        "file_name": "Uday Sangle Master Profile.pdf",
+        "jaccard_token_similarity": 0.4725
+      },
+      {
+        "file_name": "Anuj Avhad.pdf",
+        "jaccard_token_similarity": 0.2386
+      }
+    ]
+  },
+  {
+    "file_name": "Uday Sangle Campaign Strategy.pdf",
+    "relative_path": "01_sources/original_pdfs/Uday Sangle Campaign Strategy.pdf",
+    "bytes": 36656,
+    "modified": "2026-06-10T01:59:44",
+    "sha256": "425B08CAF3635D30041BFCC33F89D04CA69A859CD7983DC8B2C52D7804639C85",
+    "pages": 7,
+    "text_characters": 6174,
+    "text_sha256": "CE9274E80FDEBC428AB422939C4E1A10ACF3BB7AF7027F1F068F355C694C70DE",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Producer": "WeasyPrint 68.0",
+      "/Title": "Uday Sangle Campaign Strategy",
+      "/Author": "ChatGPT Canvas",
+      "/Creator": "ChatGPT"
+    },
+    "text_relative_path": "01_sources/extracted_text/uday-sangle-campaign-strategy.txt",
+    "json_relative_path": "01_sources/extracted_text/uday-sangle-campaign-strategy.json",
+    "nearest_text_matches": [
+      {
+        "file_name": "Uday Sangle Campaign Strategy (1).pdf",
+        "jaccard_token_similarity": 1.0
+      },
+      {
+        "file_name": "Uday Sangle Master Profile.pdf",
+        "jaccard_token_similarity": 0.4725
+      },
+      {
+        "file_name": "Anuj Avhad.pdf",
+        "jaccard_token_similarity": 0.2386
+      }
+    ]
+  },
+  {
+    "file_name": "Uday Sangle Master Profile.pdf",
+    "relative_path": "01_sources/original_pdfs/Uday Sangle Master Profile.pdf",
+    "bytes": 28435,
+    "modified": "2026-06-10T01:59:44",
+    "sha256": "382E831441F3FBAF19B6449D8A0B116BE6BEFB07C9482B27EF282A419359E446",
+    "pages": 7,
+    "text_characters": 4089,
+    "text_sha256": "5B699380221697C94AD2579F8676AF5F31B9B896857F116E1705F23DE332A8CA",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Producer": "WeasyPrint 68.0",
+      "/Title": "Uday Sangle Master Profile",
+      "/Author": "ChatGPT Canvas",
+      "/Creator": "ChatGPT"
+    },
+    "text_relative_path": "01_sources/extracted_text/uday-sangle-master-profile.txt",
+    "json_relative_path": "01_sources/extracted_text/uday-sangle-master-profile.json",
+    "nearest_text_matches": [
+      {
+        "file_name": "Uday Sangle Campaign Strategy (1).pdf",
+        "jaccard_token_similarity": 0.4725
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy.pdf",
+        "jaccard_token_similarity": 0.4725
+      },
+      {
+        "file_name": "Anuj Avhad.pdf",
+        "jaccard_token_similarity": 0.25
+      }
+    ]
+  },
+  {
+    "file_name": "Uday Sangle Overview (1).pdf",
+    "relative_path": "01_sources/original_pdfs/Uday Sangle Overview (1).pdf",
+    "bytes": 49267,
+    "modified": "2026-06-10T01:59:44",
+    "sha256": "563A3D10876DA2C8E4DF68FD5D075E4A6AF3E077B4E10C7DBEA18865DE2AC596",
+    "pages": 5,
+    "text_characters": 10787,
+    "text_sha256": "0479086AB5DE120C678A6E1F774EC8BBC4FD6EF9A7B7D7AFE44BEF7215AD217E",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Producer": "WeasyPrint 68.0",
+      "/Title": "Uday Sangle Overview",
+      "/Author": "ChatGPT Deep Research",
+      "/Creator": "ChatGPT"
+    },
+    "text_relative_path": "01_sources/extracted_text/uday-sangle-overview-1.txt",
+    "json_relative_path": "01_sources/extracted_text/uday-sangle-overview-1.json",
+    "nearest_text_matches": [
+      {
+        "file_name": "Uday Sangle Overview.pdf",
+        "jaccard_token_similarity": 0.3961
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy (1).pdf",
+        "jaccard_token_similarity": 0.1814
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy.pdf",
+        "jaccard_token_similarity": 0.1814
+      }
+    ]
+  },
+  {
+    "file_name": "Uday Sangle Overview.pdf",
+    "relative_path": "01_sources/original_pdfs/Uday Sangle Overview.pdf",
+    "bytes": 69636,
+    "modified": "2026-06-10T01:59:44",
+    "sha256": "1E4278E29F3161CB1C825B689BB217E73B5C44F3CBE2A7B7639C8417A94B491E",
+    "pages": 6,
+    "text_characters": 15100,
+    "text_sha256": "17A40DA3B2443B2592F020E8F32E4A77F791A7AB42453D9487B44BA952D5FB91",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Producer": "WeasyPrint 68.0",
+      "/Title": "Uday Sangle Overview",
+      "/Author": "ChatGPT Deep Research",
+      "/Creator": "ChatGPT"
+    },
+    "text_relative_path": "01_sources/extracted_text/uday-sangle-overview.txt",
+    "json_relative_path": "01_sources/extracted_text/uday-sangle-overview.json",
+    "nearest_text_matches": [
+      {
+        "file_name": "Uday Sangle Overview (1).pdf",
+        "jaccard_token_similarity": 0.3961
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy (1).pdf",
+        "jaccard_token_similarity": 0.176
+      },
+      {
+        "file_name": "Uday Sangle Campaign Strategy.pdf",
+        "jaccard_token_similarity": 0.176
+      }
+    ]
+  }
+]

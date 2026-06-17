@@ -1,0 +1,36 @@
+{
+  "source": {
+    "file_name": "Political Intelligence & Campaign Operating System (PICOS).pdf",
+    "relative_path": "01_sources/original_pdfs/Political Intelligence & Campaign Operating System (PICOS).pdf",
+    "bytes": 51446,
+    "modified": "2026-06-10T02:01:35",
+    "sha256": "B6937555DEF7D08AB718DF438968A19917D6F854ABD7C7BF7FEFAD78D4BF77FB",
+    "pages": 3,
+    "text_characters": 5963,
+    "text_sha256": "3C8F530A5020E4D2E3AF0616874B67D0D1C238834531CD3F40371CBAA0EAABB4",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Title": "Political Intelligence & Campaign Operating System (PICOS) Resume",
+      "/Creator": "Typst 0.14.2",
+      "/ModDate": "D:20260609203127Z",
+      "/CreationDate": "D:20260609203127Z"
+    }
+  },
+  "pages": [
+    {
+      "page": 1,
+      "characters": 2585,
+      "text": "Political Intelligence & Campaign \nOperating System (PICOS)\nVersion: 1.0  |  Status: Planning  |  Prepared By: Avhad Enterprises  |  Pilot Client: Uday Sangle  |  Location: Sinnar, \nNashik, Maharashtra\nSUMMARY\nPICOS is a Political Intelligence & Campaign Operating System designed to help political leaders, campaign teams, \nvolunteers, and war rooms manage every aspect of an election campaign and constituency operations through a \ncentralized platform.\nBUSINESS OBJECTIVES\nPrimary Objectives: Increase campaign efficiency; Centralize campaign data; Improve decision-making; Track voter \nsentiment; Manage volunteers; Monitor opponents; Run digital campaigns; Provide real-time intelligence; Support \nelection-winning strategies.\nUSER TYPES\nSuper Admin: Avhad Enterprises (Full Access). Candidate: Uday Sangle (View everything, Approve campaigns, \nApprove communications, View analytics). Campaign Manager: Manage campaign operations, Assign tasks, Manage \nvolunteers, Track performance. Intelligence Team: Research, Competitor tracking, Issue tracking, Sentiment analysis, \nMedia analysis. Content Team: Social media, Design, Video, Website content, Speech content. V olunteer: Limited \naccess, Assigned tasks, Booth reporting, Village reporting. Booth Coordinator: Manage booth-level operations, Track \nlocal workers, Collect local intelligence. Constituency Coordinator: Manage multiple booths, Track local issues, \nCoordinate events.\nCORE MODULES\nModule 01 Political Intelligence; Module 02 Constituency Intelligence; Module 03 Booth Intelligence; Module 04 \nV oter Intelligence; Module 05 Issue Mapping; Module 06 V olunteer Management; Module 07 WhatsApp Operations; \nModule 08 Media Monitoring; Module 09 Social Media Management; Module 10 Event Management; Module 11 War \nRoom Dashboard; Module 12 AI Assistant; Module 13 Election Analytics; Module 14 Grievance Management; \nModule 15 Knowledge Base.\nMODULE 01 - POLITICAL INTELLIGENCE\nPurpose: Track political environment. Features: Candidate Profile, Opponent Profile, Party Intelligence, Political \nTimeline, Political Events, Relationship Mapping, Influencer Mapping, Political Risk Tracking, Political Opportunity \nTracking. Outputs: Daily Political Intelligence Report, Weekly Political Intelligence Report, Monthly Intelligence \nReport.\nMODULE 02 - CONSTITUENCY INTELLIGENCE\nStore: Constituency, Villages, Wards, Zones, Population, Communities, Demographics, Economics, Historical V oting \nTrends. Outputs: Constituency Health Score, Political Opportunity Score, Community Influence Map.\nMODULE 03 - BOOTH INTELLIGENCE"
+    },
+    {
+      "page": 2,
+      "characters": 2182,
+      "text": "Store: Booth Number, Village, Total V oters, Male V oters, Female V oters, Youth V oters, Senior V oters, Community Mix, \nPast V oting Pattern, V olunteer Count, Strength Rating, Weakness Rating. Classification: Safe, Lean, Swing, Weak, \nCritical. Outputs: Booth Heat Map, Booth Strength Dashboard.\nMODULE 04 - VOTER INTELLIGENCE\nStore: V oter Segments, Influencer Segments, Farmer Groups, Women Groups, Youth Groups, Business Groups, \nReligious Groups, Sentiment, Support Level, Priority Level. Outputs: Target Audience Dashboard, Community \nDashboard.\nMODULE 05 - ISSUE MAPPING\nTrack: Roads, Water, Employment, Agriculture, Healthcare, Education, Housing, Electricity, Safety, Infrastructure. For \neach issue: Severity, Affected Population, Status, Owner, Political Impact. Outputs: Issue Heat Map, Issue Dashboard.\nMODULE 06 - VOLUNTEER MANAGEMENT\nStore: V olunteer Profile, Location, Booth, Ward, Assigned Tasks, Attendance, Performance, Reports Submitted. \nOutputs: V olunteer Dashboard, Performance Dashboard.\nMODULE 07 - WHATSAPP OPERATIONS\nManage: Worker Groups, Village Groups, Booth Groups, Community Groups, Broadcast Lists, Content Distribution. \nTrack: Reach, Delivery, Engagement. Outputs: WhatsApp Analytics Dashboard.\nMODULE 08 - MEDIA MONITORING\nTrack: News Articles, TV Mentions, Digital Media, YouTube, Facebook Pages, Instagram Pages, Journalists. Outputs: \nMedia Sentiment, Media Reach, Media Risk Alerts.\nMODULE 09 - SOCIAL MEDIA MANAGEMENT\nPlatforms: Facebook, Instagram, YouTube, X, WhatsApp. Features: Content Calendar, Post Management, Campaign \nTracking, Performance Analytics, Sentiment Tracking.\nMODULE 10 - EVENT MANAGEMENT\nTrack: Rallies, Meetings, Village Visits, Press Conferences, V olunteer Drives. Outputs: Event Dashboard, Attendance \nDashboard.\nMODULE 11 - WAR ROOM DASHBOARD\nSingle Screen View. Show: Political Alerts, Social Alerts, Media Alerts, V olunteer Alerts, Issue Alerts, Opponent \nAlerts, Upcoming Events.\nMODULE 12 - AI ASSISTANT\nCapabilities: Speech Generation, Press Release Drafting, Post Generation, Issue Analysis, Sentiment Analysis, FAQ \nHandling, Campaign Recommendations, Knowledge Retrieval.\nMODULE 13 - ELECTION ANALYTICS"
+    },
+    {
+      "page": 3,
+      "characters": 1143,
+      "text": "Track: V ote Share Trends, Booth Trends, Community Trends, V olunteer Activity, Campaign Performance, Predicted \nSupport Score, Winning Probability.\nMODULE 14 - GRIEVANCE MANAGEMENT\nCitizens can submit: Road Complaints, Water Complaints, Electricity Complaints, General Issues. Track: Status, \nPriority, Assigned Person, Resolution.\nMODULE 15 - KNOWLEDGE BASE\nStore: Speeches, Photos, Videos, Articles, Achievements, Manifestos, Projects, FAQs, Research, Campaign Assets.\nINTEGRATIONS\nWhatsApp, Meta, Google Maps, Google Sheets, Google Drive, OpenAI, Claude, Gemini, Email, SMS.\nREPORTING\nDaily, Weekly, Monthly, Election Mode, War Room Mode.\nPHASES\nPhase 1: Political Intelligence, Constituency Intelligence, V olunteer Management, Social Media, Website, WhatsApp. \nPhase 2: Booth Intelligence, Issue Mapping, Media Monitoring, War Room. Phase 3: AI Assistant, Election Analytics, \nPredictive Intelligence, Constituency CRM.\nSUCCESS METRICS\nV olunteer Growth, Engagement Growth, Issue Resolution Rate, Media Reach, Sentiment Score, Booth Coverage, \nCommunity Coverage, Campaign Efficiency, Election Readiness Score, Winning Probability Score."
+    }
+  ]
+}

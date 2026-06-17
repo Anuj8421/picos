@@ -1,0 +1,11 @@
+task_id,priority,question,owner,status,source_needed,output_expected,deadline,notes
+R001,P0,What are the official 2024 Sinnar Assembly vote totals?,,todo,Official ECI Form 20,Verified result record,,Resolve 97,681 vs 105,137 conflict
+R002,P0,What are the booth-wise 2024 results for Sinnar?,,todo,Official booth-wise result sheet,Booth performance table,,Needed for booth classification
+R003,P0,What is Uday Sangle's current formal party status?,,todo,Primary party or candidate confirmation,Verified affiliation note,,Do not assume from reports
+R004,P0,What is Uday Sangle's verified biography?,,todo,Candidate profile resume interviews public records,Definitive biography v1,,Foundation for narrative
+R005,P0,Who is in the campaign organization?,,todo,Internal campaign team list,Organization chart,,Needed for PICOS operations
+R006,P1,What is Kokate's current legal status?,,todo,Court order and current reporting,Legal timeline and risk brief,,Date-sensitive
+R007,P1,Which villages are strong weak swing or critical?,,todo,Village results field reports,Village strength map,,Needed for ground strategy
+R008,P1,What are Uday Sangle's verified achievements?,,todo,Photos documents media records,Achievement evidence library,,Needed for positive narrative
+R009,P2,What issues are active in each village?,,todo,Field reports grievance intake,Issue heat map,,Feeds issue campaign and governance work
+R010,P2,What is public sentiment across supporters neutral voters and opponents?,,todo,Interviews media social listening,Perception report,,Tests narrative hypotheses

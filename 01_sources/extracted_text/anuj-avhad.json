@@ -1,0 +1,26 @@
+{
+  "source": {
+    "file_name": "Anuj Avhad.pdf",
+    "relative_path": "01_sources/original_pdfs/Anuj Avhad.pdf",
+    "bytes": 38363,
+    "modified": "2026-06-10T01:59:44",
+    "sha256": "C197757DFCCEF52AB62E8A587DEA585B53E91FE1D250C69D5689F87245903A25",
+    "pages": 1,
+    "text_characters": 3653,
+    "text_sha256": "DAD7518D28FD26160127337C8E3DE7F42B552E927A3A681C8CA0DC601D72F64C",
+    "extraction_warnings": [],
+    "metadata": {
+      "/Title": "Anuj Avhad Resume",
+      "/Creator": "Typst 0.14.2",
+      "/ModDate": "D:20260608131413Z",
+      "/CreationDate": "D:20260608131413Z"
+    }
+  },
+  "pages": [
+    {
+      "page": 1,
+      "characters": 3636,
+      "text": "Anuj Avhad\nSUMMARY\nProject owner of a Political Intelligence & Digital Campaign System focused on building a complete election \nintelligence, campaign operations, voter analysis, and digital influence system for Sinnar constituency in Nashik \ndistrict, Maharashtra.\nPROJECTS\nPolitical Intelligence & Digital Campaign System  | Master Context Document v1.0\n• Build a complete political intelligence system covering constituency understanding, voter understanding, \ncandidate positioning, opponent analysis, issue identification, digital campaign planning, ground campaign \nsupport, media influence mapping, sentiment monitoring, and election war room management.\n• Current focus: Sinnar constituency in Nashik district, Maharashtra.\n• Initial research conducted around Uday Sangle, Manikrao Kokate, Sinnar political environment, 2024 \nMaharashtra Assembly Election, and potential future political developments.\n• System modules defined: Candidate Intelligence, Constituency Intelligence, Election History, Booth \nIntelligence, Issue Mapping, Opposition Intelligence, Digital Intelligence, Influencer Network, Media \nIntelligence, Legal & Compliance, War Room, and Content Intelligence.\n• Required databases defined: Candidate, Constituency, Village, Booth, Influencer, Media, Issue, Opponent, \nContent, V olunteer, and Campaign Asset databases.\n• Coding and automation objectives include Political CRM, V olunteer Management, Booth Management, Media \nMonitoring Dashboard, Sentiment Analysis Dashboard, Issue Tracking Dashboard, WhatsApp Operations \nDashboard, Election Analytics Dashboard, Political Knowledge Base, and Campaign War Room Software.\n• Operating rules include: never assume, always identify information gaps, support recommendations with \nevidence, maintain source tracking, prioritize booth-level intelligence, and continuously create research tasks \nwhen information is missing.\n• First task scope includes Information Gap Report, Data Collection Framework, Database Schema, Folder \nStructure, Research Plan, Intelligence Gathering Workflow, and Campaign Readiness Scorecard.\nKNOWN INFORMATION - UDAY SANGLE\nPublicly known as political leader from Sinnar, entrepreneur, social activist, sports activist, and founder of Sahyadri \nYuva Manch. Political journey includes long association with Shiv Sena, later joining NCP (Sharad Pawar faction), \ncontesting the 2024 Assembly Election from Sinnar, and subsequently moving toward BJP. Family detail listed: wife \nSheetal Sangle, former President of Nashik Zilla Parishad. Known strengths include strong grassroots network, youth \nmobilization, village-level worker network, and rural Sinnar influence. Information gaps include exact political \ntimeline, business holdings, detailed family structure, cooperative positions, and organizational structure.\nKNOWN INFORMATION - MANIKRAO KOKATE\nKnown as senior Sinnar political leader, multiple-term MLA, and former Maharashtra Cabinet Minister. Strengths \ninclude deep political experience, government access, long-standing constituency network, and cooperative sector \ninfluence. Current situation includes legal proceedings related to a historical EWS housing case, conviction-related \nlegal proceedings, ministerial position lost, and continuation as MLA under ongoing judicial process. Information \nrequired includes legal timeline, political impact analysis, and booth-level support analysis.\n2024 ELECTION SNAPSHOT - SINNAR ASSEMBLY CONSTITUENCY\nManikrao Kokate: approx. 145,501 votes. Uday Sangle: approx. 105,137 votes. Margin: approx. 40,364 votes. Note: \nneeds verification through official Election Commission records."
+    }
+  ]
+}

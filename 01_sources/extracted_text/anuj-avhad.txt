@@ -1,0 +1,44 @@
+--- PAGE 1 ---
+
+Anuj Avhad
+SUMMARY
+Project owner of a Political Intelligence & Digital Campaign System focused on building a complete election 
+intelligence, campaign operations, voter analysis, and digital influence system for Sinnar constituency in Nashik 
+district, Maharashtra.
+PROJECTS
+Political Intelligence & Digital Campaign System  | Master Context Document v1.0
+• Build a complete political intelligence system covering constituency understanding, voter understanding, 
+candidate positioning, opponent analysis, issue identification, digital campaign planning, ground campaign 
+support, media influence mapping, sentiment monitoring, and election war room management.
+• Current focus: Sinnar constituency in Nashik district, Maharashtra.
+• Initial research conducted around Uday Sangle, Manikrao Kokate, Sinnar political environment, 2024 
+Maharashtra Assembly Election, and potential future political developments.
+• System modules defined: Candidate Intelligence, Constituency Intelligence, Election History, Booth 
+Intelligence, Issue Mapping, Opposition Intelligence, Digital Intelligence, Influencer Network, Media 
+Intelligence, Legal & Compliance, War Room, and Content Intelligence.
+• Required databases defined: Candidate, Constituency, Village, Booth, Influencer, Media, Issue, Opponent, 
+Content, V olunteer, and Campaign Asset databases.
+• Coding and automation objectives include Political CRM, V olunteer Management, Booth Management, Media 
+Monitoring Dashboard, Sentiment Analysis Dashboard, Issue Tracking Dashboard, WhatsApp Operations 
+Dashboard, Election Analytics Dashboard, Political Knowledge Base, and Campaign War Room Software.
+• Operating rules include: never assume, always identify information gaps, support recommendations with 
+evidence, maintain source tracking, prioritize booth-level intelligence, and continuously create research tasks 
+when information is missing.
+• First task scope includes Information Gap Report, Data Collection Framework, Database Schema, Folder 
+Structure, Research Plan, Intelligence Gathering Workflow, and Campaign Readiness Scorecard.
+KNOWN INFORMATION - UDAY SANGLE
+Publicly known as political leader from Sinnar, entrepreneur, social activist, sports activist, and founder of Sahyadri 
+Yuva Manch. Political journey includes long association with Shiv Sena, later joining NCP (Sharad Pawar faction), 
+contesting the 2024 Assembly Election from Sinnar, and subsequently moving toward BJP. Family detail listed: wife 
+Sheetal Sangle, former President of Nashik Zilla Parishad. Known strengths include strong grassroots network, youth 
+mobilization, village-level worker network, and rural Sinnar influence. Information gaps include exact political 
+timeline, business holdings, detailed family structure, cooperative positions, and organizational structure.
+KNOWN INFORMATION - MANIKRAO KOKATE
+Known as senior Sinnar political leader, multiple-term MLA, and former Maharashtra Cabinet Minister. Strengths 
+include deep political experience, government access, long-standing constituency network, and cooperative sector 
+influence. Current situation includes legal proceedings related to a historical EWS housing case, conviction-related 
+legal proceedings, ministerial position lost, and continuation as MLA under ongoing judicial process. Information 
+required includes legal timeline, political impact analysis, and booth-level support analysis.
+2024 ELECTION SNAPSHOT - SINNAR ASSEMBLY CONSTITUENCY
+Manikrao Kokate: approx. 145,501 votes. Uday Sangle: approx. 105,137 votes. Margin: approx. 40,364 votes. Note: 
+needs verification through official Election Commission records.

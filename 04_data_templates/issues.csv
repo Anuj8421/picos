@@ -1,0 +1,9 @@
+issue_id,issue_type,location,village_id,severity,affected_population,status,owner,political_impact,evidence_source,notes
+I001,Irrigation and water,Sinnar,,,,todo,,high,S006,Repeatedly cited as rural/farmer priority
+I002,Crop prices and agricultural markets,Sinnar,,,,todo,,high,S006,Connect to farmer and APMC narrative
+I003,Youth employment,Sinnar,,,,todo,,high,S006,Important for youth-facing positioning
+I004,Roads and transport infrastructure,Sinnar,,,,todo,,medium,S006,Urban and rural grievance category
+I005,Clean governance and corruption concerns,Sinnar,,,,todo,,high,S003,Use only source-backed claims
+I006,Healthcare access,Sinnar,,,,todo,,medium,S002,Included in PICOS issue mapping categories
+I007,Education access,Sinnar,,,,todo,,medium,S002,Included in PICOS issue mapping categories
+I008,Electricity and housing,Sinnar,,,,todo,,medium,S002,Included in PICOS issue mapping categories

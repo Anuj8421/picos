@@ -1,0 +1,13 @@
+source_id,title,source_type,url_or_path,publisher,date_published,date_checked,reliability,notes
+S001,Anuj Avhad,pdf,01_sources/original_pdfs/Anuj Avhad.pdf,Internal PDF,2026-06-08,2026-06-10,medium,Project owner and system scope
+S002,Political Intelligence & Campaign Operating System PICOS,pdf,01_sources/original_pdfs/Political Intelligence & Campaign Operating System (PICOS).pdf,Internal PDF,2026-06-09,2026-06-10,medium,Product architecture and module list
+S003,Uday Sangle Campaign Strategy,pdf,01_sources/original_pdfs/Uday Sangle Campaign Strategy.pdf,Internal PDF,unknown,2026-06-10,medium,Canonical campaign strategy text
+S004,Uday Sangle Campaign Strategy duplicate,pdf,01_sources/original_pdfs/Uday Sangle Campaign Strategy (1).pdf,Internal PDF,unknown,2026-06-10,medium,Preserved duplicate; text identical to S003
+S005,Uday Sangle Master Profile,pdf,01_sources/original_pdfs/Uday Sangle Master Profile.pdf,Internal PDF,unknown,2026-06-10,medium,Research objectives and master subject profile
+S006,Uday Sangle Overview,pdf,01_sources/original_pdfs/Uday Sangle Overview.pdf,Internal PDF,unknown,2026-06-10,medium,Comprehensive competitor analysis
+S007,Uday Sangle Overview alternate,pdf,01_sources/original_pdfs/Uday Sangle Overview (1).pdf,Internal PDF,unknown,2026-06-10,medium,Alternate competitor analysis
+S008,2024 Maharashtra Legislative Assembly election result table,web,https://en.wikipedia.org/wiki/2024_Maharashtra_Legislative_Assembly_election,Wikipedia,unknown,2026-06-10,medium,Temporary corroboration only; collect official ECI Form 20
+S009,NCP SP expels Uday Sangle of Sinnar,web,https://timesofindia.indiatimes.com/city/nashik/ncp-sp-expels-uday-sangle-of-sinnar-and-sunita-charoskar-of-dindori/articleshow/125039857.cms,Times of India,2025-11-03,2026-06-10,medium,Supports expulsion and reported BJP proximity
+S010,SC partial relief for Manikrao Kokate,web,https://timesofindia.indiatimes.com/india/partial-relief-sc-stays-conviction-of-ncps-manikrao-kokate-in-fraud-case-ex-minister-wont-be-disqualified-as-mla/articleshow/126119823.cms,Times of India,2025-12-22,2026-06-10,medium,Legal status update; verify against court order before public use
+S011,Kokate stripped of portfolio,web,https://economictimes.indiatimes.com/news/politics-and-nation/ncps-manikrao-kokate-stripped-of-portfolio-as-court-issues-arrest-warrant/articleshow/126044652.cms,Economic Times,2025-12-18,2026-06-10,medium,Portfolio removal and court matter reporting
+S012,NCP accepts Kokate resignation,web,https://economictimes.indiatimes.com/news/politics-and-nation/ncp-accepts-minister-manikrao-kokates-resignation/articleshow/126063553.cms,Economic Times,2025-12-19,2026-06-10,medium,Resignation reporting
