@@ -130,7 +130,6 @@ export function SupportAnalysisCenter() {
           <ActionCenter />
         </div>
 
-        <SupportRightPanel queuedActions={queuedActions} />
       </main>
     </PlatformShell>
   );
@@ -445,20 +444,6 @@ function ActionCenter() {
   );
 }
 
-function SupportRightPanel({ queuedActions }: { queuedActions: string[] }) {
-  return (
-    <aside className="voter-intel-panel support-intel-panel">
-      <SectionHeader title="Support Intel Panel" eyebrow="Always-on support watch" />
-      <PanelList title="Support Alerts" items={supportAnalysisData.recommendations.slice(0, 3).map((item) => item.recommendation)} />
-      <PanelList title="Support Gains" items={supportAnalysisData.gains.map((item) => `${item.community} ${item.village}: ${item.expectedVotes.toLocaleString()} votes`)} />
-      <PanelList title="Support Losses" items={supportAnalysisData.losses.map((item) => `${item.village}: ${item.potentialVoteLoss.toLocaleString()} vote loss`)} />
-      <PanelList title="Top Risks" items={supportAnalysisData.losses.slice(0, 3).map((item) => `${item.segment}: ${item.reason}`)} />
-      <PanelList title="Top Opportunities" items={supportAnalysisData.gains.slice(0, 3).map((item) => `${item.segment}: ${item.reason}`)} />
-      <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : supportAnalysisData.movement.map((item) => item.change)} />
-    </aside>
-  );
-}
-
 function MetricBlock({ label, value }: { label: string; value: string | number }) {
   return (
     <article className="support-score-card">
@@ -474,17 +459,6 @@ function MetricGrid({ title, eyebrow, rows }: { title: string; eyebrow: string; 
       <SectionHeader title={title} eyebrow={eyebrow} />
       <div className="support-score-grid compact-support-grid">
         {rows.map(([label, value]) => <MetricBlock label={label} value={value} key={label} />)}
-      </div>
-    </section>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

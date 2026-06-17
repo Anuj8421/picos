@@ -181,16 +181,6 @@ const campaignStructureSections = [
   ["rosters", "Shift / Rosters", "/campaign-structure/rosters"]
 ] as const;
 
-const mainDashboardSections = [
-  ["overview", "Executive Overview", "/#overview"],
-  ["critical-alerts", "Critical Alerts", "/#critical-alerts"],
-  ["module-health", "Module Health", "/#module-health"],
-  ["data-operations", "Data Operations", "/#data-operations"],
-  ["action-center", "Action Center", "/#action-center"],
-  ["reports", "Reports", "/#reports"],
-  ["system-gaps", "System Gaps", "/#system-gaps"]
-] as const;
-
 export function PlatformShell({
   activeCoreModule,
   activeProductSection,
@@ -521,106 +511,5 @@ function CoreModuleExpansion({
       <span>Collapsed module</span>
       <small>This product module is visible in the PICOS structure and will be expanded when its screens are built.</small>
     </div>
-  );
-}
-
-function ActiveModuleNav({
-  activeCoreModule,
-  activeProductSection,
-  activePoliticalSection,
-  activeModuleSection
-}: {
-  activeCoreModule?: CoreModuleId;
-  activeProductSection?: ProductSectionId;
-  activePoliticalSection: (typeof politicalSections)[number][0];
-  activeModuleSection?: string;
-}) {
-  const activeModule = activeCoreModule ? coreModules.find((module) => module.id === activeCoreModule) : undefined;
-  const activeProduct = activeProductSection ? productSections.find((section) => section.id === activeProductSection) : undefined;
-
-  return (
-    <aside className="module-nav-panel" aria-label="Active module internal navigation">
-      <div className="module-nav-brand compact">
-        <div>
-          <strong>{activeProduct?.label ?? activeModule?.label ?? "PICOS"}</strong>
-          <span>{activeProduct ? "Platform-level sections" : "Active module sections"}</span>
-        </div>
-      </div>
-
-      {activeProductSection === "main-dashboard" ? (
-        <nav className="module-nav-group">
-          {mainDashboardSections.map(([id, label, href]) => (
-            <a className={`module-nav-primary ${activeModuleSection === id ? "is-active" : ""}`} href={href} key={id}>
-              {label}
-            </a>
-          ))}
-        </nav>
-      ) : activeProductSection === "reports" ? (
-        <nav className="module-nav-group">
-          <a className="module-nav-primary is-active" href="/reports/daily-brief">Daily Brief</a>
-          <a className="module-nav-primary" href="/constituency/reports">Constituency Reports</a>
-          <a className="module-nav-primary" href="/voter-intelligence/reports">Voter Reports</a>
-        </nav>
-      ) : activeProductSection === "settings" ? (
-        <div className="module-placeholder">
-          <strong>Settings</strong>
-          <p>System, permissions, integrations, security, and data governance settings will live here.</p>
-        </div>
-      ) : activeCoreModule === "political-intelligence" ? (
-        <nav className="module-nav-group">
-          {politicalSections.map(([id, label, href]) => (
-            <a className={`module-nav-primary ${activePoliticalSection === id ? "is-active" : ""}`} href={href} key={id}>
-              {label}
-            </a>
-          ))}
-        </nav>
-      ) : activeCoreModule === "voter-intelligence" ? (
-        <nav className="module-nav-group">
-          {voterSections.map(([id, label, href]) => {
-            const fieldOpsActive = id === "field-operations" && voterFieldOperationSections.some(([fieldId]) => fieldId === activeModuleSection);
-            return (
-              <div className="module-nav-branch" key={id}>
-                <a className={`module-nav-primary ${activeModuleSection === id || fieldOpsActive ? "is-active" : ""}`} href={href}>
-                  {label}
-                </a>
-                {id === "field-operations" ? (
-                  <div className="module-nav-sublist">
-                    {voterFieldOperationSections.map(([fieldId, fieldLabel, fieldHref]) => (
-                      <a className={activeModuleSection === fieldId ? "is-active" : ""} href={fieldHref} key={fieldId}>{fieldLabel}</a>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            );
-          })}
-        </nav>
-      ) : activeCoreModule === "constituency-intelligence" ? (
-        <nav className="module-nav-group">
-          {constituencySections.map(([id, label, href]) => (
-            <a className={`module-nav-primary ${activeModuleSection === id ? "is-active" : ""}`} href={href} key={id}>
-              {label}
-            </a>
-          ))}
-        </nav>
-      ) : activeCoreModule === "campaign-structure" ? (
-        <nav className="module-nav-group">
-          {campaignStructureSections.map(([id, label, href]) => (
-            <a className={`module-nav-primary ${activeModuleSection === id ? "is-active" : ""}`} href={href} key={id}>
-              {label}
-            </a>
-          ))}
-        </nav>
-      ) : (
-        <div className="module-placeholder">
-          <strong>{activeModule?.label ?? "PICOS"}</strong>
-          <p>This module is a collapsed placeholder. Build its internal sections after Political Intelligence data workflows are stable.</p>
-        </div>
-      )}
-
-      <div className="module-nav-status">
-        <span className="status-dot" />
-        <span>Right panel shows active module internals only</span>
-      </div>
-    </aside>
   );
 }

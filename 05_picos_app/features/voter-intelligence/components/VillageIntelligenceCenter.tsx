@@ -128,15 +128,6 @@ export function VillageIntelligenceCenter() {
           <VillageComparisonMode profiles={data.comparisons} compareA={comparisonA} compareB={comparisonB} setCompareA={setCompareA} setCompareB={setCompareB} />
           <VillageActionCenter />
         </div>
-
-        <VillageRightPanel
-          villages={data.command}
-          visits={data.visitPlanner}
-          tasks={data.tasks}
-          risks={data.risks}
-          influencers={data.influencers}
-          queuedActions={queuedActions}
-        />
       </main>
     </PlatformShell>
   );
@@ -465,34 +456,6 @@ function VillageActionCenter() {
       <SectionHeader title="Action Center" eyebrow="Turn village intelligence into ground operations" />
       <div className="voter-action-grid">
         {actions.map(([label, href]) => <a className="action-panel-btn" href={href} key={label}>{label}</a>)}
-      </div>
-    </section>
-  );
-}
-
-function VillageRightPanel({ villages, visits, tasks, risks, influencers, queuedActions }: { villages: typeof villageIntelligenceData.command; visits: typeof villageIntelligenceData.visitPlanner; tasks: typeof villageIntelligenceData.tasks; risks: typeof villageIntelligenceData.risks; influencers: typeof villageIntelligenceData.influencers; queuedActions: string[] }) {
-  const priorityVillages = [...villages].sort((a, b) => b.opportunityScore - a.opportunityScore).slice(0, 3);
-  const riskVillages = [...villages].sort((a, b) => b.riskScore - a.riskScore).slice(0, 3);
-  return (
-    <aside className="voter-intel-panel">
-      <SectionHeader title="Village Intel Panel" eyebrow="Always-on ground operations watch" />
-      <PanelList title="Highest Priority Villages" items={priorityVillages.map((item) => `${item.village}: opportunity ${item.opportunityScore}`)} />
-      <PanelList title="Highest Risk Villages" items={riskVillages.map((item) => `${item.village}: risk ${item.riskScore}`)} />
-      <PanelList title="Upcoming Visits" items={visits.map((item) => `${item.pendingVisit} / ${item.village}`)} />
-      <PanelList title="Pending Village Tasks" items={tasks.map((item) => `${item.village}: ${item.openTasks} open / ${item.overdueTasks} overdue`)} />
-      <PanelList title="Village Alerts" items={risks.map((item) => `${item.village}: ${item.riskType}`)} />
-      <PanelList title="Influencer Alerts" items={influencers.slice(0, 4).map((item) => `${item.village}: ${item.name} / ${item.alignment}`)} />
-      <PanelList title="Queued Actions" items={queuedActions.length ? queuedActions : ["No village actions queued from this session"]} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

@@ -141,14 +141,6 @@ export function HouseholdIntelligenceCenter() {
           <HouseholdComparisonMode profiles={data.comparisons} compareA={comparisonA} compareB={comparisonB} setCompareA={setCompareA} setCompareB={setCompareB} />
           <HouseholdActionCenter />
         </div>
-
-        <HouseholdRightPanel
-          households={data.command}
-          risks={data.risks}
-          visits={data.visits}
-          tasks={data.tasks}
-          queuedActions={queuedActions}
-        />
       </main>
     </PlatformShell>
   );
@@ -494,33 +486,6 @@ function HouseholdActionCenter() {
       <SectionHeader title="Action Center" eyebrow="Turn household intelligence into field action" />
       <div className="voter-action-grid">
         {actions.map(([label, href]) => <a className="action-panel-btn" href={href} key={label}>{label}</a>)}
-      </div>
-    </section>
-  );
-}
-
-function HouseholdRightPanel({ households, risks, visits, tasks, queuedActions }: { households: typeof householdIntelligenceData.command; risks: typeof householdIntelligenceData.risks; visits: typeof householdIntelligenceData.visits; tasks: typeof householdIntelligenceData.tasks; queuedActions: string[] }) {
-  const priorityHouseholds = [...households].sort((a, b) => b.opportunityScore - a.opportunityScore).slice(0, 3);
-  const influenceFamilies = [...households].sort((a, b) => b.influenceScore - a.influenceScore).slice(0, 3);
-  return (
-    <aside className="voter-intel-panel">
-      <SectionHeader title="Household Intel Panel" eyebrow="Always-on family vote watch" />
-      <PanelList title="Highest Priority Households" items={priorityHouseholds.map((item) => `${item.householdName}: opportunity ${item.opportunityScore}`)} />
-      <PanelList title="High Influence Families" items={influenceFamilies.map((item) => `${item.householdName}: influence ${item.influenceScore}`)} />
-      <PanelList title="High Risk Households" items={risks.map((item) => `${item.household}: ${item.riskType}`)} />
-      <PanelList title="Upcoming Visits" items={visits.slice(0, 4).map((item) => `${item.visitDate} / ${item.visitor}`)} />
-      <PanelList title="Pending Tasks" items={tasks.map((item) => `${item.household}: ${item.openTasks} open / ${item.overdueTasks} overdue`)} />
-      <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : ["No household actions queued from this session"]} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

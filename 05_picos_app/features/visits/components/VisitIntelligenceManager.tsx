@@ -2,8 +2,7 @@ import { EvidenceDrawer } from "@/features/evidence/components/EvidenceDrawer";
 import { PlatformShell } from "@/features/platform/PlatformShell";
 import { ConfidenceBadge, VerificationBadge } from "@/features/shared/intelligenceBadges";
 import { SourceAttachmentPanel } from "@/features/sources/components/SourceAttachmentPanel";
-import { AssignedTaskList, CreateTaskButton } from "@/features/tasks/components/TaskComponents";
-import { findEvidenceFor, findSources, findTasksFor, repository } from "@/lib/domain/repositories";
+import { findEvidenceFor, findSources, repository } from "@/lib/domain/repositories";
 import type { Priority, VerificationStatus } from "@/lib/domain/enums";
 import type { ApprovalStatus, VisitFollowUp, VisitRecord, VisitType } from "@/lib/domain/types";
 import type { ReactNode } from "react";
@@ -33,7 +32,6 @@ const approvalOptions: ApprovalStatus[] = ["draft", "pending_review", "approved"
 
 export function VisitDashboardPage() {
   const visits = repository.visitRecords;
-  const focusVisit = visits.find((visit) => visit.status === "escalated") ?? visits[0];
   const scheduled = visits.filter((visit) => ["planned", "scheduled", "in_progress"].includes(visit.status));
   const completed = visits.filter((visit) => ["completed", "follow_up_required"].includes(visit.status));
   const followUpVisits = visits.filter((visit) => visit.status === "follow_up_required" || visit.followUpsRequired);
@@ -174,8 +172,6 @@ export function VisitDashboardPage() {
             </div>
           </section>
         </section>
-
-        <VisitContextPanel visit={focusVisit} />
       </main>
     </VisitShell>
   );
@@ -198,8 +194,6 @@ export function VisitDetailPage({ id }: { id: string }) {
   const visit = getVisit(id);
   const sources = findSources(visit.sourceIds);
   const evidence = findEvidenceFor("visit_record", visit.id);
-  const tasks = findTasksFor("visit_record", visit.id);
-  const followUps = followUpsForVisit(visit.id);
   const outcomes = repository.visitOutcomes.filter((outcome) => outcome.visitRecordId === visit.id);
   const participants = repository.visitParticipants.filter((participant) => participant.visitRecordId === visit.id);
 
@@ -325,8 +319,6 @@ export function VisitDetailPage({ id }: { id: string }) {
             </div>
           </section>
         </section>
-
-        <VisitContextPanel visit={visit} followUps={followUps} tasks={tasks} />
       </main>
     </VisitShell>
   );
@@ -389,7 +381,6 @@ export function VisitCalendarPage() {
             <VisitListPanel title="Daily View" eyebrow={today} visits={visits.filter((visit) => visit.scheduledDate === today || visit.nextActionDueDate === today)} />
           </section>
         </section>
-        <VisitContextPanel visit={visits[0]} />
       </main>
     </VisitShell>
   );
@@ -464,7 +455,6 @@ export function VisitFollowUpsPage() {
             </div>
           </section>
         </section>
-        <VisitContextPanel visit={getVisit(followUps[0]?.visitRecordId ?? repository.visitRecords[0].id)} />
       </main>
     </VisitShell>
   );
@@ -532,7 +522,6 @@ export function VisitReportsPage() {
             </div>
           </section>
         </section>
-        <VisitContextPanel visit={repository.visitRecords[0]} />
       </main>
     </VisitShell>
   );
@@ -541,7 +530,6 @@ export function VisitReportsPage() {
 function VisitForm({ mode, visit }: { mode: "new" | "edit"; visit?: VisitRecord }) {
   const sources = findSources(visit?.sourceIds ?? []);
   const evidence = visit ? findEvidenceFor("visit_record", visit.id) : [];
-  const tasks = visit ? findTasksFor("visit_record", visit.id) : [];
 
   return (
     <main className="visit-form-layout">
@@ -683,8 +671,6 @@ function VisitForm({ mode, visit }: { mode: "new" | "edit"; visit?: VisitRecord 
           <a href="/visits">Cancel</a>
         </section>
       </form>
-
-      <VisitContextPanel visit={visit ?? repository.visitRecords[0]} tasks={tasks} />
     </main>
   );
 }
@@ -786,63 +772,6 @@ function VisitFilters({ compact = false }: { compact?: boolean }) {
         </select>
       </label>
     </section>
-  );
-}
-
-function VisitContextPanel({ visit, followUps, tasks }: { visit: VisitRecord; followUps?: VisitFollowUp[]; tasks?: ReturnType<typeof findTasksFor> }) {
-  const sources = findSources(visit.sourceIds);
-  const evidence = findEvidenceFor("visit_record", visit.id);
-  const relatedTasks = tasks ?? findTasksFor("visit_record", visit.id);
-  const relatedFollowUps = followUps ?? followUpsForVisit(visit.id);
-
-  return (
-    <aside className="manager-context-panel visit-context-panel">
-      <section className="context-card">
-        <h3>Right Context Panel</h3>
-        <p>{visit.visitTitle}</p>
-        <div className="badge-row">
-          <VerificationBadge status={visit.verificationStatus} />
-          <ConfidenceBadge score={visit.confidenceScore} />
-        </div>
-      </section>
-      <section className="context-card">
-        <h3>Related Owner</h3>
-        <div className="context-list">
-          <ContextRow label="Primary" value={ownerName(visit.primaryOwnerId)} />
-          <ContextRow label="Coordinator" value={ownerName(visit.coordinatorId)} />
-          <ContextRow label="Escalation" value={ownerName(visit.escalationOwnerId)} />
-        </div>
-      </section>
-      <section className="context-card">
-        <h3>Related Entity</h3>
-        <p>{relatedEntityLabel(visit)}</p>
-        <p>{villageName(visit.villageId)} / {boothName(visit.boothId)} / {communityName(visit.communityId)}</p>
-      </section>
-      <AssignedTaskList tasks={relatedTasks} />
-      <section className="context-card">
-        <h3>Related Promises</h3>
-        <p>{visit.promisesMade || "No promise recorded yet."}</p>
-      </section>
-      <section className="context-card">
-        <h3>Related Follow-ups</h3>
-        <div className="context-list">
-          {relatedFollowUps.length ? relatedFollowUps.map((followUp) => (
-            <article className="context-row" key={followUp.id}>
-              <StatusChip value={followUp.status} />
-              <strong>{followUp.title}</strong>
-              <span>{ownerName(followUp.ownerId)} / due {followUp.dueDate}</span>
-            </article>
-          )) : <p>No follow-ups linked yet.</p>}
-        </div>
-      </section>
-      <EvidenceDrawer evidence={evidence} sources={sources} />
-      <SourceAttachmentPanel sources={sources} />
-      <section className="context-card">
-        <h3>Verification Gate</h3>
-        <p>{visit.reviewNotes}</p>
-        <CreateTaskButton relatedEntityType="visit_record" relatedEntityId={visit.id} label="Create Visit Task" />
-      </section>
-    </aside>
   );
 }
 
@@ -1047,15 +976,6 @@ function VoteImpact({ value }: { value: number }) {
 
 function StatusChip({ value }: { value: string }) {
   return <span className={`table-status status-${value.replaceAll("_", "-")}`}>{formatLabel(value)}</span>;
-}
-
-function ContextRow({ label, value }: { label: string; value: string }) {
-  return (
-    <article className="context-row">
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </article>
-  );
 }
 
 function getVisit(id: string) {

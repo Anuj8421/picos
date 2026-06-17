@@ -123,7 +123,6 @@ export function PersuasionIntelligenceCenter() {
           <ActionCenter />
         </div>
 
-        <PersuasionRightPanel opportunities={data.opportunities} queuedActions={queuedActions} />
       </main>
     </PlatformShell>
   );
@@ -437,38 +436,6 @@ function ActionCenter() {
       <SectionHeader title="Action Center" eyebrow="Turn conversion intelligence into campaign execution" />
       <div className="voter-action-grid">
         {actions.map(([label, href]) => <a className="action-panel-btn" href={href} key={label}>{label}</a>)}
-      </div>
-    </section>
-  );
-}
-
-function PersuasionRightPanel({ opportunities, queuedActions }: { opportunities: PersuasionOpportunity[]; queuedActions: string[] }) {
-  const topOpportunities = [...opportunities].sort((a, b) => b.expectedVoteGain - a.expectedVoteGain).slice(0, 3);
-  const highVillages = persuasionIntelligenceData.villages.filter((item) => item.priority === "Critical" || item.priority === "High").slice(0, 4);
-  const highCommunities = persuasionIntelligenceData.communities.filter((item) => item.priority === "Critical" || item.priority === "High").slice(0, 4);
-  const highInfluencers = persuasionIntelligenceData.influencers.filter((item) => item.priority === "Critical" || item.priority === "High").slice(0, 4);
-  const pendingActions = persuasionIntelligenceData.tasks.map((item) => `${item.campaign}: ${item.openTasks} open / ${item.overdueTasks} overdue`);
-
-  return (
-    <aside className="voter-intel-panel persuasion-intel-panel">
-      <SectionHeader title="Persuasion Intel Panel" eyebrow="Always-on conversion watch" />
-      <PanelList title="Top Conversion Opportunities" items={topOpportunities.map((item) => `${item.opportunity}: ${item.expectedVoteGain.toLocaleString()} votes / ${item.conversionProbability}%`)} />
-      <PanelList title="High Priority Villages" items={highVillages.map((item) => `${item.village}: ${item.expectedGain.toLocaleString()} gain / ${item.priority}`)} />
-      <PanelList title="High Priority Communities" items={highCommunities.map((item) => `${item.community}: score ${item.opportunityScore} / ${item.expectedGain.toLocaleString()} gain`)} />
-      <PanelList title="High Priority Influencers" items={highInfluencers.map((item) => `${item.influencer}: reach ${item.influenceReach.toLocaleString()}`)} />
-      <PanelList title="Pending Actions" items={pendingActions} />
-      <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : ["No persuasion actions queued from this session"]} />
-      <PanelList title="Alerts" items={["Cooperative network needs neutral bridge before direct engagement", "Youth employment circuit is the highest-probability conversion path", "Field proof required before public irrigation claims"]} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

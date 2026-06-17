@@ -106,8 +106,6 @@ export function OwnershipRegistryDashboard() {
             <AiOwnershipRecommendations />
           </div>
         </div>
-
-        <OwnershipSidePanel />
       </main>
     </PlatformShell>
   );
@@ -390,40 +388,6 @@ function AiOwnershipRecommendations() {
             <p>{reason}</p>
           </article>
         ))}
-      </div>
-    </section>
-  );
-}
-
-function OwnershipSidePanel() {
-  const escalated = repository.ownershipRecords.filter((record) => record.ownershipStatus === "escalated");
-  const overdue = repository.ownershipRecords.filter((record) => record.ownershipStatus === "overdue_review");
-  const unassigned = repository.ownershipRecords.filter((record) => record.ownershipStatus === "unassigned");
-  return (
-    <aside className="voter-intel-panel ownership-intel-panel">
-      <SectionHeader title="Ownership Watch" eyebrow="Accountability status" />
-      <PanelList title="Escalated Records" items={escalated.map((record) => `${record.entityName}: ${ownerName(record.escalationOwnerId)}`)} />
-      <PanelList title="Overdue Reviews" items={overdue.map((record) => `${record.entityName}: review due ${record.nextReviewDate}`)} />
-      <PanelList title="Unassigned Records" items={unassigned.map((record) => `${record.entityType}: ${record.entityName}`)} />
-      <PanelList title="Overloaded Owners" items={repository.owners.filter((owner) => owner.status === "overloaded").map((owner) => `${owner.fullName}: ${owner.overdueActions} overdue`)} />
-      <section className="context-card">
-        <h3>Verification State</h3>
-        <div className="badge-row">
-          <VerificationBadge status="needs_verification" />
-          <ConfidenceBadge score={58} />
-        </div>
-        <p>Ownership data is mock operational intelligence. Verify owners before field use.</p>
-      </section>
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.length ? items.map((item) => <article className="context-row" key={item}>{item}</article>) : <article className="context-row">No records in this category.</article>}
       </div>
     </section>
   );

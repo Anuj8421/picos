@@ -502,20 +502,6 @@ a {
   height: 6px;
 }
 
-.module-nav-panel {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  border-left: 1px solid var(--line);
-  background: rgba(13, 15, 18, 0.97);
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow-y: auto;
-  z-index: 30;
-}
-
 .module-nav-brand {
   display: flex;
   align-items: center;
@@ -2799,38 +2785,6 @@ td {
   gap: 8px;
 }
 
-.voter-intel-panel {
-  position: sticky;
-  top: 174px;
-  max-height: calc(100vh - 190px);
-  overflow: auto;
-  border: 1px solid var(--line);
-  background: rgba(17, 19, 22, 0.98);
-  border-radius: 8px;
-  padding: 14px;
-  display: grid;
-  gap: 12px;
-}
-
-.voter-intel-panel .context-card {
-  border: 0;
-  border-top: 1px solid var(--line-soft);
-  background: transparent;
-  border-radius: 0;
-  padding: 12px 0 0;
-}
-
-.voter-intel-panel .context-card h3 {
-  margin: 0 0 8px;
-  color: var(--amber);
-  font-size: 13px;
-}
-
-.voter-intel-panel .context-row {
-  border-left: 2px solid rgba(75, 184, 216, 0.6);
-  background: rgba(255, 255, 255, 0.025);
-}
-
 .community-priority-grid .political-risk strong {
   color: #a5e3c4;
 }
@@ -4246,7 +4200,7 @@ tr.is-selected-row td {
 .ownership-workspace {
   padding: 20px 24px 48px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   align-items: start;
 }
@@ -4420,7 +4374,7 @@ tr.is-selected-row td {
 .visit-detail-layout {
   padding: 20px 24px 48px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   align-items: start;
 }
@@ -4539,10 +4493,6 @@ tr.is-selected-row td {
   background: rgba(225, 93, 82, 0.08);
 }
 
-.visit-context-panel {
-  top: 118px;
-}
-
 .visit-snapshot {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.85fr);
@@ -4628,7 +4578,7 @@ tr.is-selected-row td {
 .visit-form-layout {
   padding: 20px 24px 48px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   align-items: start;
 }
@@ -4810,10 +4760,6 @@ tr.is-selected-row td {
   .visit-form-layout {
     grid-template-columns: 1fr;
   }
-
-  .visit-context-panel {
-    position: static;
-  }
 }
 
 @media (max-width: 1024px) {
@@ -4945,7 +4891,6 @@ tr.is-selected-row td {
 .manager-list-toolbar,
 .manager-table-panel,
 .manager-detail-main,
-.manager-context-panel,
 .manager-form,
 .form-section,
 .attachment-panel,
@@ -5049,25 +4994,19 @@ tr.is-selected-row td {
 .manager-form-layout {
   padding: 20px 24px 48px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   align-items: flex-start;
 }
 
 .manager-form-layout {
-  grid-template-columns: minmax(0, 1fr) 320px;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .manager-detail-main,
-.manager-form,
-.manager-context-panel {
+.manager-form {
   display: grid;
   gap: 14px;
-}
-
-.manager-context-panel {
-  position: sticky;
-  top: 118px;
 }
 
 .manager-record-grid,
@@ -5213,7 +5152,7 @@ tr.is-selected-row td {
 }
 
 .voter-form-layout {
-  grid-template-columns: minmax(0, 1fr) 340px;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .voter-intelligence-form {
@@ -5393,47 +5332,6 @@ tr.is-selected-row td {
   font-weight: 700;
 }
 
-.voter-generated-panel {
-  position: sticky;
-  top: calc(var(--global-header-height) + 16px);
-  display: grid;
-  gap: 12px;
-}
-
-.voter-generated-card {
-  background: rgba(23, 26, 31, 0.96);
-}
-
-.voter-generated-card h3 {
-  margin: 4px 0 10px;
-}
-
-.generated-intel-list {
-  display: grid;
-  gap: 8px;
-}
-
-.generated-intel-row {
-  border: 1px solid var(--line-soft);
-  background: rgba(255, 255, 255, 0.025);
-  border-radius: 7px;
-  padding: 9px;
-  display: grid;
-  gap: 4px;
-}
-
-.generated-intel-row span {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.generated-intel-row strong {
-  color: var(--text);
-  font-size: 13px;
-  line-height: 1.25;
-  overflow-wrap: anywhere;
-}
-
 #voter-tab-basic-profile:checked ~ .voter-tab-list label[for="voter-tab-basic-profile"],
 #voter-tab-household-demographics:checked ~ .voter-tab-list label[for="voter-tab-household-demographics"],
 #voter-tab-political-intelligence:checked ~ .voter-tab-list label[for="voter-tab-political-intelligence"],
@@ -5513,11 +5411,6 @@ tr.is-selected-row td {
     grid-template-columns: 1fr;
   }
 
-  .voter-intel-panel {
-    position: static;
-    max-height: none;
-  }
-
   .voter-filter-rail {
     grid-template-columns: repeat(3, minmax(120px, 1fr));
   }
@@ -5571,7 +5464,6 @@ tr.is-selected-row td {
 
   .sidebar,
   .product-sidebar,
-  .module-nav-panel,
   .candidate-action-panel {
     position: static;
     height: auto;
@@ -5595,12 +5487,6 @@ tr.is-selected-row td {
     top: calc(var(--global-header-height) + 98px);
     grid-template-columns: repeat(2, minmax(120px, 1fr));
   }
-
-  .module-nav-panel {
-    border-left: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
   .product-sidebar {
     border-right: 0;
     border-bottom: 1px solid var(--line);
@@ -5656,14 +5542,6 @@ tr.is-selected-row td {
 
   .support-trend-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .manager-context-panel {
-    position: static;
-  }
-
-  .voter-generated-panel {
-    position: static;
   }
 
   .voter-form-layout,
@@ -6171,7 +6049,7 @@ tr.is-selected-row td {
 
 .campaign-manager-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 340px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   align-items: start;
 }

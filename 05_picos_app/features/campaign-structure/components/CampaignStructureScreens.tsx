@@ -3,7 +3,7 @@ import { PlatformShell } from "@/features/platform/PlatformShell";
 import { CountPill, PriorityChip, SectionHeader } from "@/features/political-intelligence/components/common";
 import { ConfidenceBadge, VerificationBadge } from "@/features/shared/intelligenceBadges";
 import { SourceAttachmentPanel } from "@/features/sources/components/SourceAttachmentPanel";
-import { AssignedTaskList, CreateTaskButton, TaskStatusBadge } from "@/features/tasks/components/TaskComponents";
+import { CreateTaskButton, TaskStatusBadge } from "@/features/tasks/components/TaskComponents";
 import {
   getCampaignCoverageSummary,
   getCampaignStructureRecommendations,
@@ -11,8 +11,7 @@ import {
   repository,
   entityDisplayName,
   findEvidenceFor,
-  findSources,
-  findTasksFor
+  findSources
 } from "@/lib/domain/repositories";
 import type { BaseEntity, CoverageGap, EscalationChain } from "@/lib/domain/types";
 
@@ -416,10 +415,6 @@ function CoverageMapScreen() {
 
 function CampaignStructureManager({ screen }: { screen: Exclude<CampaignStructureScreen, "dashboard" | "org-chart" | "coverage-map"> }) {
   const config = getManagerConfig(screen);
-  const sources = findSources(config.rows.flatMap((row) => row.sourceIds).slice(0, 3));
-  const evidence = findEvidenceFor(config.entityType, config.rows[0]?.id ?? "");
-  const tasks = config.rows[0] ? findTasksFor(config.rows[0].entityType, config.rows[0].id) : [];
-
   return (
     <main className="campaign-structure-workspace">
       <section className="overview-bar campaign-manager-overview">
@@ -483,16 +478,6 @@ function CampaignStructureManager({ screen }: { screen: Exclude<CampaignStructur
 
       <section className="campaign-manager-grid">
         <ManualEntryFrame config={config} />
-        <section className="manager-context-panel">
-          <h3>Source, Evidence, Task, Audit</h3>
-          <SourceAttachmentPanel sources={sources} />
-          <EvidenceDrawer evidence={evidence} sources={sources} />
-          <AssignedTaskList tasks={tasks} />
-          <section className="audit-placeholder">
-            <h3>Audit trail placeholder</h3>
-            <p>Every assignment, reporting-line change, roster edit, and escalation decision will produce an audit record with actor, date checked, source, confidence, and approval status.</p>
-          </section>
-        </section>
       </section>
 
       {screen === "escalation-matrix" ? <EscalationPathExamples /> : null}

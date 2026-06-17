@@ -127,7 +127,6 @@ export function VoterSegmentsIntelligenceCenter() {
           <ActionCenter />
         </div>
 
-        <SegmentRightPanel queuedActions={queuedActions} />
       </main>
     </PlatformShell>
   );
@@ -429,36 +428,6 @@ function ActionCenter() {
       <SectionHeader title="Action Center" eyebrow="Turn segment intelligence into campaign targeting action" />
       <div className="voter-action-grid">
         {actions.map(([label, href]) => <a className="action-panel-btn" href={href} key={label}>{label}</a>)}
-      </div>
-    </section>
-  );
-}
-
-function SegmentRightPanel({ queuedActions }: { queuedActions: string[] }) {
-  const topSegments = [...segmentIntelligenceData.highValue].sort((a, b) => b.expectedVoteGain - a.expectedVoteGain).slice(0, 3);
-  const growthSegments = [...segmentIntelligenceData.command].sort((a, b) => b.persuasionPotential - a.persuasionPotential).slice(0, 3);
-  const riskSegments = segmentIntelligenceData.risks.slice(0, 4);
-  const pendingActions = segmentIntelligenceData.tasks.map((item) => `${item.segment}: ${item.openTasks} open / ${item.overdueTasks} overdue`);
-  const alerts = segmentIntelligenceData.risks.map((item) => `${item.segment}: ${item.risk}`);
-  return (
-    <aside className="voter-intel-panel segment-intel-panel">
-      <SectionHeader title="Segment Intel Panel" eyebrow="Always-on targeting watch" />
-      <PanelList title="Top Segments" items={topSegments.map((item) => `${item.segment}: ${item.expectedVoteGain.toLocaleString()} votes`)} />
-      <PanelList title="Growth Segments" items={growthSegments.map((item) => `${item.segmentName}: persuasion ${item.persuasionPotential} / value ${item.voteValue.toLocaleString()}`)} />
-      <PanelList title="Risk Segments" items={riskSegments.map((item) => `${item.segment}: ${item.potentialVoteLoss.toLocaleString()} vote loss risk`)} />
-      <PanelList title="Pending Actions" items={pendingActions} />
-      <PanelList title="Campaign Alerts" items={alerts} />
-      <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : ["No segment actions queued from this session"]} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

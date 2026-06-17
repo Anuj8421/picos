@@ -130,7 +130,6 @@ export function TurnoutIntelligenceCenter() {
           <ActionCenter />
         </div>
 
-        <TurnoutRightPanel queuedActions={queuedActions} />
       </main>
     </PlatformShell>
   );
@@ -475,38 +474,6 @@ function ActionCenter() {
       <SectionHeader title="Action Center" eyebrow="Turn turnout intelligence into field operations" />
       <div className="voter-action-grid">
         {actions.map(([label, href]) => <a className="action-panel-btn" href={href} key={label}>{label}</a>)}
-      </div>
-    </section>
-  );
-}
-
-function TurnoutRightPanel({ queuedActions }: { queuedActions: string[] }) {
-  const risks = [...turnoutIntelligenceData.heatMap].sort((a, b) => b.turnoutRisk - a.turnoutRisk).slice(0, 3);
-  const opportunities = [...turnoutIntelligenceData.targets].sort((a, b) => b.expectedVotes - a.expectedVotes).slice(0, 3);
-  const villages = turnoutIntelligenceData.villages.filter((item) => item.priority === "Critical" || item.priority === "High").slice(0, 4);
-  const booths = turnoutIntelligenceData.booths.filter((item) => item.priority === "Critical" || item.priority === "High").slice(0, 4);
-  const pendingActions = turnoutIntelligenceData.tasks.map((item) => `${item.campaign}: ${item.openTasks} open / ${item.overdueTasks} overdue`);
-
-  return (
-    <aside className="voter-intel-panel turnout-intel-panel">
-      <SectionHeader title="Turnout Intel Panel" eyebrow="Always-on mobilization watch" />
-      <PanelList title="Turnout Risks" items={risks.map((item) => `${item.village} ${item.booth}: risk ${item.turnoutRisk}%`)} />
-      <PanelList title="Mobilization Opportunities" items={opportunities.map((item) => `${item.target}: ${item.expectedVotes.toLocaleString()} votes`)} />
-      <PanelList title="Critical Villages" items={villages.map((item) => `${item.village}: need ${item.mobilizationNeed}% / ${item.expectedVotes.toLocaleString()} votes`)} />
-      <PanelList title="Critical Booths" items={booths.map((item) => `${item.booth}: readiness ${item.boothReadiness}% / risk ${item.risk}%`)} />
-      <PanelList title="Pending Actions" items={pendingActions} />
-      <PanelList title="Election Day Alerts" items={turnoutIntelligenceData.alerts.map((item) => `${item.type}: ${item.alert}`)} />
-      <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : ["No turnout actions queued from this session"]} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

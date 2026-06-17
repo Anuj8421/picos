@@ -3,7 +3,7 @@ import { ConfidenceBadge, VerificationBadge } from "@/features/shared/intelligen
 import { EvidenceDrawer } from "@/features/evidence/components/EvidenceDrawer";
 import { SourceAttachmentPanel } from "@/features/sources/components/SourceAttachmentPanel";
 import { ClaimCard } from "@/features/sources/components/ClaimCard";
-import { AssignedTaskList, CreateTaskButton, TaskStatusBadge } from "@/features/tasks/components/TaskComponents";
+import { AssignedTaskList, CreateTaskButton } from "@/features/tasks/components/TaskComponents";
 import { findEvidenceFor, findSources, findTasksFor } from "@/lib/domain/repositories";
 import type { ManagerConfig, ManagerField, ManagerRecord } from "../types";
 import { prettyValue } from "../manager-utils";
@@ -71,8 +71,6 @@ export function ManagerListPage({ config }: { config: ManagerConfig }) {
 export function ManagerDetailPage({ config, id }: { config: ManagerConfig; id: string }) {
   const record = config.records.find((item) => item.id === id) ?? config.records[0];
   const sources = findSources(record.sourceIds);
-  const evidence = findEvidenceFor(config.entityType, record.id);
-  const relatedTasks = findTasksFor(config.entityType, record.id);
 
   return (
     <PlatformShell activeCoreModule={config.activeCoreModule ?? "political-intelligence"} activePoliticalSection={config.activePoliticalSection} activeModuleSection={config.activeModuleSection}>
@@ -105,8 +103,6 @@ export function ManagerDetailPage({ config, id }: { config: ManagerConfig; id: s
             </div>
           </section>
         </section>
-
-        <ManagerContextPanel config={config} record={record} sources={sources} evidence={evidence} relatedTasks={relatedTasks} />
       </main>
     </PlatformShell>
   );
@@ -199,8 +195,6 @@ export function ManagerFormPage({
             <a href={config.basePath}>Cancel</a>
           </section>
         </form>
-
-        <ManagerContextPanel config={config} record={record} sources={sources} evidence={evidence} relatedTasks={relatedTasks} />
       </main>
     </PlatformShell>
   );
@@ -242,51 +236,6 @@ function ManagerInput({ field, value }: { field: ManagerField; value: unknown })
         <input defaultValue={defaultValue} max={field.name.toLowerCase().includes("score") || field.name.toLowerCase().includes("coverage") ? 100 : undefined} min={field.type === "number" ? 0 : undefined} placeholder={field.placeholder} required={field.required} type={field.type} />
       )}
     </label>
-  );
-}
-
-function ManagerContextPanel({
-  config,
-  record,
-  sources,
-  evidence,
-  relatedTasks
-}: {
-  config: ManagerConfig;
-  record?: ManagerRecord;
-  sources: ReturnType<typeof findSources>;
-  evidence: ReturnType<typeof findEvidenceFor>;
-  relatedTasks: ReturnType<typeof findTasksFor>;
-}) {
-  return (
-    <aside className="manager-context-panel">
-      <section className="context-card">
-        <h3>Record Context</h3>
-        <div className="badge-row">
-          <VerificationBadge status={record?.verificationStatus ?? "needs_verification"} />
-          <ConfidenceBadge score={record?.confidenceScore ?? 50} />
-        </div>
-        <p>{record?.notes ?? "New record. Add notes, source, evidence, and verification details before operational use."}</p>
-      </section>
-      <EvidenceDrawer evidence={evidence} sources={sources} />
-      <AssignedTaskList tasks={relatedTasks} />
-      <section className="context-card">
-        <h3>Related People</h3>
-        <p>Related person/entity links will appear here after persistence and relationship mapping are connected.</p>
-      </section>
-      <section className="context-card">
-        <h3>Audit Trail</h3>
-        <p>{record ? `Updated ${record.updatedAt.slice(0, 10)} by ${record.updatedBy}.` : "Audit trail starts after this record is saved."}</p>
-      </section>
-      <section className="context-card">
-        <h3>Actions</h3>
-        <div className="context-actions">
-          <a href="/sources/new">Link Source</a>
-          <a href="/evidence/new">Attach Evidence</a>
-          <a href={`/tasks/new?relatedEntityType=${config.entityType}&relatedEntityId=${record?.id ?? "new-record"}`}>Create Task</a>
-        </div>
-      </section>
-    </aside>
   );
 }
 

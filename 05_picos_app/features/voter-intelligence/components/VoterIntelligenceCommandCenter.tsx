@@ -113,13 +113,6 @@ export function VoterIntelligenceCommandCenter() {
           <AiVoterStrategy recommendations={data.recommendations} assignedActions={assignedActions} onAssign={(rec) => setAssignedActions((current) => [...current, rec])} />
           <ActionCenter />
         </div>
-
-        <RightVoterPanel
-          opportunities={data.gainOpportunities.slice(0, 3)}
-          risks={data.lossRisks.slice(0, 3)}
-          villages={data.villages.slice(0, 3)}
-          assignedActions={assignedActions}
-        />
       </main>
     </PlatformShell>
   );
@@ -440,31 +433,6 @@ function ActionCenter() {
       <SectionHeader title="Action Center" eyebrow="Turn voter intelligence into field action" />
       <div className="voter-action-grid">
         {actions.map(([label, href]) => <a className="action-panel-btn" href={href} key={label}>{label}</a>)}
-      </div>
-    </section>
-  );
-}
-
-function RightVoterPanel({ opportunities, risks, villages, assignedActions }: { opportunities: typeof voterIntelligenceData.gainOpportunities; risks: typeof voterIntelligenceData.lossRisks; villages: typeof voterIntelligenceData.villages; assignedActions: string[] }) {
-  return (
-    <aside className="voter-intel-panel">
-      <SectionHeader title="Voter Intel Panel" eyebrow="Always-on vote movement watch" />
-      <PanelList title="Top Vote Opportunities" items={opportunities.map((item) => `${item.expectedVotes} votes / ${item.opportunity}`)} />
-      <PanelList title="Top Vote Risks" items={risks.map((item) => `${item.potentialVoteLoss} loss / ${item.risk}`)} />
-      <PanelList title="Upcoming Visits" items={["MIDC youth listening", "Pangri irrigation walk-through", "Dubere SHG forum"]} />
-      <PanelList title="Pending Actions" items={assignedActions.length ? assignedActions : ["No actions queued from this session"]} />
-      <PanelList title="Community Alerts" items={["Youth opportunity rising", "SC trend needs review", "Farmers require issue ownership"]} />
-      <PanelList title="Village Alerts" items={villages.map((village) => `${village.village}: ${village.classification}`)} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

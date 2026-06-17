@@ -131,14 +131,6 @@ export function InfluencerIntelligenceCenter() {
           <InfluencerComparisonMode profiles={data.comparisons} compareA={comparisonA} compareB={comparisonB} setCompareA={setCompareA} setCompareB={setCompareB} />
           <InfluencerActionCenter />
         </div>
-
-        <InfluencerRightPanel
-          influencers={data.command}
-          risks={data.risks}
-          relationships={data.relationships}
-          tasks={data.tasks}
-          queuedActions={queuedActions}
-        />
       </main>
     </PlatformShell>
   );
@@ -401,32 +393,6 @@ function InfluencerActionCenter() {
       <SectionHeader title="Action Center" eyebrow="Turn influence intelligence into relationship action" />
       <div className="voter-action-grid">
         {actions.map(([label, href]) => <a className="action-panel-btn" href={href} key={label}>{label}</a>)}
-      </div>
-    </section>
-  );
-}
-
-function InfluencerRightPanel({ influencers, risks, relationships, tasks, queuedActions }: { influencers: typeof influencerIntelligenceData.command; risks: typeof influencerIntelligenceData.risks; relationships: typeof influencerIntelligenceData.relationships; tasks: typeof influencerIntelligenceData.tasks; queuedActions: string[] }) {
-  const highestImpact = [...influencers].sort((a, b) => b.influenceScore - a.influenceScore).slice(0, 3);
-  return (
-    <aside className="voter-intel-panel">
-      <SectionHeader title="Influencer Intel Panel" eyebrow="Always-on power network watch" />
-      <PanelList title="Highest Impact Influencers" items={highestImpact.map((item) => `${item.name}: influence ${item.influenceScore}`)} />
-      <PanelList title="At Risk Influencers" items={risks.map((item) => `${item.influencer}: ${item.risk}`)} />
-      <PanelList title="Upcoming Meetings" items={relationships.map((item) => `${item.influencer}: ${item.nextAction}`)} />
-      <PanelList title="Pending Follow-ups" items={tasks.map((item) => `${item.influencer}: ${item.openTasks} open / ${item.overdueTasks} overdue`)} />
-      <PanelList title="Recent Changes" items={queuedActions.length ? queuedActions : ["No influencer actions queued from this session"]} />
-      <PanelList title="Influencer Alerts" items={["Cooperative network requires neutral bridge", "Youth sports network ready for activation", "Farmer captains need irrigation proof"]} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

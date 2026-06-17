@@ -510,7 +510,6 @@ function FoundationDetailPage({ config, id }: { config: FoundationConfig; id: st
   const record = getRecord(config, id);
   const sources = findSources(record.sourceIds);
   const evidence = evidenceForRecord(config, record);
-  const tasks = findTasksFor(config.entityType, record.id);
 
   return (
     <FoundationShell config={config}>
@@ -555,7 +554,6 @@ function FoundationDetailPage({ config, id }: { config: FoundationConfig; id: st
           </section>
         </section>
 
-        <FoundationContextPanel config={config} record={record} sources={sources} evidence={evidence} tasks={tasks} />
       </main>
     </FoundationShell>
   );
@@ -648,7 +646,6 @@ function FoundationFormPage({ config, id, mode }: { config: FoundationConfig; id
           </section>
         </form>
 
-        <FoundationContextPanel config={config} record={record ?? config.records[0]} sources={sources} evidence={evidence} tasks={tasks} />
       </main>
     </FoundationShell>
   );
@@ -658,7 +655,6 @@ function FoundationVoterFormPage({ config, id, mode }: { config: FoundationConfi
   const record = id ? getRecord(config, id) : undefined;
   const sources = findSources(record?.sourceIds ?? []);
   const evidence = record ? evidenceForRecord(config, record) : [];
-  const tasks = record ? findTasksFor(config.entityType, record.id) : [];
 
   return (
     <FoundationShell config={config}>
@@ -732,7 +728,6 @@ function FoundationVoterFormPage({ config, id, mode }: { config: FoundationConfi
             </div>
           </section>
         </form>
-        <VoterGeneratedIntelligencePanel record={record} tasks={tasks} />
       </main>
     </FoundationShell>
   );
@@ -791,97 +786,10 @@ function VoterReadOnlySection({ type }: { type: "engagement-timeline" | "related
   );
 }
 
-function VoterGeneratedIntelligencePanel({ record, tasks }: { record?: FoundationRecord; tasks: ReturnType<typeof findTasksFor> }) {
-  const openTasks = tasks.filter((task) => !["completed", "cancelled", "archived"].includes(task.status)).length;
-  const systemItems = [
-    ["Support Status", generatedValue(record, "supportStatus")],
-    ["Support Score", generatedScore(record, "supportScore")],
-    ["Persuasion Score", generatedScore(record, "persuasionScore")],
-    ["Turnout Probability", generatedScore(record, "turnoutProbability")],
-    ["Risk Score", generatedScore(record, "riskScore")]
-  ];
-  const relationshipItems = [
-    ["Relationship Strength", generatedScore(record, "relationshipStrength")],
-    ["Influence Level", generatedValue(record, "influenceLevel")],
-    ["Primary Issue", generatedValue(record, "primaryIssue", generatedValue(record, "primaryIssueIds"))],
-    ["Primary Influencer", generatedValue(record, "influencerName", generatedValue(record, "primaryHouseholdInfluencer"))],
-    ["Last Contact", generatedValue(record, "lastContactDate")],
-    ["Open Tasks", String(openTasks)],
-    ["Open Follow-ups", generatedLinkedCount(record, "followUpIds")],
-    ["Open Promises", generatedLinkedCount(record, "promiseIds")]
-  ];
-  const aiItems = [
-    ["AI Summary", generatedValue(record, "aiVoterSummary")],
-    ["Recommended Action", generatedValue(record, "recommendedAction")],
-    ["Recommended Visitor", generatedValue(record, "recommendedVisitor")],
-    ["Recommended Message", generatedValue(record, "recommendedMessage")],
-    ["Expected Political Impact", generatedValue(record, "expectedPoliticalImpact")],
-    ["Expected Vote Impact", generatedScore(record, "expectedVoteImpact")],
-    ["AI Confidence", generatedScore(record, "aiConfidenceScore")]
-  ];
-
-  return (
-    <aside className="voter-generated-panel" aria-label="Generated voter intelligence summary">
-      <section className="context-card voter-generated-card">
-        <span className="eyebrow">System Generated</span>
-        <h3>Intelligence Summary</h3>
-        <GeneratedIntelList items={systemItems} />
-      </section>
-      <section className="context-card voter-generated-card">
-        <span className="eyebrow">Relationship Driven</span>
-        <h3>Linked Record Signals</h3>
-        <GeneratedIntelList items={relationshipItems} />
-      </section>
-      <section className="context-card voter-generated-card">
-        <span className="eyebrow">AI Generated</span>
-        <h3>PICOS Recommendations</h3>
-        <GeneratedIntelList items={aiItems} />
-      </section>
-    </aside>
-  );
-}
-
-function GeneratedIntelList({ items }: { items: string[][] }) {
-  return (
-    <div className="generated-intel-list">
-      {items.map(([label, value]) => (
-        <article className="generated-intel-row" key={label}>
-          <span>{label}</span>
-          <strong>{value}</strong>
-        </article>
-      ))}
-    </div>
-  );
-}
-
-function generatedValue(record: FoundationRecord | undefined, fieldName: string, fallback = "Generated after linked records") {
-  const value = record?.values[fieldName];
-  if (Array.isArray(value)) return value.length ? value.join(", ") : fallback;
-  if (typeof value === "number") return String(value);
-  if (typeof value === "boolean") return value ? "Yes" : "No";
-  if (typeof value === "string" && value.trim() !== "") return value;
-  return fallback;
-}
-
-function generatedScore(record: FoundationRecord | undefined, fieldName: string) {
-  const value = record?.values[fieldName];
-  if (typeof value === "number") return `${value}%`;
-  if (typeof value === "string" && value.trim() !== "") return value;
-  return "Calculated by PICOS";
-}
-
-function generatedLinkedCount(record: FoundationRecord | undefined, fieldName: string) {
-  const value = record?.values[fieldName];
-  if (Array.isArray(value)) return String(value.length);
-  if (typeof value === "string" && value.trim() !== "") return String(value.split(",").filter(Boolean).length);
-  return "0";
-}
-
 function FoundationReviewPage({ config, id }: { config: FoundationConfig; id: string }) {
   const record = getRecord(config, id);
   const sources = findSources(record.sourceIds);
   const evidence = evidenceForRecord(config, record);
-  const tasks = findTasksFor(config.entityType, record.id);
 
   return (
     <FoundationShell config={config}>
@@ -916,7 +824,6 @@ function FoundationReviewPage({ config, id }: { config: FoundationConfig; id: st
             </div>
           </section>
         </section>
-        <FoundationContextPanel config={config} record={record} sources={sources} evidence={evidence} tasks={tasks} />
       </main>
     </FoundationShell>
   );
@@ -1036,41 +943,6 @@ function FoundationFormActions({ config, record }: { config: FoundationConfig; r
       <a href={`/tasks/new?relatedEntityType=${config.entityType}&relatedEntityId=${relatedEntityId}`}>Create task</a>
       <a href={config.basePath}>Cancel</a>
     </section>
-  );
-}
-
-function FoundationContextPanel({ config, record, sources, evidence, tasks }: { config: FoundationConfig; record: FoundationRecord; sources: ReturnType<typeof findSources>; evidence: ReturnType<typeof findEvidenceByIds>; tasks: ReturnType<typeof findTasksFor> }) {
-  return (
-    <aside className="manager-context-panel">
-      <section className="context-card">
-        <h3>Record Context</h3>
-        <div className="badge-row">
-          <VerificationBadge status={record.verificationStatus} />
-          <ConfidenceBadge score={record.confidenceScore} />
-          <StatusChip value={record.approvalStatus} />
-        </div>
-        <p>{record.notes}</p>
-      </section>
-      <section className="context-card">
-        <h3>Owner and Related Entity</h3>
-        <div className="context-list">
-          <article className="context-row"><span>Owner</span><strong>{record.ownerId || "Unassigned"}</strong></article>
-          <article className="context-row"><span>Related entity</span><strong>{entityDisplayName(record.relatedEntityType, record.relatedEntityId)}</strong></article>
-          <article className="context-row"><span>Entity type</span><strong>{record.relatedEntityType || config.entityType}</strong></article>
-        </div>
-      </section>
-      <AssignedTaskList tasks={tasks} />
-      <EvidenceDrawer evidence={evidence} sources={sources} />
-      <SourceAttachmentPanel sources={sources} />
-      <section className="context-card">
-        <h3>Actions</h3>
-        <div className="context-actions">
-          <a href="/sources/new">Link Source</a>
-          <a href="/evidence/new">Attach Evidence</a>
-          <a href={`/tasks/new?relatedEntityType=${config.entityType}&relatedEntityId=${record.id}`}>Create Task</a>
-        </div>
-      </section>
-    </aside>
   );
 }
 

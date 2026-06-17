@@ -120,7 +120,6 @@ export function VoterReportsStrategyCenter() {
           <ActionCenter queuedActions={queuedActions} onQueue={queueAction} />
         </div>
 
-        <ReportsRightPanel queuedActions={queuedActions} />
       </main>
     </PlatformShell>
   );
@@ -413,31 +412,6 @@ function ActionCenter({ queuedActions, onQueue }: { queuedActions: string[]; onQ
             {queuedActions.includes(action.label) ? "Queued: " : ""}{action.label}
           </a>
         ))}
-      </div>
-    </section>
-  );
-}
-
-function ReportsRightPanel({ queuedActions }: { queuedActions: string[] }) {
-  return (
-    <aside className="voter-intel-panel reports-intel-panel">
-      <SectionHeader title="Reports Intel Panel" eyebrow="Always-on reporting watch" />
-      <PanelList title="Pending Reports" items={voterReportsData.rightPanel.pendingReports} />
-      <PanelList title="Recently Generated Reports" items={voterReportsData.rightPanel.recentlyGenerated} />
-      <PanelList title="Critical Findings" items={voterReportsData.rightPanel.criticalFindings} />
-      <PanelList title="Report Alerts" items={voterReportsData.rightPanel.reportAlerts} />
-      <PanelList title="Upcoming Scheduled Reports" items={voterReportsData.rightPanel.upcomingScheduled} />
-      <PanelList title="Queued This Session" items={queuedActions.length ? queuedActions : ["No report actions queued from this session"]} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );

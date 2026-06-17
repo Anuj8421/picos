@@ -142,15 +142,6 @@ export function CommunityIntelligenceCenter() {
           <CommunityActionCenter />
           <AiCommunityStrategy recommendations={data.recommendations} queuedActions={queuedActions} onQueue={(item) => setQueuedActions((current) => [...current, item])} />
         </div>
-
-        <CommunityRightPanel
-          risks={data.risks.slice(0, 3)}
-          opportunities={data.opportunities.slice(0, 3)}
-          influencers={data.influencers.slice(0, 3)}
-          trends={data.trends.slice(0, 4)}
-          engagement={data.engagement.slice(0, 3)}
-          queuedActions={queuedActions}
-        />
       </main>
     </PlatformShell>
   );
@@ -494,31 +485,6 @@ function AiCommunityStrategy({ recommendations, queuedActions, onQueue }: { reco
             <p><b>Expected gain:</b> {item.expectedGain.toLocaleString()} votes</p>
           </article>
         ))}
-      </div>
-    </section>
-  );
-}
-
-function CommunityRightPanel({ risks, opportunities, influencers, trends, engagement, queuedActions }: { risks: typeof communityIntelligenceData.risks; opportunities: typeof communityIntelligenceData.opportunities; influencers: typeof communityIntelligenceData.influencers; trends: typeof communityIntelligenceData.trends; engagement: typeof communityIntelligenceData.engagement; queuedActions: string[] }) {
-  return (
-    <aside className="voter-intel-panel">
-      <SectionHeader title="Community Intel Panel" eyebrow="Always-on community watch" />
-      <PanelList title="Top Community Risks" items={risks.map((item) => `${item.community}: ${item.risk}`)} />
-      <PanelList title="Top Community Opportunities" items={opportunities.map((item) => `${item.expectedVoteGain} votes / ${item.opportunity}`)} />
-      <PanelList title="Influencer Alerts" items={influencers.map((item) => `${item.name}: ${item.alignment}`)} />
-      <PanelList title="Sentiment Changes" items={trends.map((item) => `${item.community}: ${signed(item.monthly)}% monthly`)} />
-      <PanelList title="Upcoming Meetings" items={engagement.map((item) => item.nextAction)} />
-      <PanelList title="Pending Tasks" items={queuedActions.length ? queuedActions : ["No community tasks queued from this session"]} />
-    </aside>
-  );
-}
-
-function PanelList({ title, items }: { title: string; items: string[] }) {
-  return (
-    <section className="context-card">
-      <h3>{title}</h3>
-      <div className="context-list">
-        {items.map((item) => <article className="context-row" key={item}>{item}</article>)}
       </div>
     </section>
   );
