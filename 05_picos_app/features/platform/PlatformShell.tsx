@@ -306,7 +306,7 @@ function ProductSidebar({
           const isActive = module.id === activeCoreModule;
           const Icon = module.icon;
           return (
-            <div className={`core-module-shell ${isActive ? "is-expanded" : ""}`} key={module.id}>
+            <div className={`core-module-shell module-${module.id} ${isActive ? "is-expanded" : ""}`} key={module.id}>
               <a
                 className={`core-module-item status-${module.status} ${isActive ? "is-active" : ""}`}
                 href={module.href}

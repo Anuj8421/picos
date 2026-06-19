@@ -3,19 +3,20 @@
 import {
   ArrowRight,
   ChevronDown,
-  ChevronRight,
   Download,
   Edit3,
   FileUp,
   Filter,
+  MoreHorizontal,
   Plus,
   Search
 } from "lucide-react";
-import { useMemo, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { PlatformShell } from "@/features/platform/PlatformShell";
 import { CountPill, SectionHeader } from "@/features/political-intelligence/components/common";
 import { volunteerBooths, volunteerCoordinators, volunteerData, volunteerRoles, volunteerZones } from "../data";
 import type { Volunteer, VolunteerFiltersState, VolunteerStatus, VolunteerTab, WorkloadStatus } from "../types";
+import { VolunteerOverview } from "./VolunteerOverview";
 
 const profileTabs = ["Overview", "Tasks", "Activity", "Reports", "Attendance", "Performance", "Communication"] as const;
 
@@ -35,7 +36,6 @@ export function VolunteerManagementModule({ activeTab = "overview" }: { activeTa
   const [filtersVisible, setFiltersVisible] = useState(true);
   const [profileVolunteer, setProfileVolunteer] = useState<Volunteer | null>(null);
   const [editVolunteer, setEditVolunteer] = useState<Volunteer | null>(null);
-  const [quickVolunteer, setQuickVolunteer] = useState<Volunteer | null>(null);
   const [teamVolunteer, setTeamVolunteer] = useState<Volunteer | null>(null);
   const [addOpen, setAddOpen] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
@@ -49,7 +49,14 @@ export function VolunteerManagementModule({ activeTab = "overview" }: { activeTa
   const avgCapacity = Math.round(volunteers.reduce((sum, volunteer) => sum + volunteer.capacity, 0) / volunteers.length);
   const overloaded = volunteers.filter((volunteer) => volunteer.workloadStatus === "Overloaded" || volunteer.workloadStatus === "Needs Follow-up");
   const activeTasks = volunteers.reduce((sum, volunteer) => sum + volunteer.activeTasks, 0);
-  const nextDeadlines = volunteers.filter((volunteer) => volunteer.nextDeadline <= "2026-06-19").length;
+
+  useEffect(() => {
+    const requestedStatus = new URLSearchParams(window.location.search).get("status");
+    const supportedStatuses = ["Active", "Inactive", "On Ground", "On Leave", "New", "Stable", "Busy", "Overloaded", "Needs Follow-up"];
+    if (requestedStatus && supportedStatuses.includes(requestedStatus)) {
+      setFilters((current) => ({ ...current, status: requestedStatus }));
+    }
+  }, []);
 
   function updateFilter(key: keyof VolunteerFiltersState, value: string | boolean) {
     setFilters((current) => ({ ...current, [key]: value }));
@@ -96,41 +103,38 @@ export function VolunteerManagementModule({ activeTab = "overview" }: { activeTa
     <PlatformShell activeCoreModule="volunteer-management" activeModuleSection={activeTab}>
       <header className="candidate-header volunteer-header">
         <div>
-          <span className="eyebrow">PICOS / Field Force Operations</span>
-          <h1>Volunteer Management</h1>
-          <p>Manage volunteers, booth assignments, field workload, and reporting structure across Sinnar campaign operations.</p>
-        </div>
-        <div className="manager-header-actions">
-          <button className="action-btn" type="button" onClick={() => setAddOpen(true)}><Plus size={16} /> Add Volunteer</button>
-          <button className="action-btn" type="button" onClick={() => setUploadOpen(true)}><FileUp size={16} /> Upload Volunteers</button>
-          <button className="action-btn" type="button" onClick={() => showToast("Task assignment workspace opened")}>Assign Task</button>
-          <button className="action-btn" type="button" onClick={() => showToast("Volunteer report generation queued")}>Generate Report</button>
-          <button className="action-btn" type="button" onClick={() => exportRows(exportScopeForTab(activeTab))}><Download size={16} /> Export</button>
-          {["directory", "workload", "command-structure"].includes(activeTab) ? (
-            <button className="action-btn" type="button" onClick={() => setFiltersVisible((current) => !current)}><Filter size={16} /> {filtersVisible ? "Hide Filters" : "Show Filters"}</button>
-          ) : null}
+          <span className="eyebrow">PICOS / Volunteer Management</span>
+          <h1>{activeTab === "overview" ? "Volunteer Operations Command Center" : "Volunteer Management"}</h1>
+          <p>{activeTab === "overview" ? "Prioritize field risks, direct volunteer operations and monitor organization health." : "Manage field force, workload, command structure and volunteer intelligence."}</p>
+          <div className="manager-header-actions volunteer-header-action-row">
+            <button className="action-btn action-btn-primary" type="button" onClick={() => setAddOpen(true)}><Plus size={16} /> Add Volunteer</button>
+            <details className="volunteer-header-actions-menu">
+              <summary className="action-btn" aria-label="Open volunteer actions"><MoreHorizontal size={16} /> Actions <ChevronDown size={14} /></summary>
+              <div className="volunteer-header-actions-popover">
+                <button type="button" onClick={() => setUploadOpen(true)}><FileUp size={15} /> Upload Volunteers</button>
+                <button type="button" onClick={() => showToast("Task assignment workspace opened")}>Assign Task</button>
+                <button type="button" onClick={() => showToast("Volunteer report generation queued")}>Generate Report</button>
+                <button type="button" onClick={() => showToast("Volunteer broadcast composer opened")}>Create Broadcast</button>
+                <button type="button" onClick={() => showToast("Volunteer meeting scheduler opened")}>Schedule Meeting</button>
+                <button type="button" onClick={() => exportRows(exportScopeForTab(activeTab))}><Download size={15} /> Export Data</button>
+              </div>
+            </details>
+            {["directory", "workload", "command-structure"].includes(activeTab) ? (
+              <button className="action-btn" type="button" onClick={() => setFiltersVisible((current) => !current)}><Filter size={16} /> {filtersVisible ? "Hide Filters" : "Show Filters"}</button>
+            ) : null}
+          </div>
         </div>
       </header>
 
       <main className="volunteer-workspace">
-        <VolunteerStats total={volunteers.length} active={activeVolunteers.length} onGround={onGround.length} onLeave={onLeave.length} onboarding={newVolunteers.length} overloaded={overloaded.length} />
-        {filtersVisible && ["directory", "workload", "command-structure"].includes(activeTab) ? <VolunteerFilters filters={filters} onChange={updateFilter} activeTab={activeTab} /> : null}
+        {activeTab !== "overview" ? <VolunteerStats total={volunteers.length} active={activeVolunteers.length} onGround={onGround.length} onLeave={onLeave.length} onboarding={newVolunteers.length} overloaded={overloaded.length} /> : null}
+        {filtersVisible && ["directory", "workload", "command-structure"].includes(activeTab) ? <VolunteerFilters filters={filters} onChange={updateFilter} onReset={() => setFilters({ ...emptyFilters })} activeTab={activeTab} /> : null}
 
         {activeTab === "overview" ? (
-          <OverviewTab
+          <VolunteerOverview
             volunteers={volunteers}
-            visibleVolunteers={visibleVolunteers}
-            filters={filters}
             avgCapacity={avgCapacity}
-            activeTasks={activeTasks}
-            overloaded={overloaded.length}
-            nextDeadlines={nextDeadlines}
-            onFilterChange={updateFilter}
-            onAdd={() => setAddOpen(true)}
-            onUpload={() => setUploadOpen(true)}
-            onAssignTask={() => showToast("Task assignment workspace opened")}
-            onGenerateReport={() => showToast("Volunteer report generation queued")}
-            onExport={() => exportRows("overview")}
+            onPlaceholder={showToast}
           />
         ) : null}
         {activeTab === "directory" ? (
@@ -138,7 +142,7 @@ export function VolunteerManagementModule({ activeTab = "overview" }: { activeTa
             volunteers={visibleVolunteers}
             onProfile={setProfileVolunteer}
             onEdit={setEditVolunteer}
-            onQuick={setQuickVolunteer}
+            onResetFilters={() => setFilters({ ...emptyFilters })}
           />
         ) : null}
         {activeTab === "workload" ? (
@@ -151,7 +155,8 @@ export function VolunteerManagementModule({ activeTab = "overview" }: { activeTa
             onReassign={(volunteer) => showToast(`Reassignment queue opened for ${volunteer.name}`)}
             onFollowUp={(volunteer) => showToast(`Follow-up marker added for ${volunteer.name}`)}
             onExport={() => exportRows("workload")}
-            onAdd={() => setAddOpen(true)}
+            showInactive={filters.includeInactive}
+            onShowInactiveChange={(checked) => updateFilter("includeInactive", checked)}
           />
         ) : null}
         {activeTab === "command-structure" ? (
@@ -161,7 +166,6 @@ export function VolunteerManagementModule({ activeTab = "overview" }: { activeTa
             onProfile={setProfileVolunteer}
             onTeam={setTeamVolunteer}
             onExport={() => exportRows("command")}
-            onAdd={() => setAddOpen(true)}
           />
         ) : null}
         {["tasks", "reports", "attendance", "performance", "settings"].includes(activeTab) ? (
@@ -178,7 +182,6 @@ export function VolunteerManagementModule({ activeTab = "overview" }: { activeTa
 
       {profileVolunteer ? <VolunteerProfileModal volunteer={profileVolunteer} onClose={() => setProfileVolunteer(null)} onEdit={() => setEditVolunteer(profileVolunteer)} /> : null}
       {editVolunteer ? <VolunteerEditModal volunteer={editVolunteer} onClose={() => setEditVolunteer(null)} onSave={saveVolunteer} /> : null}
-      {quickVolunteer ? <QuickDetailsPanel volunteer={quickVolunteer} onClose={() => setQuickVolunteer(null)} onProfile={() => setProfileVolunteer(quickVolunteer)} /> : null}
       {teamVolunteer ? <TeamMembersPanel leader={teamVolunteer} volunteers={volunteers.filter((volunteer) => volunteer.reportsToId === teamVolunteer.id)} onClose={() => setTeamVolunteer(null)} onProfile={setProfileVolunteer} /> : null}
       {addOpen ? <AddVolunteerModal onClose={() => setAddOpen(false)} onAdd={addVolunteer} /> : null}
       {uploadOpen ? <UploadVolunteerModal onClose={() => setUploadOpen(false)} onQueued={() => showToast("Upload template review queued")} /> : null}
@@ -193,7 +196,8 @@ export function VolunteerStats({
   onGround,
   onLeave,
   onboarding,
-  overloaded
+  overloaded,
+  interactive = false
 }: {
   total: number;
   active: number;
@@ -201,25 +205,25 @@ export function VolunteerStats({
   onLeave: number;
   onboarding: number;
   overloaded: number;
+  interactive?: boolean;
 }) {
   const stats = [
-    ["Total Volunteers", total, "Campaign field force"],
-    ["Active Volunteers", active, "Available for assignment"],
-    ["On Ground", onGround, "Currently in field"],
-    ["On Leave", onLeave, "Temporarily unavailable"],
-    ["New / Onboarding", onboarding, "Needs coordinator review"],
-    ["Overloaded / Action Needed", overloaded, "Rebalance required"]
+    ["Total Volunteers", total, "Campaign field force", "/volunteer-management/directory", "+4 this cycle"],
+    ["Active Volunteers", active, "Available for assignment", "/volunteer-management/directory?status=Active", "+2 this week"],
+    ["On Ground", onGround, "Currently in field", "/volunteer-management/directory?status=On%20Ground", "Live deployment"],
+    ["On Leave", onLeave, "Temporarily unavailable", "/volunteer-management/directory?status=On%20Leave", "No change"],
+    ["New / Onboarding", onboarding, "Needs coordinator review", "/volunteer-management/directory?status=New", "+1 pending"],
+    [interactive ? "Overloaded Volunteers" : "Overloaded / Action Needed", overloaded, "Rebalance required", "/volunteer-management/workload?status=Overloaded", "Action needed"]
   ] as const;
 
   return (
     <section className="volunteer-stat-grid" aria-label="Volunteer summary">
-      {stats.map(([label, value, detail]) => (
-        <article className="volunteer-stat-card" key={label}>
-          <span>{label}</span>
-          <strong>{value}</strong>
-          <small>{detail}</small>
-        </article>
-      ))}
+      {stats.map(([label, value, detail, href, trend]) => {
+        const content = <><span>{label}</span><strong>{value}</strong><small>{detail}</small>{interactive ? <b className="volunteer-trend">{trend}<ArrowRight size={13} /></b> : null}</>;
+        return interactive
+          ? <a className="volunteer-stat-card is-clickable" href={href} key={label}>{content}</a>
+          : <article className="volunteer-stat-card" key={label}>{content}</article>;
+      })}
     </section>
   );
 }
@@ -227,11 +231,13 @@ export function VolunteerStats({
 export function VolunteerFilters({
   filters,
   activeTab,
-  onChange
+  onChange,
+  onReset
 }: {
   filters: VolunteerFiltersState;
   activeTab: VolunteerTab;
   onChange: (key: keyof VolunteerFiltersState, value: string | boolean) => void;
+  onReset?: () => void;
 }) {
   return (
     <section className="volunteer-filter-bar" aria-label="Volunteer filters">
@@ -244,196 +250,8 @@ export function VolunteerFilters({
       <FilterSelect label="Status" value={filters.status} options={["All", "Active", "Inactive", "On Ground", "On Leave", "New", "Stable", "Busy", "Overloaded", "Needs Follow-up"]} onChange={(value) => onChange("status", value)} />
       <FilterSelect label="Booth" value={filters.booth} options={["All", ...volunteerBooths]} onChange={(value) => onChange("booth", value)} />
       {activeTab === "workload" ? <FilterSelect label="Coordinator" value={filters.coordinator} options={["All", ...volunteerCoordinators]} onChange={(value) => onChange("coordinator", value)} /> : null}
-      {activeTab === "workload" ? (
-        <label className="volunteer-toggle">
-          <input type="checkbox" checked={filters.includeInactive} onChange={(event) => onChange("includeInactive", event.target.checked)} />
-          <span>Show inactive / on-leave</span>
-        </label>
-      ) : null}
+      {onReset ? <button className="volunteer-filter-reset" type="button" onClick={onReset}>Reset Filters</button> : null}
     </section>
-  );
-}
-
-function OverviewTab({
-  volunteers,
-  visibleVolunteers,
-  filters,
-  avgCapacity,
-  activeTasks,
-  overloaded,
-  nextDeadlines,
-  onFilterChange,
-  onAdd,
-  onUpload,
-  onAssignTask,
-  onGenerateReport,
-  onExport
-}: {
-  volunteers: Volunteer[];
-  visibleVolunteers: Volunteer[];
-  filters: VolunteerFiltersState;
-  avgCapacity: number;
-  activeTasks: number;
-  overloaded: number;
-  nextDeadlines: number;
-  onFilterChange: (key: keyof VolunteerFiltersState, value: string | boolean) => void;
-  onAdd: () => void;
-  onUpload: () => void;
-  onAssignTask: () => void;
-  onGenerateReport: () => void;
-  onExport: () => void;
-}) {
-  const activeVolunteers = volunteers.filter((volunteer) => volunteer.status === "Active" || volunteer.status === "On Ground").length;
-  const onGroundVolunteers = volunteers.filter((volunteer) => volunteer.status === "On Ground").length;
-  const coordinators = volunteers.filter((volunteer) => volunteer.role.includes("Coordinator") || volunteer.role === "Campaign Manager").length;
-  const reportingLevels = new Set(volunteers.map((volunteer) => volunteer.role)).size;
-  const totalTeams = volunteers.filter((leader) => volunteers.some((volunteer) => volunteer.reportsToId === leader.id)).length;
-  const hubVolunteers = visibleVolunteers.length ? visibleVolunteers : volunteers;
-  const strongCoverage = hubVolunteers.filter((volunteer) => volunteer.capacity >= 70 && volunteer.status !== "Inactive").slice(0, 3);
-  const weakCoverage = hubVolunteers.filter((volunteer) => volunteer.capacity < 45 || volunteer.workloadStatus === "Needs Follow-up").slice(0, 3);
-  const noVolunteerBooths = ["Booth 138 / Devpur Extension", "Booth 142 / Industrial Rooms", "Booth 151 / Wavi Periphery"];
-  const recentReports = hubVolunteers
-    .filter((volunteer) => volunteer.reportsSubmitted > 0)
-    .slice(0, 5)
-    .map((volunteer) => ({
-      title: `${volunteer.village} ${volunteer.booth}`,
-      detail: `${volunteer.reportsSubmitted} reports / ${volunteer.issuesReported} issue notes / ${volunteer.opponentActivityReported} activity notes`,
-      owner: volunteer.name
-    }));
-
-  return (
-    <section className="volunteer-overview-grid">
-      <section className="panel volunteer-hub-section">
-        <SectionHeader title="Volunteer Operations Hub" eyebrow="Access volunteer directory, field workload, and command structure operations." />
-        <div className="volunteer-hub-grid">
-          <a className="volunteer-hub-card" href="/volunteer-management/directory">
-            <div className="volunteer-hub-card-head">
-              <span className="volunteer-hub-icon">VD</span>
-              <strong>Volunteer Directory</strong>
-            </div>
-            <p>Browse, search, filter and manage campaign volunteers across villages, wards and booths.</p>
-            <div className="volunteer-hub-metrics">
-              <Metric label="Total Volunteers" value={volunteers.length} />
-              <Metric label="Active Volunteers" value={activeVolunteers} />
-              <Metric label="On Ground Volunteers" value={onGroundVolunteers} />
-            </div>
-            <div className="volunteer-avatar-stack" aria-label="Volunteer preview">
-              {volunteers.slice(0, 3).map((volunteer) => <Avatar name={volunteer.name} small key={volunteer.id} />)}
-            </div>
-            <span className="volunteer-hub-cta">Open Directory <ArrowRight size={16} /></span>
-          </a>
-
-          <a className="volunteer-hub-card" href="/volunteer-management/workload">
-            <div className="volunteer-hub-card-head">
-              <span className="volunteer-hub-icon">FW</span>
-              <strong>Field Workload</strong>
-            </div>
-            <p>Monitor volunteer task assignments, field capacity, deadlines and operational workload.</p>
-            <div className="volunteer-hub-metrics">
-              <Metric label="Active Tasks" value={activeTasks} />
-              <Metric label="Average Capacity" value={`${avgCapacity}%`} />
-              <Metric label="Overloaded Volunteers" value={overloaded} />
-            </div>
-            <div className="volunteer-mini-bars" aria-label="Workload preview">
-              {volunteers.slice(1, 4).map((volunteer) => <CapacityBar value={volunteer.capacity} compact key={volunteer.id} />)}
-            </div>
-            <span className="volunteer-hub-cta">Open Workload <ArrowRight size={16} /></span>
-          </a>
-
-          <a className="volunteer-hub-card" href="/volunteer-management/command-structure">
-            <div className="volunteer-hub-card-head">
-              <span className="volunteer-hub-icon">CS</span>
-              <strong>Command Structure</strong>
-            </div>
-            <p>View reporting hierarchy from Candidate level down to Booth Volunteers.</p>
-            <div className="volunteer-hub-metrics">
-              <Metric label="Total Coordinators" value={coordinators} />
-              <Metric label="Reporting Levels" value={reportingLevels} />
-              <Metric label="Total Teams" value={totalTeams} />
-            </div>
-            <div className="volunteer-mini-chain">
-              {["Candidate", "Campaign Manager", "Constituency Coordinator", "Ward Coordinator", "Booth Coordinator"].map((label) => (
-                <span key={label}>{label}</span>
-              ))}
-            </div>
-            <span className="volunteer-hub-cta">Open Structure <ArrowRight size={16} /></span>
-          </a>
-        </div>
-      </section>
-
-      <VolunteerFilters filters={filters} onChange={onFilterChange} activeTab="overview" />
-
-      <section className="workspace-grid two-column">
-        <div className="panel">
-          <SectionHeader title="Recent Volunteer Activity" eyebrow="Field movement from filtered volunteers" actions={<a className="action-btn" href="/volunteer-management/tasks">View Tasks</a>} />
-          <div className="coverage-engine-list">
-            {hubVolunteers.slice(0, 5).map((volunteer) => (
-              <article className="coverage-engine-row" key={volunteer.id}>
-                <div>
-                  <strong>{volunteer.name}</strong>
-                  <small>{volunteer.lastActivity}</small>
-                </div>
-                <span className={`volunteer-status workload-${slug(volunteer.workloadStatus)}`}>{volunteer.workloadStatus}</span>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <div className="panel">
-          <SectionHeader title="Coverage Overview" eyebrow="Booth volunteer coverage health" actions={<a className="action-btn" href="/campaign-structure/coverage-map">View Coverage</a>} />
-          <div className="volunteer-coverage-grid">
-            <CoverageList title="Strong Coverage" items={strongCoverage.map((volunteer) => `${volunteer.booth} / ${volunteer.village} / ${volunteer.name}`)} tone="strong" />
-            <CoverageList title="Weak Coverage" items={weakCoverage.map((volunteer) => `${volunteer.booth} / ${volunteer.village} / ${volunteer.capacity}% capacity`)} tone="watch" />
-            <CoverageList title="No Volunteer Assigned" items={noVolunteerBooths} tone="weak" />
-          </div>
-        </div>
-      </section>
-
-      <section className="panel">
-        <SectionHeader title="Recent Reports" eyebrow="Volunteer field intelligence" actions={<a className="action-btn" href="/volunteer-management/reports">View Reports</a>} />
-        <div className="workspace-grid two-column">
-          <div className="coverage-engine-list">
-            {recentReports.map((report) => (
-              <article className="coverage-engine-row" key={`${report.title}-${report.owner}`}>
-                <div>
-                  <strong>{report.title}</strong>
-                  <small>{report.detail}</small>
-                </div>
-                <span className="volunteer-status status-active">{report.owner}</span>
-              </article>
-            ))}
-            <article className="coverage-engine-row">
-              <div><strong>Booth alerts</strong><small>2 weak coverage booths and 3 deadline risks need coordinator review.</small></div>
-              <a href="/volunteer-management/tasks">Open Tasks</a>
-            </article>
-          </div>
-          <div className="volunteer-report-summary">
-            <MetricCard label="Issue Reports" value={hubVolunteers.reduce((sum, volunteer) => sum + volunteer.issuesReported, 0)} detail="Volunteer-raised field issues" />
-            <MetricCard label="Booth Alerts" value={weakCoverage.length + noVolunteerBooths.length} detail="Weak or uncovered booth signals" />
-            <MetricCard label="Opponent Activity Reports" value={hubVolunteers.reduce((sum, volunteer) => sum + volunteer.opponentActivityReported, 0)} detail="Reports requiring verification" />
-          </div>
-        </div>
-      </section>
-
-      <div className="volunteer-overview-actions">
-        <button className="action-btn" type="button" onClick={onAdd}><Plus size={16} /> Add Volunteer</button>
-        <button className="action-btn" type="button" onClick={onUpload}><FileUp size={16} /> Upload Volunteers</button>
-        <button className="action-btn" type="button" onClick={onAssignTask}>Assign Task</button>
-        <button className="action-btn" type="button" onClick={onGenerateReport}>Generate Report</button>
-        <button className="action-btn" type="button" onClick={onExport}><Download size={16} /> Export</button>
-      </div>
-    </section>
-  );
-}
-
-function CoverageList({ title, items, tone }: { title: string; items: string[]; tone: "strong" | "watch" | "weak" }) {
-  return (
-    <article className={`coverage-preview-card is-${tone}`}>
-      <strong>{title}</strong>
-      <ul>
-        {items.map((item) => <li key={item}>{item}</li>)}
-      </ul>
-    </article>
   );
 }
 
@@ -441,21 +259,21 @@ function DirectoryTab({
   volunteers,
   onProfile,
   onEdit,
-  onQuick
+  onResetFilters
 }: {
   volunteers: Volunteer[];
   onProfile: (volunteer: Volunteer) => void;
   onEdit: (volunteer: Volunteer) => void;
-  onQuick: (volunteer: Volunteer) => void;
+  onResetFilters: () => void;
 }) {
   return (
     <section className="panel">
-      <SectionHeader title="Volunteer Directory" eyebrow="Field force cards" actions={<CountPill>{volunteers.length} visible</CountPill>} />
-      <div className="volunteer-card-grid">
+      <SectionHeader title="Volunteer Directory" eyebrow="Field force cards" />
+      {volunteers.length ? <div className="volunteer-card-grid">
         {volunteers.map((volunteer) => (
-          <VolunteerCard volunteer={volunteer} onProfile={onProfile} onEdit={onEdit} onQuick={onQuick} key={volunteer.id} />
+          <VolunteerCard volunteer={volunteer} onProfile={onProfile} onEdit={onEdit} key={volunteer.id} />
         ))}
-      </div>
+      </div> : <div className="volunteer-empty-state"><Search size={22} /><strong>No volunteers match these filters</strong><p>Reset filters or broaden the search to return to the full directory.</p><button type="button" onClick={onResetFilters}>Reset Filters</button></div>}
     </section>
   );
 }
@@ -538,19 +356,30 @@ function VolunteerOperationsSubsection({
 export function VolunteerCard({
   volunteer,
   onProfile,
-  onEdit,
-  onQuick
+  onEdit
 }: {
   volunteer: Volunteer;
   onProfile: (volunteer: Volunteer) => void;
   onEdit: (volunteer: Volunteer) => void;
-  onQuick: (volunteer: Volunteer) => void;
 }) {
   return (
-    <article className="volunteer-card">
+    <article
+      className="volunteer-card is-profile-link"
+      role="link"
+      tabIndex={0}
+      aria-label={`Open profile for ${volunteer.name}`}
+      onClick={() => onProfile(volunteer)}
+      onKeyDown={(event) => {
+        if (event.target !== event.currentTarget) return;
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onProfile(volunteer);
+        }
+      }}
+    >
       <div className="volunteer-card-head">
         <Avatar name={volunteer.name} />
-        <button className="volunteer-icon-btn" type="button" aria-label={`Edit ${volunteer.name}`} onClick={() => onEdit(volunteer)}><Edit3 size={15} /></button>
+        <button className="volunteer-icon-btn" type="button" aria-label={`Edit ${volunteer.name}`} onClick={(event) => { event.stopPropagation(); onEdit(volunteer); }}><Edit3 size={15} /></button>
       </div>
       <div>
         <strong>{volunteer.name}</strong>
@@ -561,16 +390,21 @@ export function VolunteerCard({
         <span>{volunteer.village} / {volunteer.ward} / {volunteer.booth}</span>
       </div>
       <div className="volunteer-card-metrics">
-        <Metric label="Campaigns" value={volunteer.assignedCampaigns.length} />
+        <Metric label="Areas" value={volunteer.assignedCampaigns.length} />
         <Metric label="Active Tasks" value={volunteer.activeTasks} />
-        <Metric label="Capacity" value={`${volunteer.capacity}%`} />
       </div>
-      <CapacityBar value={volunteer.capacity} />
-      <div className="volunteer-card-actions">
-        <button type="button" onClick={() => onProfile(volunteer)}>View Profile</button>
-        <button className="volunteer-arrow-btn" type="button" aria-label={`Open quick details for ${volunteer.name}`} onClick={() => onQuick(volunteer)}><ArrowRight size={16} /></button>
-      </div>
+      <VolunteerAvailability workloadStatus={volunteer.workloadStatus} />
     </article>
+  );
+}
+
+function VolunteerAvailability({ workloadStatus }: { workloadStatus: WorkloadStatus }) {
+  const availability = workloadStatus === "Stable" ? "Available" : workloadStatus === "Overloaded" ? "Overloaded" : "Busy";
+  return (
+    <div className={`volunteer-availability is-${availability.toLowerCase()}`}>
+      <span>Availability</span>
+      <strong><i aria-hidden="true" />{availability}</strong>
+    </div>
   );
 }
 
@@ -583,7 +417,8 @@ function WorkloadTab({
   onReassign,
   onFollowUp,
   onExport,
-  onAdd
+  showInactive,
+  onShowInactiveChange
 }: {
   volunteers: Volunteer[];
   totalVolunteers: number;
@@ -593,21 +428,19 @@ function WorkloadTab({
   onReassign: (volunteer: Volunteer) => void;
   onFollowUp: (volunteer: Volunteer) => void;
   onExport: () => void;
-  onAdd: () => void;
+  showInactive: boolean;
+  onShowInactiveChange: (checked: boolean) => void;
 }) {
   const activeTasks = volunteers.reduce((sum, volunteer) => sum + volunteer.activeTasks, 0);
 
   return (
     <section className="volunteer-workload-layout">
-      <div className="volunteer-page-title">
+      <div className="volunteer-page-title is-compact">
         <div>
-          <span className="eyebrow">Field Capacity / Workload</span>
           <h2>Volunteer Workload</h2>
-          <p>Showing workload for all volunteers across active campaign tasks.</p>
         </div>
         <div className="manager-header-actions">
           <button className="action-btn" type="button" onClick={onExport}><Download size={16} /> Export Workload</button>
-          <button className="action-btn" type="button" onClick={onAdd}><Plus size={16} /> Add Volunteer</button>
         </div>
       </div>
       <div className="volunteer-workload-stats">
@@ -616,7 +449,7 @@ function WorkloadTab({
         <MetricCard label="Average Field Capacity" value={`${avgCapacity}%`} detail="Across all volunteers" />
         <MetricCard label="Action Needed" value={actionNeeded} detail="Overloaded or follow-up" />
       </div>
-      <VolunteerWorkloadTable volunteers={volunteers} onProfile={onProfile} onReassign={onReassign} onFollowUp={onFollowUp} />
+      <VolunteerWorkloadTable volunteers={volunteers} onProfile={onProfile} onReassign={onReassign} onFollowUp={onFollowUp} showInactive={showInactive} onShowInactiveChange={onShowInactiveChange} />
     </section>
   );
 }
@@ -625,16 +458,20 @@ export function VolunteerWorkloadTable({
   volunteers,
   onProfile,
   onReassign,
-  onFollowUp
+  onFollowUp,
+  showInactive,
+  onShowInactiveChange
 }: {
   volunteers: Volunteer[];
   onProfile: (volunteer: Volunteer) => void;
   onReassign: (volunteer: Volunteer) => void;
   onFollowUp: (volunteer: Volunteer) => void;
+  showInactive: boolean;
+  onShowInactiveChange: (checked: boolean) => void;
 }) {
   return (
     <section className="panel volunteer-table-panel">
-      <SectionHeader title="Field Task Load" eyebrow="Volunteer workload table" actions={<CountPill>{volunteers.length} rows</CountPill>} />
+      <SectionHeader title="Field Task Load" eyebrow="Volunteer workload table" actions={<label className="volunteer-table-toggle"><input type="checkbox" checked={showInactive} onChange={(event) => onShowInactiveChange(event.target.checked)} /><span>Show inactive / on-leave</span></label>} />
       <div className="volunteer-table-wrap">
         <table className="volunteer-table">
           <thead>
@@ -643,31 +480,30 @@ export function VolunteerWorkloadTable({
               <th>Role</th>
               <th>Booth / Village</th>
               <th>Assigned Tasks</th>
-              <th>Field Capacity</th>
+              <th>Completed Tasks</th>
               <th>Status</th>
               <th>Next Deadline</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {volunteers.map((volunteer) => (
-              <tr key={volunteer.id}>
-                <td><button className="volunteer-person-link" type="button" onClick={() => onProfile(volunteer)}><Avatar name={volunteer.name} small /> {volunteer.name}</button></td>
+            {volunteers.length ? volunteers.map((volunteer) => (
+              <tr className="volunteer-profile-row" role="link" tabIndex={0} aria-label={`Open profile for ${volunteer.name}`} key={volunteer.id} onClick={() => onProfile(volunteer)} onKeyDown={(event) => { if (event.target !== event.currentTarget) return; if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onProfile(volunteer); } }}>
+                <td><span className="volunteer-person-link"><Avatar name={volunteer.name} small /> {volunteer.name}</span></td>
                 <td>{volunteer.role}</td>
                 <td>{volunteer.booth} / {volunteer.village}</td>
                 <td>{volunteer.activeTasks}</td>
-                <td><CapacityBar value={volunteer.capacity} compact /></td>
+                <td><strong>{volunteer.completedTasks}</strong></td>
                 <td><WorkloadBadge value={volunteer.workloadStatus} /></td>
                 <td>{volunteer.nextDeadline}</td>
                 <td>
                   <div className="row-actions">
-                    <button type="button" onClick={() => onProfile(volunteer)}>View</button>
-                    <button type="button" onClick={() => onReassign(volunteer)}>Reassign</button>
-                    <button type="button" onClick={() => onFollowUp(volunteer)}>Follow-up</button>
+                    <button type="button" onClick={(event) => { event.stopPropagation(); onReassign(volunteer); }}>Reassign</button>
+                    <button type="button" onClick={(event) => { event.stopPropagation(); onFollowUp(volunteer); }}>Follow-up</button>
                   </div>
                 </td>
               </tr>
-            ))}
+            )) : <tr><td colSpan={8}><div className="volunteer-table-empty"><strong>No workload rows found</strong><span>Adjust or reset the active filters.</span></div></td></tr>}
           </tbody>
         </table>
       </div>
@@ -680,70 +516,90 @@ function CommandStructureTab({
   allVolunteers,
   onProfile,
   onTeam,
-  onExport,
-  onAdd
+  onExport
 }: {
   volunteers: Volunteer[];
   allVolunteers: Volunteer[];
   onProfile: (volunteer: Volunteer) => void;
   onTeam: (volunteer: Volunteer) => void;
   onExport: () => void;
-  onAdd: () => void;
 }) {
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set(allVolunteers.map((volunteer) => volunteer.id)));
   const root = allVolunteers.find((volunteer) => !volunteer.reportsToId) ?? allVolunteers[0];
-
-  function toggle(id: string) {
-    setExpanded((current) => {
-      const next = new Set(current);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  }
+  const isExpanded = allVolunteers.every((volunteer) => expanded.has(volunteer.id));
 
   return (
     <section className="volunteer-command-layout">
-      <div className="volunteer-page-title">
-        <div>
-          <span className="eyebrow">Command Structure / Org Chart</span>
-          <h2>Volunteer Command Structure</h2>
-          <p>Reporting structure across constituency, wards, villages, booths, and volunteer teams.</p>
-        </div>
-        <div className="manager-header-actions">
-          <button className="action-btn" type="button" onClick={() => setExpanded(new Set())}>Collapse All</button>
-          <button className="action-btn" type="button" onClick={() => setExpanded(new Set(allVolunteers.map((volunteer) => volunteer.id)))}>Expand All</button>
-          <button className="action-btn" type="button" onClick={onExport}><Download size={16} /> Export</button>
-          <button className="action-btn" type="button" onClick={onAdd}><Plus size={16} /> Add Volunteer</button>
-        </div>
-      </div>
-      <CommandStructureChart root={root} volunteers={volunteers} allVolunteers={allVolunteers} expanded={expanded} onToggle={toggle} onProfile={onProfile} onTeam={onTeam} />
+      <CommandStructureChart
+        root={root}
+        allVolunteers={allVolunteers}
+        expanded={expanded}
+        onProfile={onProfile}
+        onTeam={onTeam}
+        isExpanded={isExpanded}
+        onToggleAll={() => setExpanded(isExpanded ? new Set() : new Set(allVolunteers.map((volunteer) => volunteer.id)))}
+        onExport={onExport}
+      />
     </section>
   );
 }
 
 export function CommandStructureChart({
   root,
-  volunteers,
   allVolunteers,
   expanded,
-  onToggle,
   onProfile,
-  onTeam
+  onTeam,
+  isExpanded,
+  onToggleAll,
+  onExport
 }: {
   root: Volunteer;
-  volunteers: Volunteer[];
   allVolunteers: Volunteer[];
   expanded: Set<string>;
-  onToggle: (id: string) => void;
   onProfile: (volunteer: Volunteer) => void;
   onTeam: (volunteer: Volunteer) => void;
+  isExpanded: boolean;
+  onToggleAll: () => void;
+  onExport: () => void;
 }) {
+  const panelRef = useRef<HTMLElement>(null);
+
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const centerTree = () => {
+      panel.scrollLeft = Math.max(0, (panel.scrollWidth - panel.clientWidth) / 2);
+    };
+    const observer = new ResizeObserver(centerTree);
+    observer.observe(panel);
+    const tree = panel.querySelector(".command-tree");
+    if (tree) observer.observe(tree);
+    centerTree();
+
+    return () => observer.disconnect();
+  }, [allVolunteers.length, isExpanded]);
+
   return (
-    <section className="panel command-tree-panel">
-      <SectionHeader title="Candidate to Booth Volunteer Chain" eyebrow="Political field hierarchy" actions={<CountPill>{volunteers.length} visible people</CountPill>} />
+    <section className="panel command-tree-panel" ref={panelRef}>
+      <div className="command-chart-header">
+        <div>
+          <h2>Volunteer Command Structure</h2>
+          <p>Reporting structure across constituency, wards, villages, booths, and volunteer teams.</p>
+        </div>
+        <div className="command-chart-actions">
+          <button className="action-btn" type="button" onClick={onExport}><Download size={16} /> Export</button>
+        </div>
+      </div>
       <div className="command-tree">
-        <CommandNode volunteer={root} allVolunteers={allVolunteers} expanded={expanded} onToggle={onToggle} onProfile={onProfile} onTeam={onTeam} depth={0} />
+        <div className="command-tree-control">
+          <button type="button" onClick={onToggleAll} aria-expanded={isExpanded}>
+            <ChevronDown size={16} className={isExpanded ? "" : "is-collapsed"} />
+            {isExpanded ? "Collapse All" : "Expand All"}
+          </button>
+        </div>
+        <CommandNode volunteer={root} allVolunteers={allVolunteers} expanded={expanded} onProfile={onProfile} onTeam={onTeam} />
       </div>
     </section>
   );
@@ -753,28 +609,21 @@ function CommandNode({
   volunteer,
   allVolunteers,
   expanded,
-  onToggle,
   onProfile,
-  onTeam,
-  depth
+  onTeam
 }: {
   volunteer: Volunteer;
   allVolunteers: Volunteer[];
   expanded: Set<string>;
-  onToggle: (id: string) => void;
   onProfile: (volunteer: Volunteer) => void;
   onTeam: (volunteer: Volunteer) => void;
-  depth: number;
 }) {
   const children = allVolunteers.filter((item) => item.reportsToId === volunteer.id);
   const isExpanded = expanded.has(volunteer.id);
 
   return (
-    <div className="command-node" style={{ marginLeft: depth ? 22 : 0 }}>
+    <div className="command-node">
       <div className="command-person-card">
-        <button className="command-toggle" type="button" aria-label={`${isExpanded ? "Collapse" : "Expand"} ${volunteer.name}`} onClick={() => onToggle(volunteer.id)}>
-          {children.length ? isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} /> : <span />}
-        </button>
         <button className="command-card-main" type="button" onClick={() => onProfile(volunteer)}>
           <Avatar name={volunteer.name} />
           <span>
@@ -783,13 +632,13 @@ function CommandNode({
           </span>
         </button>
         <StatusDot value={volunteer.status} />
-        <button className="team-count-badge" type="button" onClick={() => onTeam(volunteer)}>{children.length} team</button>
+        {children.length ? <button className="team-count-badge" type="button" onClick={() => onTeam(volunteer)}>{children.length} team</button> : null}
         <span className="command-area-tag">{volunteer.zone} / {volunteer.booth}</span>
       </div>
       {children.length && isExpanded ? (
         <div className="command-children">
           {children.map((child) => (
-            <CommandNode volunteer={child} allVolunteers={allVolunteers} expanded={expanded} onToggle={onToggle} onProfile={onProfile} onTeam={onTeam} depth={depth + 1} key={child.id} />
+            <CommandNode volunteer={child} allVolunteers={allVolunteers} expanded={expanded} onProfile={onProfile} onTeam={onTeam} key={child.id} />
           ))}
         </div>
       ) : null}
@@ -850,11 +699,11 @@ function ProfileOverview({ volunteer }: { volunteer: Volunteer }) {
 }
 
 function ProfileTasks({ volunteer }: { volunteer: Volunteer }) {
-  return <ScorePanel title="Assigned Tasks" scores={[["Assigned tasks", volunteer.activeTasks], ["Pending", Math.max(0, volunteer.activeTasks - volunteer.verifiedTasks)], ["Completed", volunteer.completedTasks], ["Verified", volunteer.verifiedTasks], ["Overdue", volunteer.overdueTasks]]} />;
+  return <DetailGrid rows={[["Assigned tasks", String(volunteer.activeTasks)], ["Pending", String(Math.max(0, volunteer.activeTasks - volunteer.verifiedTasks))], ["Completed", String(volunteer.completedTasks)], ["Verified", String(volunteer.verifiedTasks)], ["Overdue", String(volunteer.overdueTasks)]]} />;
 }
 
 function ProfileActivity({ volunteer }: { volunteer: Volunteer }) {
-  return <ScorePanel title="Field Activity" scores={[["Door-to-door visits", volunteer.doorVisits], ["Calls made", volunteer.callsMade], ["Meetings attended", volunteer.meetingsAttended], ["Issues reported", volunteer.issuesReported], ["Opponent activity reported", volunteer.opponentActivityReported]]} />;
+  return <DetailGrid rows={[["Door-to-door visits", String(volunteer.doorVisits)], ["Calls made", String(volunteer.callsMade)], ["Meetings attended", String(volunteer.meetingsAttended)], ["Issues reported", String(volunteer.issuesReported)], ["Opponent activity reported", String(volunteer.opponentActivityReported)]]} />;
 }
 
 function ProfileReports({ volunteer }: { volunteer: Volunteer }) {
