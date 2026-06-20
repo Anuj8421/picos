@@ -183,9 +183,6 @@ const campaignStructureSections = [
 
 const volunteerManagementSections = [
   ["overview", "Overview", "/volunteer-management"],
-  ["directory", "Directory", "/volunteer-management/directory"],
-  ["workload", "Workload", "/volunteer-management/workload"],
-  ["command-structure", "Command Structure", "/volunteer-management/command-structure"],
   ["tasks", "Tasks", "/volunteer-management/tasks"],
   ["reports", "Reports", "/volunteer-management/reports"],
   ["attendance", "Attendance", "/volunteer-management/attendance"],

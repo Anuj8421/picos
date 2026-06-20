@@ -15,8 +15,11 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, 
 import { PlatformShell } from "@/features/platform/PlatformShell";
 import { CountPill, SectionHeader } from "@/features/political-intelligence/components/common";
 import { volunteerBooths, volunteerCoordinators, volunteerData, volunteerRoles, volunteerZones } from "../data";
+import { getVolunteerCompletedTaskHistory, volunteerTaskData, type VolunteerTask } from "../taskData";
 import type { Volunteer, VolunteerFiltersState, VolunteerStatus, VolunteerTab, WorkloadStatus } from "../types";
+import { VolunteerActivityProfile } from "./VolunteerActivity";
 import { VolunteerOverview } from "./VolunteerOverview";
+import { VolunteerTasksPage } from "./VolunteerTasks";
 
 const profileTabs = ["Overview", "Tasks", "Activity", "Reports", "Attendance", "Performance", "Communication"] as const;
 
@@ -168,7 +171,8 @@ export function VolunteerManagementModule({ activeTab = "overview" }: { activeTa
             onExport={() => exportRows("command")}
           />
         ) : null}
-        {["tasks", "reports", "attendance", "performance", "settings"].includes(activeTab) ? (
+        {activeTab === "tasks" ? <VolunteerTasksPage volunteers={volunteers} onProfile={setProfileVolunteer} onToast={showToast} /> : null}
+        {["reports", "attendance", "performance", "settings"].includes(activeTab) ? (
           <VolunteerOperationsSubsection
             activeTab={activeTab}
             volunteers={visibleVolunteers}
@@ -294,13 +298,12 @@ function VolunteerOperationsSubsection({
   onPlaceholder: (message: string) => void;
 }) {
   const meta: Record<string, { title: string; eyebrow: string; body: string; primary: string }> = {
-    tasks: { title: "Volunteer Tasks", eyebrow: "Assignment queue", body: "Track assignment pressure, booth follow-ups, issue verification tasks, and coordinator rebalancing.", primary: "Create Task" },
     reports: { title: "Volunteer Reports", eyebrow: "Field intelligence reports", body: "Review booth reports, village reports, issue reports, sentiment reports, and opponent activity reports.", primary: "Generate Report" },
     attendance: { title: "Volunteer Attendance", eyebrow: "Field presence", body: "Monitor attendance score, meetings attended, field presence, and missed update patterns.", primary: "Mark Attendance" },
     performance: { title: "Volunteer Performance", eyebrow: "Volunteer scorecard", body: "Compare task completion, attendance, activity, report quality, and overall volunteer scores.", primary: "Review Performance" },
     settings: { title: "Volunteer Settings", eyebrow: "Module controls", body: "Configure volunteer statuses, coordinator rules, task categories, upload templates, and notification placeholders.", primary: "Save Settings" }
   };
-  const item = meta[activeTab] ?? meta.tasks;
+  const item = meta[activeTab] ?? meta.reports;
 
   return (
     <section className="volunteer-subsection-layout">
@@ -673,7 +676,7 @@ export function VolunteerProfileModal({ volunteer, onClose, onEdit }: { voluntee
         <div className="volunteer-profile-body">
           {tab === "Overview" ? <ProfileOverview volunteer={volunteer} /> : null}
           {tab === "Tasks" ? <ProfileTasks volunteer={volunteer} /> : null}
-          {tab === "Activity" ? <ProfileActivity volunteer={volunteer} /> : null}
+          {tab === "Activity" ? <VolunteerActivityProfile volunteer={volunteer} /> : null}
           {tab === "Reports" ? <ProfileReports volunteer={volunteer} /> : null}
           {tab === "Attendance" ? <ScorePanel title="Attendance" scores={[["Attendance score", volunteer.attendanceScore], ["Meetings attended", volunteer.meetingsAttended], ["Last activity freshness", volunteer.attendanceScore - 4]]} /> : null}
           {tab === "Performance" ? <ProfilePerformance volunteer={volunteer} /> : null}
@@ -699,11 +702,54 @@ function ProfileOverview({ volunteer }: { volunteer: Volunteer }) {
 }
 
 function ProfileTasks({ volunteer }: { volunteer: Volunteer }) {
-  return <DetailGrid rows={[["Assigned tasks", String(volunteer.activeTasks)], ["Pending", String(Math.max(0, volunteer.activeTasks - volunteer.verifiedTasks))], ["Completed", String(volunteer.completedTasks)], ["Verified", String(volunteer.verifiedTasks)], ["Overdue", String(volunteer.overdueTasks)]]} />;
+  const [showAllCompleted, setShowAllCompleted] = useState(false);
+  const assignedTasks = volunteerTaskData.filter((task) => task.assigneeIds.includes(volunteer.id) && !["Completed", "Verified", "Archived"].includes(task.status));
+  const completedTasks = getVolunteerCompletedTaskHistory(volunteer);
+  const pendingVerification = assignedTasks.filter((task) => task.status === "Submitted");
+  const attentionTasks = assignedTasks.filter((task) => task.overdue || task.status === "Escalated" || task.status === "Returned For Rework");
+  const visibleCompletedTasks = showAllCompleted ? completedTasks : completedTasks.slice(0, 2);
+
+  return <div className="volunteer-profile-task-workspace">
+    <section className="volunteer-profile-task-summary" aria-label="Volunteer task summary">
+      <article><span>Assigned now</span><strong>{assignedTasks.length}</strong></article>
+      <article><span>Completed history</span><strong>{volunteer.completedTasks}</strong></article>
+      <article><span>Pending verification</span><strong>{pendingVerification.length}</strong></article>
+      <article><span>Task completion score</span><strong>{volunteer.performanceScore}%</strong></article>
+    </section>
+    <ProfileTaskSection title="Assigned Now" description="Current campaign responsibilities and expected outcomes." tasks={assignedTasks} emptyMessage="No active assignments in the current campaign queue." />
+    <ProfileTaskSection title="Completed Tasks" description={`Recent verified field work. ${volunteer.completedTasks} total tasks recorded.`} tasks={visibleCompletedTasks} actions={completedTasks.length > 2 ? <button type="button" onClick={() => setShowAllCompleted((current) => !current)}>{showAllCompleted ? "Show fewer tasks" : "View all completed tasks"}</button> : null} />
+    <div className="volunteer-profile-task-columns">
+      <ProfileTaskSection title="Pending Verification" description="Submitted evidence waiting for coordinator review." tasks={pendingVerification} emptyMessage="No tasks are waiting for verification." compact />
+      <ProfileTaskSection title="Overdue / Escalated" description="Assignments requiring immediate intervention." tasks={attentionTasks} emptyMessage="No overdue or escalated assignments." compact />
+    </div>
+  </div>;
 }
 
-function ProfileActivity({ volunteer }: { volunteer: Volunteer }) {
-  return <DetailGrid rows={[["Door-to-door visits", String(volunteer.doorVisits)], ["Calls made", String(volunteer.callsMade)], ["Meetings attended", String(volunteer.meetingsAttended)], ["Issues reported", String(volunteer.issuesReported)], ["Opponent activity reported", String(volunteer.opponentActivityReported)]]} />;
+function ProfileTaskSection({ title, description, tasks, actions, emptyMessage = "No task records available.", compact = false }: { title: string; description: string; tasks: VolunteerTask[]; actions?: ReactNode; emptyMessage?: string; compact?: boolean }) {
+  return <section className={`volunteer-profile-task-section ${compact ? "is-compact" : ""}`}>
+    <div className="volunteer-profile-task-heading"><div><h3>{title}</h3><p>{description}</p></div>{actions}</div>
+    {tasks.length ? <div className="volunteer-profile-task-list">{tasks.map((task) => <ProfileTaskRecord task={task} key={task.id} />)}</div> : <div className="volunteer-profile-task-empty">{emptyMessage}</div>}
+  </section>;
+}
+
+function ProfileTaskRecord({ task }: { task: VolunteerTask }) {
+  return <article className="volunteer-profile-task-record">
+    <div className="volunteer-profile-task-record-main">
+      <div><span className={`volunteer-task-priority is-${task.priority.toLowerCase()}`}>{task.priority}</span><strong>{task.title}</strong></div>
+      <p>{task.expectedOutcome}</p>
+      <small>{task.category}{task.relatedModule ? ` / ${task.relatedModule}` : ""}</small>
+    </div>
+    <div className="volunteer-profile-task-meta">
+      <span><small>{task.locationType}</small><strong>{task.location}</strong></span>
+      <span><small>Due</small><strong>{formatProfileTaskDate(task.dueDate)}</strong></span>
+      <span><small>Evidence</small><strong>{task.evidenceRequired.join(", ")}</strong></span>
+      <span className={`volunteer-task-status is-${slug(task.status)}`}>{task.status}</span>
+    </div>
+  </article>;
+}
+
+function formatProfileTaskDate(value: string) {
+  return new Intl.DateTimeFormat("en-IN", { day: "numeric", month: "short", year: "numeric" }).format(new Date(`${value}T00:00:00Z`));
 }
 
 function ProfileReports({ volunteer }: { volunteer: Volunteer }) {

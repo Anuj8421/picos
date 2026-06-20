@@ -14,6 +14,7 @@ import {
 import type { ReactNode } from "react";
 import { SectionHeader } from "@/features/political-intelligence/components/common";
 import { volunteerCoverage, volunteerIntelligenceFeed, volunteerRecentReports } from "../overviewData";
+import { volunteerTaskData } from "../taskData";
 import type { Volunteer } from "../types";
 
 type VolunteerOverviewProps = {
@@ -35,8 +36,12 @@ const routes = {
 export function VolunteerOverview({ volunteers, avgCapacity, onPlaceholder }: VolunteerOverviewProps) {
   const activeVolunteers = volunteers.filter((volunteer) => volunteer.status === "Active" || volunteer.status === "On Ground").length;
   const newVolunteers = volunteers.filter((volunteer) => volunteer.status === "New").length;
-  const overdueTasks = volunteers.reduce((sum, volunteer) => sum + volunteer.overdueTasks, 0);
+  const overdueTasks = volunteerTaskData.filter((task) => task.overdue && !["Verified", "Completed", "Archived"].includes(task.status)).length;
+  const pendingTaskVerification = volunteerTaskData.filter((task) => task.status === "Submitted").length;
+  const criticalTasks = volunteerTaskData.filter((task) => task.priority === "Critical" && !["Verified", "Completed", "Archived"].includes(task.status)).length;
   const criticalReports = volunteerIntelligenceFeed.filter((entry) => entry.priority === "Critical").length;
+  const criticalRecentReports = volunteerRecentReports.filter((report) => report.status === "Critical").length;
+  const pendingRecentReports = volunteerRecentReports.filter((report) => report.status === "Pending Review").length;
   const coverageScore = Math.round((volunteerCoverage.coveredBooths / volunteerCoverage.totalBooths) * 100);
   const topVolunteer = [...volunteers].sort((a, b) => b.performanceScore - a.performanceScore)[0];
   const topCoordinator = [...volunteers]
@@ -55,7 +60,7 @@ export function VolunteerOverview({ volunteers, avgCapacity, onPlaceholder }: Vo
           <a className="action-btn action-btn-primary" href={routes.warRoom}>Open Action Queue <ArrowRight size={15} /></a>
         </div>
         <div className="volunteer-executive-alerts">
-          <ExecutiveAlert href={routes.workload} icon={<ClipboardCheck size={17} />} label="Overdue tasks" value={overdueTasks} action="Review deadlines" tone="critical" />
+          <ExecutiveAlert href="/volunteer-management/tasks?view=attention" icon={<ClipboardCheck size={17} />} label="Task attention" value={overdueTasks + pendingTaskVerification + criticalTasks} action={`${overdueTasks} overdue / ${pendingTaskVerification} verify / ${criticalTasks} critical`} tone="critical" />
           <ExecutiveAlert href={routes.coverage} icon={<MapPinCheck size={17} />} label="Uncovered booths" value={volunteerCoverage.uncoveredBooths} action="Assign coverage" tone="critical" />
           <ExecutiveAlert href={`${routes.directory}?status=New`} icon={<UserPlus size={17} />} label="Awaiting approval" value={newVolunteers} action="Review onboarding" tone="warning" />
           <ExecutiveAlert href={routes.reports} icon={<ShieldAlert size={17} />} label="Critical reports" value={criticalReports} action="Verify intelligence" tone="warning" />
@@ -80,18 +85,22 @@ export function VolunteerOverview({ volunteers, avgCapacity, onPlaceholder }: Vo
         </div>
       </CommandSection>
 
-      <CommandSection title="Field Intelligence" actions={<a className="action-btn" href={routes.reports}>View All Reports</a>}>
+      <CommandSection title="Field Intelligence" actions={<><span className="volunteer-intelligence-health"><b>{criticalRecentReports} Critical</b><span>{pendingRecentReports} Pending Review</span></span><a className="action-btn" href={routes.reports}>View All Reports</a></>}>
         <div className="volunteer-report-feed">
           {volunteerRecentReports.slice(0, 5).map((report) => (
             <article className="volunteer-report-row" key={report.id}>
-              <span className={`volunteer-report-marker is-${report.status.toLowerCase()}`} aria-hidden="true" />
               <div className="volunteer-report-main">
-                <strong>{report.reportType}</strong>
-                <small>{report.volunteer} / {report.village}</small>
+                <div className="volunteer-report-title-line">
+                  <span className={`volunteer-report-priority is-${report.priority.toLowerCase()}`}>{report.priority}</span>
+                  <strong>{report.reportType}</strong>
+                </div>
+                <p>{report.summary}</p>
+                <small>Reported by {report.volunteer}</small>
               </div>
+              <span className="volunteer-report-location">{report.location}</span>
+              <span className={`volunteer-feed-status is-${report.status.toLowerCase().replaceAll(" ", "-")}`}>{report.status}</span>
               <time>{report.date}</time>
-              <span className={`volunteer-feed-status is-${report.status.toLowerCase()}`}>{report.status}</span>
-              <button type="button" onClick={() => onPlaceholder(`${report.reportType} opened for review`)}>Review <ArrowRight size={14} /></button>
+              <button type="button" onClick={() => onPlaceholder(`${report.reportType} opened for ${report.status === "Critical" ? "escalation" : report.status === "Verified" ? "viewing" : "review"}`)}>{report.status === "Critical" ? "Escalate" : report.status === "Verified" ? "View" : "Review"} <ArrowRight size={14} /></button>
             </article>
           ))}
         </div>

@@ -12,10 +12,12 @@ export type VolunteerIntelligenceEntry = {
 export type VolunteerReportEntry = {
   id: string;
   volunteer: string;
-  village: string;
+  location: string;
   reportType: string;
+  summary: string;
   date: string;
-  status: "Verified" | "Review" | "Escalated";
+  priority: "High" | "Medium" | "Low";
+  status: "Verified" | "Pending Review" | "Critical";
 };
 
 export const volunteerCoverage = {
@@ -84,11 +86,11 @@ export const volunteerIntelligenceFeed: VolunteerIntelligenceEntry[] = [
 ];
 
 export const volunteerRecentReports: VolunteerReportEntry[] = [
-  { id: "report-1", volunteer: "Priya Kale", village: "Sinnar Town", reportType: "Ward Sweep", date: "19 Jun, 09:20", status: "Verified" },
-  { id: "report-2", volunteer: "Sachin Jadhav", village: "Musalgaon", reportType: "Issue Report", date: "19 Jun, 08:45", status: "Review" },
-  { id: "report-3", volunteer: "Rohit Wagh", village: "Wavi", reportType: "Opponent Activity", date: "19 Jun, 08:18", status: "Escalated" },
-  { id: "report-4", volunteer: "Meena Pawar", village: "Dubere", reportType: "Community Feedback", date: "18 Jun, 19:40", status: "Verified" },
-  { id: "report-5", volunteer: "Aarti Gaikwad", village: "Nandur Shingote", reportType: "Booth Validation", date: "18 Jun, 18:05", status: "Review" }
+  { id: "report-1", volunteer: "Priya Kale", location: "Sinnar Town", reportType: "Ward Sweep", summary: "Ward team completed household coverage and submitted verification notes.", date: "19 Jun, 09:20", priority: "Low", status: "Verified" },
+  { id: "report-2", volunteer: "Sachin Jadhav", location: "Musalgaon", reportType: "Issue Report", summary: "Residents reporting water supply disruption for three days.", date: "19 Jun, 08:45", priority: "High", status: "Pending Review" },
+  { id: "report-3", volunteer: "Rohit Wagh", location: "Wavi", reportType: "Opponent Activity", summary: "Opponent team conducting door-to-door outreach near Ward 4.", date: "19 Jun, 08:18", priority: "High", status: "Critical" },
+  { id: "report-4", volunteer: "Meena Pawar", location: "Dubere", reportType: "Community Feedback", summary: "Women groups requested a healthcare camp before the next village meeting.", date: "18 Jun, 19:40", priority: "Medium", status: "Verified" },
+  { id: "report-5", volunteer: "Aarti Gaikwad", location: "Nandur Shingote", reportType: "Booth Validation", summary: "Booth contact list needs confirmation before field deployment.", date: "18 Jun, 18:05", priority: "Medium", status: "Pending Review" }
 ];
 
 export const uncoveredBoothLabels = [
